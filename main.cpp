@@ -3,7 +3,9 @@
 #include <iostream>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include <cassert>
+#include <glm/glm.hpp>
+#include <glm/gtx/string_cast.hpp>
+#include <array>
 
 
 
@@ -45,6 +47,25 @@ int main() {
 	Swizzle();
 	Operations();
 
+	// Definir um triangulo em coordenadas normalizadas
+	std::array<glm::vec3, 3> Triangle = {
+		glm::vec3{-1.0f, -1.0f, 0.0f},
+		glm::vec3{ 1.0f, -1.0f, 0.0f},
+		glm::vec3{ 0.0f,  1.0f, 0.0f}
+	};
+
+	// Copiar os vértices do triangulo para a memória da GPU
+	GLuint VertexBuffer;
+
+	// Pedir para o OpenGL gerar o identificador do VertexBuffer
+	glGenBuffers(1, &VertexBuffer);
+
+	// Ativar o VertexBuffer como sendo o Buffer para onde vamos copiar os dados do triangulo
+	glBindBuffer(GL_ARRAY_BUFFER, VertexBuffer);
+
+	// Copiar os dados do trianuglo para a memória de vídeo
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Triangle), Triangle.data(), GL_STATIC_DRAW); // (Buffer ativado, quantos bytes serão copiados, ponteiro para os dados, tipo de uso do buffer)
+
 	// Definir cor de fundo da janela
 	glClearColor(0.01f, 0.0f, 0.06f, 1.0f); // Azul escuro
 
@@ -55,6 +76,23 @@ int main() {
 		// Para desenharmos objetos 3D na tela teremos que voltar ao glClear para limparmos o buffer de profundidade
 		glClear(GL_COLOR_BUFFER_BIT);
 
+		
+		glEnableVertexAttribArray(0);
+
+		// Diz ao OpenGL que o VertexBuffer vai ser o buffer ativo no momento
+		glBindBuffer(GL_ARRAY_BUFFER, VertexBuffer);
+
+		// Informa ao OpenGL onde, dentro do vertexBuffer, os vértices estão. 
+		// No caso o array Triangles é contíguo na memória, então basta dizer quantos vértices vamos usar para desenhar o triangulo
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+
+		// Desenha na tela
+		glDrawArrays(GL_TRIANGLES, 0, 3);
+
+		// Reverte o estado que nós criamos
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glDisableVertexAttribArray(0);
+
 		// Processa todos os eventos na fila de eventos do GLFW
 		// Eventos: Teclado, mouse, gamepad
 		glfwPollEvents();
@@ -63,7 +101,8 @@ int main() {
 		glfwSwapBuffers(Window);
 	}
 
-
+	// Desalocar o VertexBuffer
+	glDeleteBuffers(1, &VertexBuffer);
 
 	// Encerra GLFW
 	glfwTerminate();
