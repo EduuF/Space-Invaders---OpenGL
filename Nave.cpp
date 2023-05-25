@@ -56,13 +56,9 @@ void Nave::modelaANave() {
     this->modeloDaNave = NaveVertices;
 }
 
-void Nave::ajustaEscalaDaNave(float escalar) {
+void Nave::ajustaEscalaDaNave(glm::vec3 FatorDeEscola) {
     for (auto& parte : modeloDaNave) {
-        for (auto& vertice : parte) {
-            vertice.x *= escalar;
-            vertice.y *= escalar;
-            vertice.z *= escalar;
-        }
+        ScaleMatrix(parte, FatorDeEscola);
     }
 }
 

@@ -90,13 +90,9 @@ void Alien::modelaAlien() {
 
 }
 
-void Alien::ajustaEscalaDoAlien(float escalar) {
+void Alien::ajustaEscalaDoAlien(glm::vec3 FatorDeEscola) {
     for (auto& parte : modeloDoInimigo) {
-        for (auto& vertice : parte) {
-            vertice.x *= escalar;
-            vertice.y *= escalar;
-            vertice.z *= escalar;
-        }
+        ScaleMatrix(parte, FatorDeEscola);
     }
 }
 

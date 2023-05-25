@@ -59,16 +59,16 @@ int main() {
 	// Cria uma nave
 	Nave nave1 = Nave(0.0f, 0.0f, 0.0f);
 	nave1.modelaANave();
-	float escalaDaNave = 1.0f;
-	nave1.ajustaEscalaDaNave(escalaDaNave);
+	glm::vec3 fatorDeEscalaNave{ 1.0f, 1.0f, 0.0f };
+	nave1.ajustaEscalaDaNave(fatorDeEscalaNave);
 	glm::vec3 fatorDeTranslacaoNave{ -0.7,0.5,0.0 };
 	nave1.transladaANave(fatorDeTranslacaoNave);
 
 	// Cria um inimigo
 	Alien alien1 = Alien(0.0f, 0.0f, 0.0f);
 	alien1.modelaAlien();
-	float escalaDoAlien = 0.5f;
-	alien1.ajustaEscalaDoAlien(escalaDoAlien);
+	glm::vec3 fatorDeEscalaAlien{ 0.5f, 0.5f, 0.0f };
+	alien1.ajustaEscalaDoAlien(fatorDeEscalaAlien);
 	glm::vec3 fatorDeTranslacaoAlien{ 0.8,0.4,0.0 };
 	alien1.transladaOAlien(fatorDeTranslacaoAlien);
 

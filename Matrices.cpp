@@ -13,3 +13,12 @@ void TranslationMatrix(std::array<glm::vec4, 3> &Triangle, glm::vec3 T) {
 		Triangle[i] = Translation * Triangle[i];
 	}
 }
+
+void ScaleMatrix(std::array<glm::vec4, 3>& Triangle, glm::vec3 FatorDeEscola) {
+	glm::mat4 I = glm::identity<glm::mat4>();
+	glm::mat4 Scale = glm::scale(I, FatorDeEscola);
+
+	for (int i = 0; i < 3; i++) {
+		Triangle[i] = Scale * Triangle[i];
+	}
+}
