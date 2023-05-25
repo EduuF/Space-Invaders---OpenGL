@@ -4,3 +4,4 @@
 
 void TranslationMatrix(std::array<glm::vec4, 3> &Triangle, glm::vec3 T);
 void ScaleMatrix(std::array<glm::vec4, 3>& Triangle, glm::vec3 FatorDeEscola);
+void RotationMatrix(std::array<glm::vec4, 3>& Triangle, float graus, glm::vec3 eixoDeRotacao);

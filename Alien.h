@@ -11,5 +11,6 @@ public:
 	void modelaAlien();
 	void ajustaEscalaDoAlien(glm::vec3 FatorDeescala);
 	void transladaOAlien(glm::vec3 fatorDeTranslacao);
+	void rotacionaOAlien(float graus, glm::vec3 eixoDeRotacao);
     
 };

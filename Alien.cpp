@@ -101,3 +101,10 @@ void Alien::transladaOAlien(glm::vec3 fatorDeTranslacao) {
         TranslationMatrix(parte, fatorDeTranslacao);
     }
 }
+
+
+void Alien::rotacionaOAlien(float graus, glm::vec3 eixoDeRotacao) {
+    for (auto& parte : modeloDoInimigo) {
+        RotationMatrix(parte, graus, eixoDeRotacao);
+    }
+}

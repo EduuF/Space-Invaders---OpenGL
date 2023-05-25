@@ -11,6 +11,6 @@ public:
     void modelaANave();
     void ajustaEscalaDaNave(glm::vec3 FatorDeescala);
     void transladaANave(glm::vec3 fatorDeTranslacao);
-    //void rotacionaANave();
+    void rotacionaANave(float graus, glm::vec3 eixoDeRotacao);
 
 };

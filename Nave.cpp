@@ -68,6 +68,8 @@ void Nave::transladaANave(glm::vec3 fatorDeTranslacao) {
     }
 }
 
-//std::array<std::array<glm::vec3, 3>, 7> Nave::rotacionaANave() {
-
-//}
+void Nave::rotacionaANave(float graus, glm::vec3 eixoDeRotacao) {
+    for (auto& parte : modeloDaNave) {
+        RotationMatrix(parte, graus, eixoDeRotacao);
+    }
+}
