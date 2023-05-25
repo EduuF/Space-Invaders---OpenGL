@@ -67,8 +67,8 @@ int main() {
 	//nave1.rotacionaANave(angleRotacaoNave, eixoDeRotacaoNave);
 
 	// Cria um inimigo
-	Alien alien1 = Alien(0.0f, 0.0f, 0.0f);
-	alien1.modelaAlien();
+	Alien alien1 = Alien(glm::vec4{ 0.0f, 0.8f, 0.0f, 1.0f });
+	//alien1.modelaAlien();
 	//glm::vec3 fatorDeEscalaAlien{ 0.3f, 0.5f, 0.0f };
 	//alien1.ajustaEscalaDoAlien(fatorDeEscalaAlien);
 	//glm::vec3 fatorDeTranslacaoAlien{ 0.8,0.4,0.0 };
