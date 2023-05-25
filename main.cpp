@@ -1,4 +1,6 @@
 #include "Vectors.h"
+#include "Nave.h"
+#include "Alien.h"
 
 #include <iostream>
 #include <GL/glew.h>
@@ -10,7 +12,7 @@
 
 
 const int Width = 800;
-const int Height = 600;
+const int Height = 800;
 
 
 int main() {
@@ -54,6 +56,18 @@ int main() {
 		glm::vec3{ 0.0f,  1.0f, 0.0f}
 	};
 
+	// Cria uma nave
+	Nave nave1 = Nave(0.0f, 0.0f, 0.0f);
+	nave1.modelaANave();
+	float escalaDaNave = 1.0f;
+	nave1.ajustaEscalaDaNave(escalaDaNave);
+
+	// Cria um inimigo
+	Alien alien1 = Alien(0.0f, 0.0f, 0.0f);
+	alien1.modelaAlien();
+	float escalaDoAlien = 1.0f;
+	alien1.ajustaEscalaDoAlien(escalaDoAlien);
+
 	// Copiar os vértices do triangulo para a memória da GPU
 	GLuint VertexBuffer;
 
@@ -63,8 +77,21 @@ int main() {
 	// Ativar o VertexBuffer como sendo o Buffer para onde vamos copiar os dados do triangulo
 	glBindBuffer(GL_ARRAY_BUFFER, VertexBuffer);
 
-	// Copiar os dados do trianuglo para a memória de vídeo
-	glBufferData(GL_ARRAY_BUFFER, sizeof(Triangle), Triangle.data(), GL_STATIC_DRAW); // (Buffer ativado, quantos bytes serão copiados, ponteiro para os dados, tipo de uso do buffer)
+	// Copiar os dados dos triangulos para a memória de vídeo
+	// Carregue os dados de todos os triângulos no buffer da GPU.
+	// (Buffer ativado, quantos bytes serão copiados, ponteiro para os dados, tipo de uso do buffer)
+	const int tamanhoDaNave = 5; // A quantidade de triangulos na nave
+	const int tamanhoDoAlien = 16; // A quantidade de triangulos do Alien
+
+	std::array<std::array<glm::vec3, 3>, tamanhoDaNave+tamanhoDoAlien> bufferData; // Cria um vetor de triangulos
+	std::copy(nave1.modeloDaNave.begin(), nave1.modeloDaNave.end(), bufferData.begin()); // Copia todos os triangulos da nave para o bufferData
+	std::copy(alien1.modeloDoInimigo.begin(), alien1.modeloDoInimigo.end(), bufferData.begin() + tamanhoDaNave); // Copia todos os triangulos do Alien para o bufferData
+
+
+	// Copiar os dados dos triângulos para a memória de vídeo
+	// Carregue os dados de todos os triângulos no buffer da GPU.
+	// (Buffer ativado, quantos bytes serão copiados, ponteiro para os dados, tipo de uso do buffer)
+	glBufferData(GL_ARRAY_BUFFER, sizeof(bufferData), bufferData.data(), GL_STATIC_DRAW);
 
 	// Definir cor de fundo da janela
 	glClearColor(0.01f, 0.0f, 0.06f, 1.0f); // Azul escuro
@@ -87,7 +114,7 @@ int main() {
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 
 		// Desenha na tela
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		glDrawArrays(GL_TRIANGLES, 0, (tamanhoDaNave*3)+(tamanhoDoAlien*3));
 
 		// Reverte o estado que nós criamos
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
