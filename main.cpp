@@ -61,12 +61,16 @@ int main() {
 	nave1.modelaANave();
 	float escalaDaNave = 1.0f;
 	nave1.ajustaEscalaDaNave(escalaDaNave);
+	glm::vec3 fatorDeTranslacaoNave{ -0.7,0.5,0.0 };
+	nave1.transladaANave(fatorDeTranslacaoNave);
 
 	// Cria um inimigo
 	Alien alien1 = Alien(0.0f, 0.0f, 0.0f);
 	alien1.modelaAlien();
-	float escalaDoAlien = 1.0f;
+	float escalaDoAlien = 0.5f;
 	alien1.ajustaEscalaDoAlien(escalaDoAlien);
+	glm::vec3 fatorDeTranslacaoAlien{ 0.8,0.4,0.0 };
+	alien1.transladaOAlien(fatorDeTranslacaoAlien);
 
 	// Copiar os vértices do triangulo para a memória da GPU
 	GLuint VertexBuffer;
@@ -83,10 +87,10 @@ int main() {
 	const int tamanhoDaNave = 5; // A quantidade de triangulos na nave
 	const int tamanhoDoAlien = 16; // A quantidade de triangulos do Alien
 
-	std::array<std::array<glm::vec3, 3>, tamanhoDaNave+tamanhoDoAlien> bufferData; // Cria um vetor de triangulos
+	std::array<std::array<glm::vec4, 3>, tamanhoDaNave+tamanhoDoAlien> bufferData; // Cria um vetor de triangulos
 	std::copy(nave1.modeloDaNave.begin(), nave1.modeloDaNave.end(), bufferData.begin()); // Copia todos os triangulos da nave para o bufferData
 	std::copy(alien1.modeloDoInimigo.begin(), alien1.modeloDoInimigo.end(), bufferData.begin() + tamanhoDaNave); // Copia todos os triangulos do Alien para o bufferData
-
+	std::cout << sizeof(bufferData) << std::endl;
 
 	// Copiar os dados dos triângulos para a memória de vídeo
 	// Carregue os dados de todos os triângulos no buffer da GPU.
@@ -111,7 +115,7 @@ int main() {
 
 		// Informa ao OpenGL onde, dentro do vertexBuffer, os vértices estão. 
 		// No caso o array Triangles é contíguo na memória, então basta dizer quantos vértices vamos usar para desenhar o triangulo
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, nullptr); // 4 = cada vértice é representado por 4 valores de ponto flutuante
 
 		// Desenha na tela
 		glDrawArrays(GL_TRIANGLES, 0, (tamanhoDaNave*3)+(tamanhoDoAlien*3));

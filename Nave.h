@@ -6,11 +6,11 @@ class Nave {
 public:
 	float posicao, rotacao, escala;
 	Nave(float posicao, float rotacao, float escala);
-    std::array<std::array<glm::vec3, 3>, 5> modeloDaNave;
+    std::array<std::array<glm::vec4, 3>, 5> modeloDaNave;
 
     void modelaANave();
     void ajustaEscalaDaNave(float escalar);
-    //void transladaANave();
+    void transladaANave(glm::vec3 fatorDeTranslacao);
     //void rotacionaANave();
 
 };
