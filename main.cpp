@@ -57,26 +57,25 @@ int main() {
 	};
 
 	// Cria uma nave
-	Nave nave1 = Nave(0.0f, 0.0f, 0.0f);
-	nave1.modelaANave();
-	glm::vec3 fatorDeEscalaNave{ 1.0f, 1.0f, 0.0f };
-	nave1.ajustaEscalaDaNave(fatorDeEscalaNave);
-	glm::vec3 fatorDeTranslacaoNave{ -0.7,0.5,0.0 };
-	//nave1.transladaANave(fatorDeTranslacaoNave);
-	float angleRotacaoNave = 45;
-	glm::vec3 eixoDeRotacaoNave{ 0,0,1 };
-	nave1.rotacionaANave(angleRotacaoNave, eixoDeRotacaoNave);
+	Nave nave1 = Nave(glm::vec4{0.0f, 0.0f, 0.0f, 1.0f}); // A quarta dimensão deve ser 1.0f pois é um ponto
+	//glm::vec3 fatorDeEscalaNave{ 1.0f, 1.0f, 0.0f };
+	//nave1.ajustaEscalaDaNave(fatorDeEscalaNave);
+	glm::vec3 fatorDeTranslacaoNave{ 0.0f, -0.7f, 0.0f };
+	nave1.transladaANave(fatorDeTranslacaoNave);
+	//float angleRotacaoNave = 45;
+	//glm::vec3 eixoDeRotacaoNave{ 0,0,1 };
+	//nave1.rotacionaANave(angleRotacaoNave, eixoDeRotacaoNave);
 
 	// Cria um inimigo
 	Alien alien1 = Alien(0.0f, 0.0f, 0.0f);
 	alien1.modelaAlien();
-	glm::vec3 fatorDeEscalaAlien{ 0.5f, 0.5f, 0.0f };
-	alien1.ajustaEscalaDoAlien(fatorDeEscalaAlien);
-	glm::vec3 fatorDeTranslacaoAlien{ 0.8,0.4,0.0 };
+	//glm::vec3 fatorDeEscalaAlien{ 0.3f, 0.5f, 0.0f };
+	//alien1.ajustaEscalaDoAlien(fatorDeEscalaAlien);
+	//glm::vec3 fatorDeTranslacaoAlien{ 0.8,0.4,0.0 };
 	//alien1.transladaOAlien(fatorDeTranslacaoAlien);
-	float angleRotacaoAlien = 45;
-	glm::vec3 eixoDeRotacaoAlien{ 0,0,1 };
-	alien1.rotacionaOAlien(angleRotacaoAlien, eixoDeRotacaoAlien);
+	//float angleRotacaoAlien = 45;
+	//glm::vec3 eixoDeRotacaoAlien{ 0,0,1 };
+	//alien1.rotacionaOAlien(angleRotacaoAlien, eixoDeRotacaoAlien);
 
 	// Copiar os vértices do triangulo para a memória da GPU
 	GLuint VertexBuffer;

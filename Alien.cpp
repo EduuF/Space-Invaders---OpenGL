@@ -90,21 +90,19 @@ void Alien::modelaAlien() {
 
 }
 
-void Alien::ajustaEscalaDoAlien(glm::vec3 FatorDeEscola) {
-    for (auto& parte : modeloDoInimigo) {
-        ScaleMatrix(parte, FatorDeEscola);
-    }
-}
+//void Alien::ajustaEscalaDoAlien(glm::vec3 FatorDeEscola) {
+//    for (auto& parte : modeloDoInimigo) {
+//        ScaleMatrix(parte, FatorDeEscola);
+//   }
+//}
 
-void Alien::transladaOAlien(glm::vec3 fatorDeTranslacao) {
-    for (auto& parte : modeloDoInimigo) {
-        TranslationMatrix(parte, fatorDeTranslacao);
-    }
-}
+//void Alien::transladaOAlien(glm::vec3 fatorDeTranslacao) {
+//    TranslationMatrix(parte, fatorDeTranslacao);
+//}
 
 
-void Alien::rotacionaOAlien(float graus, glm::vec3 eixoDeRotacao) {
-    for (auto& parte : modeloDoInimigo) {
-        RotationMatrix(parte, graus, eixoDeRotacao);
-    }
-}
+//void Alien::rotacionaOAlien(float graus, glm::vec3 eixoDeRotacao) {
+//    for (auto& parte : modeloDoInimigo) {
+//        RotationMatrix(parte, graus, eixoDeRotacao);
+//    }
+//}

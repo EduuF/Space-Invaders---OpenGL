@@ -4,8 +4,9 @@
 
 class Nave {
 public:
-	float posicao, rotacao, escala;
-	Nave(float posicao, float rotacao, float escala);
+    glm::vec4 NaveCentro, BoundingBoxA, BoundingBoxB, BoundingBoxC, BoundingBoxD;
+	Nave(glm::vec4 NaveCentro);
+
     std::array<std::array<glm::vec4, 3>, 5> modeloDaNave;
 
     void modelaANave();
