@@ -5,7 +5,7 @@
 #include <glm/gtx/string_cast.hpp>
 #include <array>
 
-void TranslationMatrix(glm::vec4 &CentroObjeto, std::array<std::array<glm::vec4, 3>, 7>& Objeto, glm::vec3 T) {
+void TranslationMatrix(glm::vec4& CentroObjeto, std::array<std::array<glm::vec4, 3>, 7>& Objeto, glm::vec3 T) {
 	glm::mat4 I = glm::identity<glm::mat4>();
 	glm::mat4 Translation = glm::translate(I, T); // Translation translada qualquer ponto em 10 no x, 10 no y e 10 no z
 

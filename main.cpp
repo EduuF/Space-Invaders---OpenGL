@@ -60,10 +60,10 @@ int main() {
 	Nave nave1 = Nave(glm::vec4{0.0f, 0.0f, 0.0f, 1.0f}); // A quarta dimensão deve ser 1.0f pois é um ponto
 	glm::vec3 fatorDeEscalaNave{ 1.0f, 3.0f, 0.0f };
 	nave1.ajustaEscalaDaNave(fatorDeEscalaNave);
-	glm::vec3 fatorDeTranslacaoNave{ 0.5f, 0.0f, 0.0f };
-	//nave1.transladaANave(fatorDeTranslacaoNave);
-	//float angleRotacaoNave = 45;
-	//nave1.rotacionaANave(angleRotacaoNave, eixoDeRotacaoNave);
+	glm::vec3 fatorDeTranslacaoNave{ -0.5f, -0.5f, 0.0f };
+	nave1.transladaANave(fatorDeTranslacaoNave);
+	float angleRotacaoNave = -30;
+	nave1.rotacionaANave(angleRotacaoNave);
 
 	// Cria um inimigo
 	Alien alien1 = Alien(glm::vec4{ 0.0f, 0.8f, 0.0f, 1.0f });

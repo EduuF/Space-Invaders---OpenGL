@@ -13,7 +13,7 @@ public:
     void remodelaANave();
     void ajustaEscalaDaNave(glm::vec3 FatorDeescala);
     void transladaANave(glm::vec3 fatorDeTranslacao);
-    void rotacionaANave(float graus, glm::vec3 eixoDeRotacao);
+    void rotacionaANave(float graus);
 
     std::array<std::array<glm::vec4, 3>, 7> getNaveModel();
 

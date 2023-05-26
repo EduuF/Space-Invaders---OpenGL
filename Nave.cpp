@@ -24,7 +24,7 @@ void Nave::transladaANave(glm::vec3 fatorDeTranslacao) {
     TranslationMatrix(this->NaveCentro, this->modeloDaNave, fatorDeTranslacao);
 }
 
-void Nave::rotacionaANave(float graus, glm::vec3 eixoDeRotacao) {
+void Nave::rotacionaANave(float graus) {
     for (auto& parte : modeloDaNave) { // Para cada Triangulo do objeto
         RotationMatrix(parte, graus, this->NaveCentro); // Rotaciona o triangulo em relação ao centro do OBJ
     }
@@ -72,10 +72,12 @@ std::array<std::array<glm::vec4, 3>, 7> Nave::getNaveModel() {
         // Entrada de ar
         MotorEsquerdo,
         // FarolEsqcuerdo
-        MotorDireito
+        MotorDireito,
 
         // Bouding Box
-
+        BoudingBox1,
+        // Bouding Box
+        BoudingBox2
 
     };
 

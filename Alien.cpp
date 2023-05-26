@@ -110,8 +110,8 @@ void Alien::modelaAlien() {
 //}
 
 void Alien::transladaOAlien(glm::vec3 fatorDeTranslacao) {
-    TranslationMatrix(this->Centro, this->modeloDoInimigo, fatorDeTranslacao);
-    this->modelaAlien();
+    //TranslationMatrix(this->Centro, this->modeloDoInimigo, fatorDeTranslacao);
+    //this->modelaAlien();
 }
 
 
