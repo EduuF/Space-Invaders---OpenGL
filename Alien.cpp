@@ -109,9 +109,10 @@ void Alien::modelaAlien() {
 //   }
 //}
 
-//void Alien::transladaOAlien(glm::vec3 fatorDeTranslacao) {
-//    TranslationMatrix(parte, fatorDeTranslacao);
-//}
+void Alien::transladaOAlien(glm::vec3 fatorDeTranslacao) {
+    TranslationMatrix(this->Centro, this->modeloDoInimigo, fatorDeTranslacao);
+    this->modelaAlien();
+}
 
 
 //void Alien::rotacionaOAlien(float graus, glm::vec3 eixoDeRotacao) {

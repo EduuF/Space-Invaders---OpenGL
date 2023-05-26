@@ -4,47 +4,64 @@
 
 Nave::Nave(glm::vec4 NaveCentro) {
     // Define o centro do obejto como 0,0,0 (Pode ser alterado futuramente)
-    this->NaveCentro = NaveCentro;
-    modelaANave();
+    this->NaveCentro = NaveCentro; // Diz qual é o centro de onde o objeto será criado
+    std::array<std::array<glm::vec4, 3>, 7> NaveModel = this->getNaveModel(); // Modelo Base
 
+    this->modeloDaNave = NaveModel; // Acopla modelo base
+
+    // Altera os vértices da nave
+    glm::vec4 Origem = { 0.0f, 0.0f, 0.0f, 0.0f };
+    TranslationMatrix(Origem, NaveModel, this->NaveCentro);
 }
 
-void Nave::modelaANave() {
+void Nave::ajustaEscalaDaNave(glm::vec3 FatorDeEscala) {
+    for (auto& parte : modeloDaNave) { // Para cada triangulo do objeto
+        ScaleMatrix(parte, FatorDeEscala, this->NaveCentro); // Escala o triangulo
+    }
+}
 
-    NaveCentro = this->NaveCentro;
+void Nave::transladaANave(glm::vec3 fatorDeTranslacao) {
+    TranslationMatrix(this->NaveCentro, this->modeloDaNave, fatorDeTranslacao);
+}
 
-    // Modela os vértices do bounding box do objeto
-    // 
-    // A = {-1, -1, 0} 
-    // B = {-1,  1, 0}
-    // C = { 1,  1, 0} 
-    // D = { 1, -1, 0}
-    //
-    this->BoundingBoxA = glm::vec4{ NaveCentro.x -0.08f, NaveCentro.y -0.05f, NaveCentro.z +0.0f, 1.0f };
-    this->BoundingBoxB = glm::vec4{ NaveCentro.x -0.08f, NaveCentro.y +0.05f, NaveCentro.z +0.0f, 1.0f };
-    this->BoundingBoxC = glm::vec4{ NaveCentro.x +0.08f, NaveCentro.y +0.05f, NaveCentro.z +0.0f, 1.0f };
-    this->BoundingBoxD = glm::vec4{ NaveCentro.x +0.08f, NaveCentro.y -0.05f, NaveCentro.z +0.0f, 1.0f };
+void Nave::rotacionaANave(float graus, glm::vec3 eixoDeRotacao) {
+    for (auto& parte : modeloDaNave) { // Para cada Triangulo do objeto
+        RotationMatrix(parte, graus, this->NaveCentro); // Rotaciona o triangulo em relação ao centro do OBJ
+    }
+}
+
+
+std::array<std::array<glm::vec4, 3>, 7> Nave::getNaveModel() {
 
     // Modela a nave
-    glm::vec4 A{ NaveCentro.x -0.04f, NaveCentro.y -0.03f, NaveCentro.z +0.0f, 1.0f };
-    glm::vec4 B{ NaveCentro.x +0.0f,  NaveCentro.y +0.05f, NaveCentro.z +0.0f, 1.0f };
-    glm::vec4 C{ NaveCentro.x +0.04f, NaveCentro.y -0.03f, NaveCentro.z +0.0f, 1.0f };
-    glm::vec4 D{ NaveCentro.x -0.08f, NaveCentro.y -0.03f, NaveCentro.z +0.0f, 1.0f };
-    glm::vec4 E{ NaveCentro.x -0.06f, NaveCentro.y +0.0f,  NaveCentro.z +0.0f, 1.0f };
-    glm::vec4 F{ NaveCentro.x +0.06f, NaveCentro.y +0.0f,  NaveCentro.z +0.0f, 1.0f };
-    glm::vec4 G{ NaveCentro.x +0.08f, NaveCentro.y -0.03f, NaveCentro.z +0.0f, 1.0f };
-    glm::vec4 H{ NaveCentro.x -0.03f, NaveCentro.y -0.05f, NaveCentro.z +0.0f, 1.0f };
-    glm::vec4 I{ NaveCentro.x -0.05f, NaveCentro.y -0.05f, NaveCentro.z +0.0f, 1.0f };
-    glm::vec4 J{ NaveCentro.x +0.05f, NaveCentro.y -0.05f, NaveCentro.z +0.0f, 1.0f };
-    glm::vec4 K{ NaveCentro.x +0.03f, NaveCentro.y -0.05f, NaveCentro.z +0.0f, 1.0f };
+    glm::vec4 A{ -0.04f, -0.03f,  0.0f, 1.0f };
+    glm::vec4 B{  0.0f,    0.05f,  0.0f, 1.0f };
+    glm::vec4 C{  0.04f, -0.03f,  0.0f, 1.0f };
+    glm::vec4 D{ -0.08f, -0.03f,  0.0f, 1.0f };
+    glm::vec4 E{ -0.06f,   0.0f,   0.0f, 1.0f };
+    glm::vec4 F{  0.06f,   0.0f,   0.0f, 1.0f };
+    glm::vec4 G{  0.08f, -0.03f,  0.0f, 1.0f };
+    glm::vec4 H{ -0.03f, -0.05f,  0.0f, 1.0f };
+    glm::vec4 I{ -0.05f, -0.05f,  0.0f, 1.0f };
+    glm::vec4 J{  0.05f, -0.05f,  0.0f, 1.0f };
+    glm::vec4 K{  0.03f, -0.05f,  0.0f, 1.0f };
+
+    // Bouding Box 
+
+    glm::vec4 BoundingBoxA = glm::vec4{ -0.08f, -0.05f,  0.0f, 1.0f };
+    glm::vec4 BoundingBoxB = glm::vec4{ -0.08f,   0.05f,  0.0f, 1.0f };
+    glm::vec4 BoundingBoxC = glm::vec4{ 0.08f,   0.05f,  0.0f, 1.0f };
+    glm::vec4 BoundingBoxD = glm::vec4{ 0.08f, -0.05f,  0.0f, 1.0f };
 
     std::array<glm::vec4, 3> Corpo = { A, B, C };
     std::array<glm::vec4, 3> CanhaoEsquerdo = { A, D, E };
     std::array<glm::vec4, 3> CanhaoDireito = { C, F, G };
     std::array<glm::vec4, 3> MotorEsquerdo = { A, H, I };
     std::array<glm::vec4, 3> MotorDireito = { C, J, K };
+    std::array<glm::vec4, 3> BoudingBox1 = { BoundingBoxA, BoundingBoxB, BoundingBoxC };
+    std::array<glm::vec4, 3> BoudingBox2 = { BoundingBoxA, BoundingBoxC, BoundingBoxD };
 
-    std::array<std::array<glm::vec4, 3>, 5> NaveVertices = {
+    std::array<std::array<glm::vec4, 3>, 7> NaveVertices = {
 
         // Corpo
         Corpo,
@@ -57,26 +74,11 @@ void Nave::modelaANave() {
         // FarolEsqcuerdo
         MotorDireito
 
+        // Bouding Box
+
+
     };
 
-    this->modeloDaNave = NaveVertices;
+    return NaveVertices;
 }
 
-void Nave::ajustaEscalaDaNave(glm::vec3 FatorDeEscola) {
-    for (auto& parte : modeloDaNave) {
-        ScaleMatrix(parte, FatorDeEscola);
-    }
-}
-
-void Nave::transladaANave(glm::vec3 fatorDeTranslacao) {
-    TranslationMatrix(this->NaveCentro, fatorDeTranslacao);
-    std::cout << "TESTE" << std::endl;
-    std::cout << this->NaveCentro.x << this->NaveCentro.y << std::endl;
-    this->modelaANave();
-}
-
-void Nave::rotacionaANave(float graus, glm::vec3 eixoDeRotacao) {
-    for (auto& parte : modeloDaNave) {
-        RotationMatrix(parte, graus, eixoDeRotacao);
-    }
-}

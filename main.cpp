@@ -58,12 +58,11 @@ int main() {
 
 	// Cria uma nave
 	Nave nave1 = Nave(glm::vec4{0.0f, 0.0f, 0.0f, 1.0f}); // A quarta dimensão deve ser 1.0f pois é um ponto
-	//glm::vec3 fatorDeEscalaNave{ 1.0f, 1.0f, 0.0f };
-	//nave1.ajustaEscalaDaNave(fatorDeEscalaNave);
-	glm::vec3 fatorDeTranslacaoNave{ 0.0f, -0.7f, 0.0f };
-	nave1.transladaANave(fatorDeTranslacaoNave);
+	glm::vec3 fatorDeEscalaNave{ 1.0f, 3.0f, 0.0f };
+	nave1.ajustaEscalaDaNave(fatorDeEscalaNave);
+	glm::vec3 fatorDeTranslacaoNave{ 0.5f, 0.0f, 0.0f };
+	//nave1.transladaANave(fatorDeTranslacaoNave);
 	//float angleRotacaoNave = 45;
-	//glm::vec3 eixoDeRotacaoNave{ 0,0,1 };
 	//nave1.rotacionaANave(angleRotacaoNave, eixoDeRotacaoNave);
 
 	// Cria um inimigo
@@ -93,7 +92,7 @@ int main() {
 	const int tamanhoDoAlien = 16; // A quantidade de triangulos do Alien
 
 	std::array<std::array<glm::vec4, 3>, tamanhoDaNave+tamanhoDoAlien> bufferData; // Cria um vetor de triangulos
-	std::copy(nave1.modeloDaNave.begin(), nave1.modeloDaNave.end(), bufferData.begin()); // Copia todos os triangulos da nave para o bufferData
+	std::copy(nave1.modeloDaNave.begin(), nave1.modeloDaNave.end()-2, bufferData.begin()); // Copia todos os triangulos da nave para o bufferData
 	std::copy(alien1.modeloDoInimigo.begin(), alien1.modeloDoInimigo.end(), bufferData.begin() + tamanhoDaNave); // Copia todos os triangulos do Alien para o bufferData
 	std::cout << sizeof(bufferData) << std::endl;
 
