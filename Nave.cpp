@@ -35,11 +35,11 @@ std::array<std::array<glm::vec4, 3>, 7> Nave::getNaveModel() {
 
     // Modela a nave
     glm::vec4 A{ -0.04f, -0.03f,  0.0f, 1.0f };
-    glm::vec4 B{  0.0f,    0.05f,  0.0f, 1.0f };
+    glm::vec4 B{  0.0f,   0.05f,  0.0f, 1.0f };
     glm::vec4 C{  0.04f, -0.03f,  0.0f, 1.0f };
     glm::vec4 D{ -0.08f, -0.03f,  0.0f, 1.0f };
-    glm::vec4 E{ -0.06f,   0.0f,   0.0f, 1.0f };
-    glm::vec4 F{  0.06f,   0.0f,   0.0f, 1.0f };
+    glm::vec4 E{ -0.06f,  0.0f,   0.0f, 1.0f };
+    glm::vec4 F{  0.06f,  0.0f,   0.0f, 1.0f };
     glm::vec4 G{  0.08f, -0.03f,  0.0f, 1.0f };
     glm::vec4 H{ -0.03f, -0.05f,  0.0f, 1.0f };
     glm::vec4 I{ -0.05f, -0.05f,  0.0f, 1.0f };
