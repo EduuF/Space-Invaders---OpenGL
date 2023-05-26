@@ -65,8 +65,11 @@ int main() {
 	float angleRotacaoNave = -30;
 	nave1.rotacionaANave(angleRotacaoNave);
 
-	// Cria um inimigo
-	Alien alien1 = Alien(glm::vec4{ 0.0f, 0.8f, 0.0f, 1.0f });
+	// Cria inimigos
+	std::array<Alien, 3> TodosAliens;
+	for (int i = 0; i < 3; i++) {
+		TodosAliens[i] = Alien(glm::vec4{ -1.0f + ((i+1) * 0.5f), 0.8f, 0.0f, 1.0f });
+	}
 	//alien1.modelaAlien();
 	//glm::vec3 fatorDeEscalaAlien{ 0.3f, 0.5f, 0.0f };
 	//alien1.ajustaEscalaDoAlien(fatorDeEscalaAlien);
@@ -75,6 +78,7 @@ int main() {
 	//float angleRotacaoAlien = 45;
 	//glm::vec3 eixoDeRotacaoAlien{ 0,0,1 };
 	//alien1.rotacionaOAlien(angleRotacaoAlien, eixoDeRotacaoAlien);
+	
 
 	// Copiar os vértices do triangulo para a memória da GPU
 	GLuint VertexBuffer;
@@ -89,13 +93,15 @@ int main() {
 	// Carregue os dados de todos os triângulos no buffer da GPU.
 	// (Buffer ativado, quantos bytes serão copiados, ponteiro para os dados, tipo de uso do buffer)
 	const int tamanhoDaNave = 7; // A quantidade de triangulos na nave
-	const int tamanhoDoAlien = 16; // A quantidade de triangulos do Alien
+	const int tamanhoDoAlien = 18; // A quantidade de triangulos do Alien
 
-	std::array<std::array<glm::vec4, 3>, tamanhoDaNave+tamanhoDoAlien> bufferData; // Cria um vetor de triangulos
+	std::array<std::array<glm::vec4, 3>, tamanhoDaNave+tamanhoDoAlien*3> bufferData; // Cria um vetor de triangulos
 	std::copy(nave1.modeloDaNave.begin(), nave1.modeloDaNave.end(), bufferData.begin()); // Copia todos os triangulos da nave para o bufferData
-	std::copy(alien1.modeloDoInimigo.begin(), alien1.modeloDoInimigo.end(), bufferData.begin() + tamanhoDaNave); // Copia todos os triangulos do Alien para o bufferData
-	std::cout << sizeof(bufferData) << std::endl;
-
+	int i = 1;
+	for (int i = 0; i < 3; i++) {
+		std::copy(TodosAliens[i].modeloDoInimigo.begin(), TodosAliens[i].modeloDoInimigo.end(), bufferData.begin() + tamanhoDaNave + (i * tamanhoDoAlien)); // Copia todos os triangulos do Alien para o bufferData
+	}
+	
 	// Copiar os dados dos triângulos para a memória de vídeo
 	// Carregue os dados de todos os triângulos no buffer da GPU.
 	// (Buffer ativado, quantos bytes serão copiados, ponteiro para os dados, tipo de uso do buffer)
@@ -124,9 +130,6 @@ int main() {
 		// No caso o array Triangles é contíguo na memória, então basta dizer quantos vértices vamos usar para desenhar o triangulo
 		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, nullptr); // 4 = cada vértice é representado por 4 valores de ponto flutuante
 
-		// Desenha na tela
-		//glDrawArrays(GL_TRIANGLES, 0, (tamanhoDaNave*3)+(tamanhoDoAlien*3));
-
 		// Desenha a nave
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		glDrawArrays(GL_TRIANGLES, 0, (tamanhoDaNave - 2) * 3);
@@ -135,13 +138,15 @@ int main() {
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		glDrawArrays(GL_TRIANGLES, (tamanhoDaNave - 2) * 3, 6);
 
-		// Desenha os inimigos
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		glDrawArrays(GL_TRIANGLES, (tamanhoDaNave) * 3, (tamanhoDoAlien * 3));
+		for (int i = 0; i < TodosAliens.size(); i++) {
+			// Desenha os inimigos
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			glDrawArrays(GL_TRIANGLES, ((tamanhoDaNave) * 3) + ((tamanhoDoAlien) * 3 * i) , ((tamanhoDoAlien - 2) * 3));
 
-		// Desenha Bouding Box dos inimigos
-		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		//glDrawArrays(GL_TRIANGLES, (tamanhoDaNave - 2) * 3, 6);
+			// Desenha Bouding Box dos inimigos
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			glDrawArrays(GL_TRIANGLES, (tamanhoDaNave + (tamanhoDoAlien * (i+1)) - 2) * 3, 6);
+		}
 
 		// Reverte o estado que nós criamos
 		glBindBuffer(GL_ARRAY_BUFFER, 0);

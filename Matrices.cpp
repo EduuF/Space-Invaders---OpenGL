@@ -58,3 +58,23 @@ void RotationMatrix(std::array<glm::vec4, 3>& Triangle, float graus, glm::vec4& 
 void ComposedMatrix() {
 
 }
+
+
+
+
+
+
+void TranslationMatrixAlien(glm::vec4& CentroObjeto, std::array<std::array<glm::vec4, 3>, 18>& Objeto, glm::vec3 T) {
+	glm::mat4 I = glm::identity<glm::mat4>();
+	glm::mat4 Translation = glm::translate(I, T); // Translation translada qualquer ponto em 10 no x, 10 no y e 10 no z
+
+	// Translada o centro do objeto
+	CentroObjeto = Translation * CentroObjeto;
+
+	// Translada o restante dos vertices
+	for (auto& triangulo : Objeto) {
+		for (auto& vertice : triangulo) {
+			vertice = Translation * vertice;
+		}
+	}
+}

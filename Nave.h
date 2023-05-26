@@ -10,7 +10,6 @@ public:
 
     std::array<std::array<glm::vec4, 3>, 7> modeloDaNave;
 
-    void remodelaANave();
     void ajustaEscalaDaNave(glm::vec3 FatorDeescala);
     void transladaANave(glm::vec3 fatorDeTranslacao);
     void rotacionaANave(float graus);

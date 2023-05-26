@@ -3,15 +3,14 @@
 #include <iostream>
 
 Nave::Nave(glm::vec4 NaveCentro) {
-    // Define o centro do obejto como 0,0,0 (Pode ser alterado futuramente)
     this->NaveCentro = NaveCentro; // Diz qual é o centro de onde o objeto será criado
     std::array<std::array<glm::vec4, 3>, 7> NaveModel = this->getNaveModel(); // Modelo Base
 
     this->modeloDaNave = NaveModel; // Acopla modelo base
 
     // Altera os vértices da nave
-    glm::vec4 Origem = { 0.0f, 0.0f, 0.0f, 0.0f };
-    TranslationMatrix(Origem, NaveModel, this->NaveCentro);
+    glm::vec4 Origem = { 0.0f, 0.0f, 0.0f, 1.0f };
+    TranslationMatrix(Origem, this->modeloDaNave, this->NaveCentro);
 }
 
 void Nave::ajustaEscalaDaNave(glm::vec3 FatorDeEscala) {
