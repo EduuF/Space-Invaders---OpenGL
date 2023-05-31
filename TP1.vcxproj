@@ -162,6 +162,10 @@
     <ClInclude Include="Nave.h" />
     <ClInclude Include="Vectors.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="triangle_frag.glsl" />
+    <None Include="triangle_vert.glsl" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
