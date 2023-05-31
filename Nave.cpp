@@ -3,6 +3,7 @@
 #include <iostream>
 
 Nave::Nave(glm::vec4 NaveCentro) {
+
     this->NaveCentro = NaveCentro; // Diz qual é o centro de onde o objeto será criado
     std::array<std::array<glm::vec4, 3>, 7> NaveModel = this->getNaveModel(); // Modelo Base
 
@@ -10,7 +11,7 @@ Nave::Nave(glm::vec4 NaveCentro) {
 
     // Altera os vértices da nave
     glm::vec4 Origem = { 0.0f, 0.0f, 0.0f, 1.0f };
-    TranslationMatrix(Origem, this->modeloDaNave, this->NaveCentro);
+    TranslationMatrixNave(this->modeloDaNave, Origem, this->NaveCentro);
 }
 
 void Nave::ajustaEscalaDaNave(glm::vec3 FatorDeEscala) {
@@ -20,13 +21,15 @@ void Nave::ajustaEscalaDaNave(glm::vec3 FatorDeEscala) {
 }
 
 void Nave::transladaANave(glm::vec3 fatorDeTranslacao) {
-    TranslationMatrix(this->NaveCentro, this->modeloDaNave, fatorDeTranslacao);
+    TranslationMatrixNave(this->modeloDaNave, this->NaveCentro, fatorDeTranslacao);
 }
 
 void Nave::rotacionaANave(float graus) {
-    for (auto& parte : modeloDaNave) { // Para cada Triangulo do objeto
-        RotationMatrix(parte, graus, this->NaveCentro); // Rotaciona o triangulo em relação ao centro do OBJ
-    }
+    RotationMatrixNave(this->modeloDaNave, graus, this->NaveCentro); // Rotaciona o triangulo em relação ao centro do OBJ
+}
+
+void Nave::ProjetaNave(glm::vec3 Eye, glm::vec3 Center, glm::vec3 Up, float FoVAngle) {
+    ModelViewProjectionNave(this->modeloDaNave, Eye, Center, Up, FoVAngle);
 }
 
 

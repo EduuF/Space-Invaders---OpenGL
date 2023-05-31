@@ -1,6 +1,7 @@
 #include "Vectors.h"
 #include "Nave.h"
 #include "Alien.h"
+#include "Matrices.h"
 
 #include <iostream>
 #include <GL/glew.h>
@@ -70,14 +71,23 @@ int main() {
 	for (int i = 0; i < 3; i++) {
 		TodosAliens[i] = Alien(glm::vec4{ -1.0f + ((i+1) * 0.5f), 0.8f, 0.0f, 1.0f });
 	}
-	//alien1.modelaAlien();
-	//glm::vec3 fatorDeEscalaAlien{ 0.3f, 0.5f, 0.0f };
-	//alien1.ajustaEscalaDoAlien(fatorDeEscalaAlien);
 	//glm::vec3 fatorDeTranslacaoAlien{ 0.8,0.4,0.0 };
 	//alien1.transladaOAlien(fatorDeTranslacaoAlien);
 	//float angleRotacaoAlien = 45;
 	//glm::vec3 eixoDeRotacaoAlien{ 0,0,1 };
 	//alien1.rotacionaOAlien(angleRotacaoAlien, eixoDeRotacaoAlien);
+
+	// Controla a camera
+	glm::vec3 Eye{0,0,3};
+	glm::vec3 Center{0,0,0};
+	glm::vec3 Up{0,1,0};
+	float FoVAngle = 45.0f;
+
+	nave1.ProjetaNave(Eye, Center, Up, FoVAngle);
+
+	for (auto& Alien : TodosAliens) {
+		Alien.ProjetaAlien(Eye, Center, Up, FoVAngle);
+	}
 	
 
 	// Copiar os vértices do triangulo para a memória da GPU
@@ -110,9 +120,6 @@ int main() {
 	// Definir cor de fundo da janela
 	glClearColor(0.01f, 0.0f, 0.06f, 1.0f); // Azul escuro
 
-	//TESTE
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
 	// Loop de eventos da aplicação
 	while (!glfwWindowShouldClose(Window)){
 
@@ -138,8 +145,9 @@ int main() {
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		glDrawArrays(GL_TRIANGLES, (tamanhoDaNave - 2) * 3, 6);
 
+		// Desenha os inimigos
 		for (int i = 0; i < TodosAliens.size(); i++) {
-			// Desenha os inimigos
+			
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 			glDrawArrays(GL_TRIANGLES, ((tamanhoDaNave) * 3) + ((tamanhoDoAlien) * 3 * i) , ((tamanhoDoAlien - 2) * 3));
 
