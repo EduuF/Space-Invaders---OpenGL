@@ -28,8 +28,8 @@ void Nave::rotacionaANave(float graus) {
     RotationMatrixNave(this->modeloDaNave, graus, this->NaveCentro); // Rotaciona o triangulo em relação ao centro do OBJ
 }
 
-void Nave::ProjetaNave(glm::vec3 Eye, glm::vec3 Center, glm::vec3 Up, float FoVAngle) {
-    ModelViewProjectionNave(this->modeloDaNave, Eye, Center, Up, FoVAngle);
+void Nave::ProjetaNave(float AspectRatio, glm::vec3 Eye, glm::vec3 Center, glm::vec3 Up, float FoVAngle) {
+    ModelViewProjectionNave(this->modeloDaNave, AspectRatio, Eye, Center, Up, FoVAngle);
 }
 
 

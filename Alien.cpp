@@ -30,8 +30,8 @@ void Alien::rotacionaOAlien(float graus) {
     RotationMatrixAlien(this->modeloDoInimigo, graus, this->Centro); // Rotaciona o triangulo em relação ao centro do OBJ
 }
 
-void Alien::ProjetaAlien(glm::vec3 Eye, glm::vec3 Center, glm::vec3 Up, float FoVAngle) {
-    ModelViewProjectionAlien(this->modeloDoInimigo, Eye, Center, Up, FoVAngle);
+void Alien::ProjetaAlien(float AspectRatio, glm::vec3 Eye, glm::vec3 Center, glm::vec3 Up, float FoVAngle) {
+    ModelViewProjectionAlien(this->modeloDoInimigo, AspectRatio, Eye, Center, Up, FoVAngle);
 }
 
 

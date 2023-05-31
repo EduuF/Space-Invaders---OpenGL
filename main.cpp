@@ -71,22 +71,22 @@ int main() {
 	for (int i = 0; i < 3; i++) {
 		TodosAliens[i] = Alien(glm::vec4{ -1.0f + ((i+1) * 0.5f), 0.8f, 0.0f, 1.0f });
 	}
-	//glm::vec3 fatorDeTranslacaoAlien{ 0.8,0.4,0.0 };
-	//alien1.transladaOAlien(fatorDeTranslacaoAlien);
-	//float angleRotacaoAlien = 45;
-	//glm::vec3 eixoDeRotacaoAlien{ 0,0,1 };
-	//alien1.rotacionaOAlien(angleRotacaoAlien, eixoDeRotacaoAlien);
+	glm::vec3 fatorDeTranslacaoAlien{ 0.8,0.4,0.0 };
+	//TodosAliens[0].transladaOAlien(fatorDeTranslacaoAlien);
+	float angleRotacaoAlien = 45;
+	//TodosAliens[0].rotacionaOAlien(angleRotacaoAlien);
 
 	// Controla a camera
-	glm::vec3 Eye{0,0,3};
+	glm::vec3 Eye{0,0,5};
 	glm::vec3 Center{0,0,0};
 	glm::vec3 Up{0,1,0};
 	float FoVAngle = 45.0f;
+	float AspectRatio = Width / Height;
 
-	nave1.ProjetaNave(Eye, Center, Up, FoVAngle);
+	nave1.ProjetaNave(AspectRatio, Eye, Center, Up, FoVAngle);
 
 	for (auto& Alien : TodosAliens) {
-		Alien.ProjetaAlien(Eye, Center, Up, FoVAngle);
+		Alien.ProjetaAlien(AspectRatio, Eye, Center, Up, FoVAngle);
 	}
 	
 

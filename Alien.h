@@ -13,7 +13,7 @@ public:
 	void transladaOAlien(glm::vec3 fatorDeTranslacao);
 	void rotacionaOAlien(float graus);
 
-	void ProjetaAlien(glm::vec3 Eye, glm::vec3 Center, glm::vec3 Up, float FoVAngle);
+	void ProjetaAlien(float AspectRatio, glm::vec3 Eye, glm::vec3 Center, glm::vec3 Up, float FoVAngle);
 
 
 	std::array<std::array<glm::vec4, 3>, 18> getAlienModel();

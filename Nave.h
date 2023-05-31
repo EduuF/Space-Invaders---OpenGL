@@ -14,7 +14,7 @@ public:
     void transladaANave(glm::vec3 fatorDeTranslacao);
     void rotacionaANave(float graus);
 
-    void ProjetaNave(glm::vec3 Eye, glm::vec3 Center, glm::vec3 Up, float FoVAngle);
+    void ProjetaNave(float AspectRatio, glm::vec3 Eye, glm::vec3 Center, glm::vec3 Up, float FoVAngle);
 
     std::array<std::array<glm::vec4, 3>, 7> getNaveModel();
 
