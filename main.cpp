@@ -10,6 +10,7 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/gtx/string_cast.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <array>
 
 
@@ -172,19 +173,15 @@ int main() {
 	float angleRotacaoAlien = 45;
 	TodosAliens[0].rotacionaOAlien(angleRotacaoAlien);
 
-	// Controla a camera
+	// Controla a camera MODELVIEWPROJECTION
 	glm::vec3 Eye{0,0,4};
 	glm::vec3 Center{0,0,0};
 	glm::vec3 Up{0,1,0};
 	float FoVAngle = 45.0f;
 	float AspectRatio = Width / Height;
 
-	nave1.ProjetaNave(AspectRatio, Eye, Center, Up, FoVAngle);
+	glm::mat4 MVP = ModelViewProjection(AspectRatio, Eye, Center, Up, FoVAngle);
 
-	for (auto& Alien : TodosAliens) {
-		Alien.ProjetaAlien(AspectRatio, Eye, Center, Up, FoVAngle);
-	}
-	
 
 	// Copiar os vértices do triangulo para a memória da GPU
 	GLuint VertexBuffer;
@@ -225,6 +222,10 @@ int main() {
 
 		// Ativar o programa de Shader
 		glUseProgram(ProgramId);
+
+		// Aloca cálculo da ModelViewProjection de cada vértice para a GPU
+		GLint ModelViewProjectionLoc = glGetUniformLocation(ProgramId, "ModelViewProjection");
+		glUniformMatrix4fv(ModelViewProjectionLoc, 1, GL_FALSE, glm::value_ptr(MVP));
 
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
