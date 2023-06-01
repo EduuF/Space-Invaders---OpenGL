@@ -2,8 +2,10 @@
 #include "Nave.h"
 #include "Alien.h"
 #include "Matrices.h"
+#include "Triangle.h"
 
 #include <iostream>
+#include <fstream>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
@@ -14,6 +16,110 @@
 
 const int Width = 800;
 const int Height = 800;
+
+std::string ReadFile(const char* FilePath) {
+
+	std::string FileContents;
+	if (std::ifstream FileStream{ FilePath, std::ios::in }) {
+		// Vai ler dentro do FileContets o conteúdo do arquivo apontado por FilePath
+		FileContents.assign(std::istreambuf_iterator<char>(FileStream), std::istreambuf_iterator<char>());
+	}
+	return FileContents;
+}
+
+void CheckShader(GLuint ShaderId) {
+	// ShaderId tem que ser um identificador de um Shader já compilado
+
+	GLint Result = GL_TRUE;
+	glGetShaderiv(ShaderId, GL_COMPILE_STATUS, &Result);
+
+	if (Result == GL_FALSE) {
+		// Houve erro ao compilar o shader, imprime o log do shader para saber qual foi o erro
+
+		//Obter o tamanho do log
+		GLint InfoLogLength = 0;
+		glGetShaderiv(ShaderId, GL_INFO_LOG_LENGTH, &InfoLogLength);
+
+		// Se o log existir
+		if (InfoLogLength > 0) {
+			std::string ShaderInfoLog(InfoLogLength, '\0');
+			glGetShaderInfoLog(ShaderId, InfoLogLength, nullptr, &ShaderInfoLog[0]);
+
+			std::cout << "Erro no Shader: " << std::endl;
+			std::cout << ShaderInfoLog << std::endl;
+		}
+	}
+}
+
+GLuint LoadShaders(const char* VertexShaderFile, const char* FragmnetShaderFile) {
+
+	// Ler o conteúdo dos arquivos de shaders
+	std::string VertexShaderSource = ReadFile(VertexShaderFile);
+	std::string FragmentShaderSource = ReadFile(FragmnetShaderFile);
+
+	// Criar os identificadores do Vertex e Fragment Shaders
+	GLuint VertexShaderId = glCreateShader(GL_VERTEX_SHADER);
+	GLuint FragmentShaderId = glCreateShader(GL_FRAGMENT_SHADER);
+
+	// Compilando os arquivos de Shaders
+	const char* VertexShaderSourcePtr = VertexShaderSource.c_str();
+	glShaderSource(VertexShaderId, 1, &VertexShaderSourcePtr, nullptr); // Podem haver mais de 1 shaders
+	glCompileShader(VertexShaderId);
+
+	// Verificar se a compilação do VertexShader deu certo
+	CheckShader(VertexShaderId);
+
+	// Compilando os arquivos de Shaders
+	const char* FragmentShaderSourcePtr = FragmentShaderSource.c_str();
+	glShaderSource(FragmentShaderId, 1, &FragmentShaderSourcePtr, nullptr); // Podem haver mais de 1 shaders
+	glCompileShader(FragmentShaderId);
+
+	// Verificar se a compilação do FragmentShader deu certo
+	CheckShader(FragmentShaderId);
+
+	// Associando os shaders ao programa
+	std::cout << "Linkando o programa" << std::endl;
+
+	GLuint ProgramId = glCreateProgram();
+	glAttachShader(ProgramId, VertexShaderId);
+	glAttachShader(ProgramId, FragmentShaderId);
+
+	glLinkProgram(ProgramId);
+
+	// Verificar o programa
+	GLint Result = GL_TRUE;
+	glGetProgramiv(ProgramId, GL_LINK_STATUS, &Result);
+
+	if (Result == GL_FALSE) {
+		// Pega o log para saber o problema
+		
+
+		GLint InfoLogLength = 0;
+		glGetProgramiv(ProgramId, GL_INFO_LOG_LENGTH, &InfoLogLength);
+
+		if (InfoLogLength > 0) {
+			std::string ProgramInfoLog(InfoLogLength, '\0');
+			glGetShaderInfoLog(ProgramId, InfoLogLength, nullptr, &ProgramInfoLog[0]);
+
+			std::cout << "Erro ao linkar o programa" << std::endl;
+			std::cout << ProgramInfoLog << std::endl;
+		}
+	}
+
+	// Desacopla e deleta os shaders pois já estão carregados
+	glDetachShader(ProgramId, VertexShaderId);
+	glDetachShader(ProgramId, FragmentShaderId);
+
+	glDeleteShader(VertexShaderId);
+	glDeleteShader(FragmentShaderId);
+
+	return ProgramId;
+}
+
+//struct Vertex {
+//	glm::vec4 Position;
+//	glm::vec4 Color;
+//};
 
 
 int main() {
@@ -44,18 +150,8 @@ int main() {
 	std::cout << "OpenGL Version: " << glGetString(GL_VERSION) << std::endl; // Diz qual é a versão em formato string completo
 	std::cout << "GLSL Version: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl; // Versão dos shaders
 
-	// Testa componentes
-	Constructors();
-	Components();
-	Swizzle();
-	Operations();
-
-	// Definir um triangulo em coordenadas normalizadas
-	std::array<glm::vec3, 3> Triangle = {
-		glm::vec3{-1.0f, -1.0f, 0.0f},
-		glm::vec3{ 1.0f, -1.0f, 0.0f},
-		glm::vec3{ 0.0f,  1.0f, 0.0f}
-	};
+	// Carrega os Shaders
+	GLuint ProgramId = LoadShaders("triangle_vert.glsl", "triangle_frag.glsl");
 
 	// Cria uma nave
 	Nave nave1 = Nave(glm::vec4{0.0f, 0.0f, 0.0f, 1.0f}); // A quarta dimensão deve ser 1.0f pois é um ponto
@@ -72,12 +168,12 @@ int main() {
 		TodosAliens[i] = Alien(glm::vec4{ -1.0f + ((i+1) * 0.5f), 0.8f, 0.0f, 1.0f });
 	}
 	glm::vec3 fatorDeTranslacaoAlien{ 0.8,0.4,0.0 };
-	//TodosAliens[0].transladaOAlien(fatorDeTranslacaoAlien);
+	TodosAliens[0].transladaOAlien(fatorDeTranslacaoAlien);
 	float angleRotacaoAlien = 45;
-	//TodosAliens[0].rotacionaOAlien(angleRotacaoAlien);
+	TodosAliens[0].rotacionaOAlien(angleRotacaoAlien);
 
 	// Controla a camera
-	glm::vec3 Eye{0,0,5};
+	glm::vec3 Eye{0,0,4};
 	glm::vec3 Center{0,0,0};
 	glm::vec3 Up{0,1,0};
 	float FoVAngle = 45.0f;
@@ -103,9 +199,9 @@ int main() {
 	// Carregue os dados de todos os triângulos no buffer da GPU.
 	// (Buffer ativado, quantos bytes serão copiados, ponteiro para os dados, tipo de uso do buffer)
 	const int tamanhoDaNave = 7; // A quantidade de triangulos na nave
-	const int tamanhoDoAlien = 18; // A quantidade de triangulos do Alien
+	const int tamanhoDoAlien =  18; // A quantidade de triangulos do Alien
 
-	std::array<std::array<glm::vec4, 3>, tamanhoDaNave+tamanhoDoAlien*3> bufferData; // Cria um vetor de triangulos
+	std::array<std::array<Vertex, 3>, tamanhoDaNave+tamanhoDoAlien*3> bufferData; // Cria um vetor de triangulos
 	std::copy(nave1.modeloDaNave.begin(), nave1.modeloDaNave.end(), bufferData.begin()); // Copia todos os triangulos da nave para o bufferData
 	int i = 1;
 	for (int i = 0; i < 3; i++) {
@@ -127,15 +223,19 @@ int main() {
 		// Para desenharmos objetos 3D na tela teremos que voltar ao glClear para limparmos o buffer de profundidade
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		
+		// Ativar o programa de Shader
+		glUseProgram(ProgramId);
+
 		glEnableVertexAttribArray(0);
+		glEnableVertexAttribArray(1);
 
 		// Diz ao OpenGL que o VertexBuffer vai ser o buffer ativo no momento
 		glBindBuffer(GL_ARRAY_BUFFER, VertexBuffer);
 
 		// Informa ao OpenGL onde, dentro do vertexBuffer, os vértices estão. 
 		// No caso o array Triangles é contíguo na memória, então basta dizer quantos vértices vamos usar para desenhar o triangulo
-		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, nullptr); // 4 = cada vértice é representado por 4 valores de ponto flutuante
+		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), nullptr); // 4 = cada vértice é representado por 4 valores de ponto flutuante
+		glVertexAttribPointer(1, 4, GL_FLOAT, GL_TRUE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, Color))); // 4 = cada vértice é representado por 4 valores de ponto flutuante
 
 		// Desenha a nave
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -155,10 +255,15 @@ int main() {
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 			glDrawArrays(GL_TRIANGLES, (tamanhoDaNave + (tamanhoDoAlien * (i+1)) - 2) * 3, 6);
 		}
+		
 
 		// Reverte o estado que nós criamos
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glDisableVertexAttribArray(0);
+		glDisableVertexAttribArray(1);
+
+		// Desabilitar o programa ativo
+		glUseProgram(0);
 
 		// Processa todos os eventos na fila de eventos do GLFW
 		// Eventos: Teclado, mouse, gamepad

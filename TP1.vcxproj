@@ -160,6 +160,7 @@
     <ClInclude Include="Buffer.h" />
     <ClInclude Include="Matrices.h" />
     <ClInclude Include="Nave.h" />
+    <ClInclude Include="Triangle.h" />
     <ClInclude Include="Vectors.h" />
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,5 @@
 #include "Matrices.h"
+#include "Triangle.h"
 
 #include <iostream>
 #include <glm/glm.hpp>
@@ -7,7 +8,7 @@
 
 // Leva o triangulo para o centro do objeto, escala e volta para a posicao original
 // Isso evita que ao fazer a escala o objeto se aproxime ou afaste da origem do plano original
-void ScaleMatrix(std::array<glm::vec4, 3>& Triangle, glm::vec3 FatorDeEscala, glm::vec4 &Centro) {
+void ScaleMatrix(std::array<Vertex, 3>& Triangle, glm::vec3 FatorDeEscala, glm::vec4 &Centro) {
 	glm::vec3 OrigemDoObjeto{ Centro.x, Centro.y, Centro.z };
 	glm::mat4 I = glm::identity<glm::mat4>();
 	glm::mat4 TranslationToObjectOrigin = glm::translate(I, -OrigemDoObjeto); // Translada Centro para o Origem do ambiente
@@ -16,13 +17,12 @@ void ScaleMatrix(std::array<glm::vec4, 3>& Triangle, glm::vec3 FatorDeEscala, gl
 	// Composição de transformações
 	glm::mat4 Transformation = TranslationToObjectBack * Scale * TranslationToObjectOrigin;
 
-
-	for (int i = 0; i < 3; i++) {
-		Triangle[i] = Transformation * Triangle[i];
+	for (auto& vertex : Triangle) {
+		vertex.Position = Transformation * vertex.Position;
 	}
 }
 
-void RotationMatrixAlien(std::array<std::array<glm::vec4, 3>, 18>& Objeto, float graus, glm::vec4& Centro) {
+void RotationMatrixAlien(std::array<std::array<Vertex, 3>, 18>& Objeto, float graus, glm::vec4& Centro) {
 
 	glm::vec3 eixoDeRotacao{ 0.0f, 0.0f, 1.0f };
 	glm::mat4 I = glm::identity<glm::mat4>();
@@ -35,14 +35,14 @@ void RotationMatrixAlien(std::array<std::array<glm::vec4, 3>, 18>& Objeto, float
 
 	glm::mat4 Transformation = TranslationToObjectBack * Rotation * TranslationToObjectOrigin;
 
-	for (int i = 0; i < 18; i++) {
-		for (int j = 0; j < 3; j++) {
-			Objeto[i][j] = Transformation * Objeto[i][j];
+	for (auto& triangulo : Objeto) {
+		for (auto& vertex : triangulo) {
+			vertex.Position = Transformation * vertex.Position;
 		}
 	}
 }
 
-void RotationMatrixNave(std::array<std::array<glm::vec4, 3>, 7>& Objeto, float graus, glm::vec4& Centro) {
+void RotationMatrixNave(std::array<std::array<Vertex, 3>, 7>& Objeto, float graus, glm::vec4& Centro) {
 
 	glm::vec3 eixoDeRotacao{ 0.0f, 0.0f, 1.0f };
 	glm::mat4 I = glm::identity<glm::mat4>();
@@ -55,15 +55,15 @@ void RotationMatrixNave(std::array<std::array<glm::vec4, 3>, 7>& Objeto, float g
 
 	glm::mat4 Transformation = TranslationToObjectBack * Rotation * TranslationToObjectOrigin;
 
-	for (int i = 0; i < 7; i++) {
-		for (int j = 0; j < 3; j++) {
-			Objeto[i][j] = Transformation * Objeto[i][j];
+	for (auto& triangulo : Objeto) {
+		for (auto& vertex : triangulo) {
+			vertex.Position = Transformation * vertex.Position;
 		}
 	}
 }
 
 
-void TranslationMatrixAlien(std::array<std::array<glm::vec4, 3>, 18>& Objeto, glm::vec4& CentroObjeto,  glm::vec3 T) {
+void TranslationMatrixAlien(std::array<std::array<Vertex, 3>, 18>& Objeto, glm::vec4& CentroObjeto,  glm::vec3 T) {
 	glm::mat4 I = glm::identity<glm::mat4>();
 	glm::mat4 Translation = glm::translate(I, T); // Translation translada qualquer ponto em 10 no x, 10 no y e 10 no z
 
@@ -72,13 +72,13 @@ void TranslationMatrixAlien(std::array<std::array<glm::vec4, 3>, 18>& Objeto, gl
 
 	// Translada o restante dos vertices
 	for (auto& triangulo : Objeto) {
-		for (auto& vertice : triangulo) {
-			vertice = Translation * vertice;
+		for (auto& vertex : triangulo) {
+			vertex.Position = Translation * vertex.Position;
 		}
 	}
 }
 
-void TranslationMatrixNave(std::array<std::array<glm::vec4, 3>, 7>& Objeto, glm::vec4& CentroObjeto, glm::vec3 T) {
+void TranslationMatrixNave(std::array<std::array<Vertex, 3>, 7>& Objeto, glm::vec4& CentroObjeto, glm::vec3 T) {
 	glm::mat4 I = glm::identity<glm::mat4>();
 	glm::mat4 Translation = glm::translate(I, T); // Translation translada qualquer ponto em 10 no x, 10 no y e 10 no z
 
@@ -87,13 +87,13 @@ void TranslationMatrixNave(std::array<std::array<glm::vec4, 3>, 7>& Objeto, glm:
 
 	// Translada o restante dos vertices
 	for (auto& triangulo : Objeto) {
-		for (auto& vertice : triangulo) {
-			vertice = Translation * vertice;
+		for (auto& vertex : triangulo) {
+			vertex.Position = Translation * vertex.Position;
 		}
 	}
 }
 
-void ModelViewProjectionAlien(std::array<std::array<glm::vec4, 3>, 18>& Objeto, float AspectRatio, glm::vec3 Eye, glm::vec3 Center, glm::vec3 Up, float FoVAngle) {
+void ModelViewProjectionAlien(std::array<std::array<Vertex, 3>, 18>& Objeto, float AspectRatio, glm::vec3 Eye, glm::vec3 Center, glm::vec3 Up, float FoVAngle) {
 	// Model vai ser a matriz formada pelas transformações de translação,
 	// rotação e escala. Uma matriz composta
 	glm::mat4 ModelMatrix = glm::identity<glm::mat4>();
@@ -112,16 +112,15 @@ void ModelViewProjectionAlien(std::array<std::array<glm::vec4, 3>, 18>& Objeto, 
 
 	glm::mat4 ModelViewProjection = Projection * ViewMatrix * ModelMatrix;
 
-	for(auto& triangulo: Objeto){
-		for (auto& vertice : triangulo) {
-			vertice = ModelViewProjection * vertice;
-			vertice = vertice / vertice.w;
+	for (auto& triangulo : Objeto) {
+		for (auto& vertex : triangulo) {
+			vertex.Position = ModelViewProjection * vertex.Position;
 		}
 	}
 };
 
 
-void ModelViewProjectionNave(std::array<std::array<glm::vec4, 3>, 7>& Objeto, float AspectRatio, glm::vec3 Eye, glm::vec3 Center, glm::vec3 Up, float FoVAngle) {
+void ModelViewProjectionNave(std::array<std::array<Vertex, 3>, 7>& Objeto, float AspectRatio, glm::vec3 Eye, glm::vec3 Center, glm::vec3 Up, float FoVAngle) {
 	// Model vai ser a matriz formada pelas transformações de translação,
 	// rotação e escala. Uma matriz composta
 	glm::mat4 ModelMatrix = glm::identity<glm::mat4>();
@@ -141,9 +140,8 @@ void ModelViewProjectionNave(std::array<std::array<glm::vec4, 3>, 7>& Objeto, fl
 	glm::mat4 ModelViewProjection = Projection * ViewMatrix * ModelMatrix;
 
 	for (auto& triangulo : Objeto) {
-		for (auto& vertice : triangulo) {
-			vertice = ModelViewProjection * vertice;
-			vertice = vertice / vertice.w;
+		for (auto& vertex : triangulo) {
+			vertex.Position = ModelViewProjection * vertex.Position;
 		}
 	}
 };

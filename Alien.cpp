@@ -1,12 +1,13 @@
 #include "Alien.h"
 #include "Matrices.h"
+#include "Triangle.h"
 #include <iostream>
 
 Alien::Alien() {}
 
 Alien::Alien(glm::vec4 Centro) {
     this->Centro = Centro;
-    std::array<std::array<glm::vec4, 3>, 18> inimigoModel = this->getAlienModel(); // Modelo Base
+    std::array<std::array<Vertex, 3>, 18> inimigoModel = this->getAlienModel(); // Modelo Base
 
     this->modeloDoInimigo = inimigoModel; // Acopla modelo base
 
@@ -35,7 +36,7 @@ void Alien::ProjetaAlien(float AspectRatio, glm::vec3 Eye, glm::vec3 Center, glm
 }
 
 
-std::array<std::array<glm::vec4, 3>, 18> Alien::getAlienModel() {
+std::array<std::array<Vertex, 3>, 18> Alien::getAlienModel() {
 
     
 
@@ -76,35 +77,136 @@ std::array<std::array<glm::vec4, 3>, 18> Alien::getAlienModel() {
     glm::vec4 BoundingBoxC {  0.11f,    0.06f,  0.0f, 1.0f };
     glm::vec4 BoundingBoxD {  0.11f,  - 0.05f,  0.0f, 1.0f };
 
+    //Cores
+    glm::vec4 Vermelho{ 1.0f, 0.0f, 0.0f, 1.0f };
+    glm::vec4 Verde{ 0.0f, 1.0f, 0.0f, 1.0f };
+    glm::vec4 Azul{ 0.0f, 0.0f, 1.0f, 1.0f };
+    glm::vec4 AntiVermelho{ 0.0f, 1.0f, 1.0f, 1.0f };
+    glm::vec4 AntiVerde{ 1.0f, 0.0f, 1.0f, 1.0f };
+    glm::vec4 AntiAzul{ 1.0f, 1.0f, 0.0f, 1.0f };
 
-    std::array<glm::vec4, 3> Corpo1 = { A, C, D };
-    std::array<glm::vec4, 3> Corpo2 = { A, B, C };
+    glm::vec4 CorCorpo{ 0.73f, 0.54f, 0.75f, 1.0f };
+    glm::vec4 CorBracoEsquerdo{ 0.42f, 0.20f, 0.58f, 1.0f };
+    glm::vec4 CorMaoEsquerda{ 0.41f, 0.05f, 0.69f, 1.0f };
+    glm::vec4 CorCanhaoEsquerdo{ 1.0f, 0.0f, 0.0f, 1.0f };
+    glm::vec4 CorBracoDireito{ 0.42f, 0.20f, 0.58f, 1.0f };
+    glm::vec4 CorMaoDireita{ 0.41f, 0.05f, 0.69f, 1.0f };
+    glm::vec4 CorCanhaoDireito{ 1.0f, 0.0f, 0.0f, 1.0f };
+    glm::vec4 CorMotorEsquerdo{ 1.0f, 0.0f, 0.0f, 1.0f };
+    glm::vec4 CorMotorDireito{ 1.0f, 0.0f, 0.0f, 1.0f };
+    glm::vec4 CorBoundingBox{ 0.0f, 0.0f, 0.0f, 1.0f };
 
-    std::array<glm::vec4, 3> BracoEsquerdo1 = { A, E, F };
-    std::array<glm::vec4, 3> BracoEsquerdo2 = { A, F, G };
 
-    std::array<glm::vec4, 3> MaoEsquerda1 = { H, I, J };
-    std::array<glm::vec4, 3> MaoEsquerda2 = { H, J, F };
+    std::array<Vertex, 3> Corpo1 = {
+    Vertex{A, CorCorpo},
+    Vertex{C, CorCorpo},
+    Vertex{D, CorCorpo}
+    };
 
-    std::array<glm::vec4, 3> CanhaoEsquerdo1 = { K, L, M };
-    std::array<glm::vec4, 3> CanhaoEsquerdo2 = { K, M, J };
+    std::array<Vertex, 3> Corpo2 = {
+        Vertex{A, CorCorpo},
+        Vertex{B, CorCorpo},
+        Vertex{C, CorCorpo}
+    };
 
-    std::array<glm::vec4, 3> BracoDireito1 = { B, O, P };
-    std::array<glm::vec4, 3> BracoDireito2 = { B, N, O };
+    std::array<Vertex, 3> BracoEsquerdo1 = {
+        Vertex{A, CorBracoEsquerdo},
+        Vertex{E, CorBracoEsquerdo},
+        Vertex{F, CorBracoEsquerdo}
+    };
 
-    std::array<glm::vec4, 3> MaoDireita1 = { O, Q, R };
-    std::array<glm::vec4, 3> MaoDireita2 = { O, R, S };
+    std::array<Vertex, 3> BracoEsquerdo2 = {
+        Vertex{A, CorBracoEsquerdo},
+        Vertex{F, CorBracoEsquerdo},
+        Vertex{G, CorBracoEsquerdo}
+    };
 
-    std::array<glm::vec4, 3> CanhaoDireito1 = { Q, T, U };
-    std::array<glm::vec4, 3> CanhaoDireito2 = { Q, U, V };
+    std::array<Vertex, 3> MaoEsquerda1 = {
+        Vertex{H, CorMaoEsquerda},
+        Vertex{I, CorMaoEsquerda},
+        Vertex{J, CorMaoEsquerda}
+    };
 
-    std::array<glm::vec4, 3> MotorEsquerdo = { X, W, Y };
-    std::array<glm::vec4, 3> MotorDireito = { Z, A1, B1 };
+    std::array<Vertex, 3> MaoEsquerda2 = {
+        Vertex{H, CorMaoEsquerda},
+        Vertex{J, CorMaoEsquerda},
+        Vertex{F, CorMaoEsquerda}
+    };
 
-    std::array<glm::vec4, 3> BoudingBox1 = { BoundingBoxA, BoundingBoxB, BoundingBoxC };
-    std::array<glm::vec4, 3> BoudingBox2 = { BoundingBoxA, BoundingBoxC, BoundingBoxD };
+    std::array<Vertex, 3> CanhaoEsquerdo1 = {
+        Vertex{K, CorCanhaoEsquerdo},
+        Vertex{L, CorCanhaoEsquerdo},
+        Vertex{M, CorCanhaoEsquerdo}
+    };
 
-    std::array<std::array<glm::vec4, 3>, 18> alienVertices = {
+    std::array<Vertex, 3> CanhaoEsquerdo2 = {
+        Vertex{K, CorCanhaoEsquerdo},
+        Vertex{M, CorCanhaoEsquerdo},
+        Vertex{J, CorCanhaoEsquerdo}
+    };
+
+    std::array<Vertex, 3> BracoDireito1 = {
+        Vertex{B, CorBracoDireito},
+        Vertex{O, CorBracoDireito},
+        Vertex{P, CorBracoDireito}
+    };
+
+    std::array<Vertex, 3> BracoDireito2 = {
+        Vertex{B, CorBracoDireito},
+        Vertex{N, CorBracoDireito},
+        Vertex{O, CorBracoDireito}
+    };
+
+    std::array<Vertex, 3> MaoDireita1 = {
+        Vertex{O, CorMaoDireita},
+        Vertex{Q, CorMaoDireita},
+        Vertex{R, CorMaoDireita}
+    };
+
+    std::array<Vertex, 3> MaoDireita2 = {
+        Vertex{O, CorMaoDireita},
+        Vertex{R, CorMaoDireita},
+        Vertex{S, CorMaoDireita}
+    };
+
+    std::array<Vertex, 3> CanhaoDireito1 = {
+        Vertex{Q, CorCanhaoDireito},
+        Vertex{T, CorCanhaoDireito},
+        Vertex{U, CorCanhaoDireito}
+    };
+
+    std::array<Vertex, 3> CanhaoDireito2 = {
+        Vertex{Q, CorCanhaoDireito},
+        Vertex{U, CorCanhaoDireito},
+        Vertex{V, CorCanhaoDireito}
+    };
+
+    std::array<Vertex, 3> MotorEsquerdo = {
+        Vertex{X, CorMotorEsquerdo},
+        Vertex{W, CorMotorEsquerdo},
+        Vertex{Y, CorMotorEsquerdo}
+    };
+
+    std::array<Vertex, 3> MotorDireito = {
+        Vertex{Z, CorMotorDireito},
+        Vertex{A1, CorMotorDireito},
+        Vertex{B1, CorMotorDireito}
+    };
+
+    std::array<Vertex, 3> BoudingBox1 = {
+        Vertex{BoundingBoxA, CorBoundingBox},
+        Vertex{BoundingBoxB, CorBoundingBox},
+        Vertex{BoundingBoxC, CorBoundingBox}
+    };
+
+    std::array<Vertex, 3> BoudingBox2 = {
+        Vertex{BoundingBoxA, CorBoundingBox},
+        Vertex{BoundingBoxC, CorBoundingBox},
+        Vertex{BoundingBoxD, CorBoundingBox}
+    };
+
+
+    std::array<std::array<Vertex, 3>, 18> alienVertices = {
         // Corpo
         Corpo1, Corpo2,
 
