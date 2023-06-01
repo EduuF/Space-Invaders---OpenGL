@@ -211,7 +211,7 @@ int main() {
 	glBufferData(GL_ARRAY_BUFFER, sizeof(bufferData), bufferData.data(), GL_STATIC_DRAW);
 
 	// Definir cor de fundo da janela
-	glClearColor(0.01f, 0.0f, 0.06f, 1.0f); // Azul escuro
+	glClearColor(0.95f, 0.70f, 0.90f, 1.0f); // Azul escuro
 
 	// Loop de eventos da aplicação
 	while (!glfwWindowShouldClose(Window)){
@@ -229,6 +229,7 @@ int main() {
 
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
+		glEnableVertexAttribArray(2);
 
 		// Diz ao OpenGL que o VertexBuffer vai ser o buffer ativo no momento
 		glBindBuffer(GL_ARRAY_BUFFER, VertexBuffer);
@@ -236,7 +237,8 @@ int main() {
 		// Informa ao OpenGL onde, dentro do vertexBuffer, os vértices estão. 
 		// No caso o array Triangles é contíguo na memória, então basta dizer quantos vértices vamos usar para desenhar o triangulo
 		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), nullptr); // 4 = cada vértice é representado por 4 valores de ponto flutuante
-		glVertexAttribPointer(1, 4, GL_FLOAT, GL_TRUE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, Color))); // 4 = cada vértice é representado por 4 valores de ponto flutuante
+		glVertexAttribPointer(1, 4, GL_FLOAT, GL_TRUE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, Color)));
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_TRUE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, UV)));
 
 		// Desenha a nave
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -262,6 +264,7 @@ int main() {
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
+		glDisableVertexAttribArray(2);
 
 		// Desabilitar o programa ativo
 		glUseProgram(0);
