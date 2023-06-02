@@ -13,10 +13,10 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <array>
 
-
-
 const int Width = 800;
 const int Height = 800;
+const float Speed = 1.0f;
+const float Sensitivity = 0.1f;
 
 std::string ReadFile(const char* FilePath) {
 
@@ -123,14 +123,81 @@ GLuint LoadShaders(const char* VertexShaderFile, const char* FragmnetShaderFile)
 //};
 
 
-int main() {
+class FlyCamera {
+public:
 
+	void MoveFoward(float Amount) {
+		Location += glm::normalize(Direction) * Amount * Speed;
+	}
+
+	void MoveRight(float Amount) {
+		glm::vec3 Right = glm::normalize(glm::cross(Direction, Up));
+		Location += Right * Amount * Speed;
+	}
+
+
+	glm::mat4 GetViewProjection() const {
+		glm::mat4 View = glm::lookAt(Location, Location + Direction, Up);
+		glm::mat4 Projection = glm::perspective(FieldOfView, AspectRatio, Near, Far);
+		return Projection * View;
+	}
+
+	// Definição da Matriz de View
+	glm::vec3 Location{ 0.0f, 0.0f, 5.0f };
+	glm::vec3 Direction{ 0.0f, 0.0f, -1.0f };
+	glm::vec3 Up{ 0.0f, 1.0f, 0.0f };
+
+	// Definição da Matriz Projection
+	float FieldOfView = glm::radians(45.0f);
+	float AspectRatio = Width / Height;
+	float Near = 0.01f;
+	float Far = 1000.0f;
+};
+
+// Declara um objeto camera globalmente
+FlyCamera Camera;
+bool bEnableMouseMovement = false;
+glm::vec2 PreviousCursor(0.0, 0.0);
+
+void MouseButtonCallback(GLFWwindow* Window, int Button, int Action, int Modifiers) {
+	std::cout << "Button: " << Button << " Action: " << Action << " Modifiers: " << Modifiers << std::endl;
+
+	if (Button == GLFW_MOUSE_BUTTON_LEFT) {
+		if (Action == GLFW_PRESS) {
+
+			double X, Y;
+			glfwGetCursorPos(Window, &X, &Y);
+			PreviousCursor = glm::vec2{ X, Y };
+			bEnableMouseMovement = true;
+		}
+		if (Action == GLFW_RELEASE) {
+			bEnableMouseMovement = false;
+		}
+	}
+}
+
+void MouseMotionCallback(GLFWwindow* Window, double X, double Y) {
+	if (bEnableMouseMovement) {
+		glm::vec2 CurrentCursor(X, Y);
+		glm::vec2 DeltaCursor = CurrentCursor - PreviousCursor;
+
+		PreviousCursor = CurrentCursor;
+		std::cout << "DeltaCursor: " << glm::to_string(DeltaCursor) << std::endl;
+	}
+}
+
+int main() {
+	 
 
 	// Inicializa GLFW
 	glfwInit();
 
 	// Criar uma janela
 	GLFWwindow* Window = glfwCreateWindow(Width, Height, "Space Invaders - CG 2023/1 - Aluno: Eduardo Fiuza - Professor: Renato Ferreira", nullptr, nullptr);
+
+	// Cadastrar as callbacks no GLFW
+	glfwSetMouseButtonCallback(Window, MouseButtonCallback);
+	glfwSetCursorPosCallback(Window, MouseMotionCallback);
 
 	// Torna a janela a atual para renderização OpenGL
 	glfwMakeContextCurrent(Window);
@@ -156,7 +223,7 @@ int main() {
 
 	// Cria uma nave
 	Nave nave1 = Nave(glm::vec4{0.0f, 0.0f, 0.0f, 1.0f}); // A quarta dimensão deve ser 1.0f pois é um ponto
-	glm::vec3 fatorDeEscalaNave{ 1.0f, 3.0f, 0.0f };
+	glm::vec3 fatorDeEscalaNave{ 2.0f, 6.0f, 0.0f };
 	nave1.ajustaEscalaDaNave(fatorDeEscalaNave);
 	glm::vec3 fatorDeTranslacaoNave{ -0.5f, -0.5f, 0.0f };
 	nave1.transladaANave(fatorDeTranslacaoNave);
@@ -173,15 +240,8 @@ int main() {
 	float angleRotacaoAlien = 45;
 	TodosAliens[0].rotacionaOAlien(angleRotacaoAlien);
 
-	// Controla a camera MODELVIEWPROJECTION
-	glm::vec3 Eye{0,0,4};
-	glm::vec3 Center{0,0,0};
-	glm::vec3 Up{0,1,0};
-	float FoVAngle = 45.0f;
-	float AspectRatio = Width / Height;
-
-	glm::mat4 MVP = ModelViewProjection(AspectRatio, Eye, Center, Up, FoVAngle);
-
+	// Model Matrix
+	glm::mat4 ModelMatrix = glm::identity<glm::mat4>();
 
 	// Copiar os vértices do triangulo para a memória da GPU
 	GLuint VertexBuffer;
@@ -211,10 +271,25 @@ int main() {
 	glBufferData(GL_ARRAY_BUFFER, sizeof(bufferData), bufferData.data(), GL_STATIC_DRAW);
 
 	// Definir cor de fundo da janela
-	glClearColor(0.95f, 0.70f, 0.90f, 1.0f); // Azul escuro
+	glClearColor(0.99f, 0.85f, 0.98f, 1.0f); // Azul escuro
+
+	// Guarda o tempo do frame anterior
+	double PreviousTime = glfwGetTime();
+
+	// Rendeiza apenas a face da frente
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
 
 	// Loop de eventos da aplicação
 	while (!glfwWindowShouldClose(Window)){
+
+		// Calcula o tempo dos frames
+		double CurrentTime = glfwGetTime();
+		double DeltaTime = CurrentTime - PreviousTime;
+
+		if (DeltaTime > 0.0) {
+			PreviousTime = CurrentTime;
+		}
 
 		// Limpa o framebuffer. GL_COLOR_BUFFER_BIT limpa o buffer de cor e preenche com a cor definida em "glClearColor"
 		// Para desenharmos objetos 3D na tela teremos que voltar ao glClear para limparmos o buffer de profundidade
@@ -223,9 +298,13 @@ int main() {
 		// Ativar o programa de Shader
 		glUseProgram(ProgramId);
 
+		glm::mat4 ViewProjectionMatrix = Camera.GetViewProjection();
+
+		glm::mat4 ModelViewProjection = ViewProjectionMatrix * ModelMatrix;
+
 		// Aloca cálculo da ModelViewProjection de cada vértice para a GPU
 		GLint ModelViewProjectionLoc = glGetUniformLocation(ProgramId, "ModelViewProjection");
-		glUniformMatrix4fv(ModelViewProjectionLoc, 1, GL_FALSE, glm::value_ptr(MVP));
+		glUniformMatrix4fv(ModelViewProjectionLoc, 1, GL_FALSE, glm::value_ptr(ModelViewProjection));
 
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
@@ -258,7 +337,6 @@ int main() {
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 			glDrawArrays(GL_TRIANGLES, (tamanhoDaNave + (tamanhoDoAlien * (i+1)) - 2) * 3, 6);
 		}
-		
 
 		// Reverte o estado que nós criamos
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -275,6 +353,23 @@ int main() {
 
 		// Envia o conteúdo do framebuffer da janela para ser desenhado na tela
 		glfwSwapBuffers(Window);
+
+		// Processa os inputs do teclado
+		if (glfwGetKey(Window, GLFW_KEY_W) == GLFW_PRESS) {
+			Camera.MoveFoward(1.0f * DeltaTime);
+		}
+
+		if (glfwGetKey(Window, GLFW_KEY_S) == GLFW_PRESS) {
+			Camera.MoveFoward(-1.0f * DeltaTime);
+		}
+
+		if (glfwGetKey(Window, GLFW_KEY_D) == GLFW_PRESS) {
+			Camera.MoveRight(1.0f * DeltaTime);
+		}
+
+		if (glfwGetKey(Window, GLFW_KEY_A) == GLFW_PRESS) {
+			Camera.MoveRight(-1.0f * DeltaTime);
+		}
 	}
 
 	// Desalocar o VertexBuffer

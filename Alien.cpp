@@ -93,111 +93,111 @@ std::array<std::array<Vertex, 3>, 18> Alien::getAlienModel() {
 
 
     std::array<Vertex, 3> Corpo1 = {
-    Vertex{A, CorCorpo},
-    Vertex{C, CorCorpo},
-    Vertex{D, CorCorpo}
+        Vertex{A, CorCorpo},
+        Vertex{D, CorCorpo},
+        Vertex{C, CorCorpo}
     };
 
     std::array<Vertex, 3> Corpo2 = {
         Vertex{A, CorCorpo},
-        Vertex{B, CorCorpo},
-        Vertex{C, CorCorpo}
+        Vertex{C, CorCorpo},
+        Vertex{B, CorCorpo}
     };
 
     std::array<Vertex, 3> BracoEsquerdo1 = {
         Vertex{A, CorBracoEsquerdo},
-        Vertex{E, CorBracoEsquerdo},
-        Vertex{F, CorBracoEsquerdo}
+        Vertex{F, CorBracoEsquerdo},
+        Vertex{E, CorBracoEsquerdo}
     };
 
     std::array<Vertex, 3> BracoEsquerdo2 = {
         Vertex{A, CorBracoEsquerdo},
-        Vertex{F, CorBracoEsquerdo},
-        Vertex{G, CorBracoEsquerdo}
+        Vertex{G, CorBracoEsquerdo},
+        Vertex{F, CorBracoEsquerdo}
     };
 
     std::array<Vertex, 3> MaoEsquerda1 = {
         Vertex{H, CorMaoEsquerda},
-        Vertex{I, CorMaoEsquerda},
-        Vertex{J, CorMaoEsquerda}
+        Vertex{J, CorMaoEsquerda},
+        Vertex{I, CorMaoEsquerda}
     };
 
     std::array<Vertex, 3> MaoEsquerda2 = {
         Vertex{H, CorMaoEsquerda},
-        Vertex{J, CorMaoEsquerda},
-        Vertex{F, CorMaoEsquerda}
+        Vertex{F, CorMaoEsquerda},
+        Vertex{J, CorMaoEsquerda}
     };
 
     std::array<Vertex, 3> CanhaoEsquerdo1 = {
         Vertex{K, CorCanhaoEsquerdo},
-        Vertex{L, CorCanhaoEsquerdo},
-        Vertex{M, CorCanhaoEsquerdo}
+        Vertex{M, CorCanhaoEsquerdo},
+        Vertex{L, CorCanhaoEsquerdo}
     };
 
     std::array<Vertex, 3> CanhaoEsquerdo2 = {
         Vertex{K, CorCanhaoEsquerdo},
-        Vertex{M, CorCanhaoEsquerdo},
-        Vertex{J, CorCanhaoEsquerdo}
+        Vertex{J, CorCanhaoEsquerdo},
+        Vertex{M, CorCanhaoEsquerdo}
     };
 
     std::array<Vertex, 3> BracoDireito1 = {
         Vertex{B, CorBracoDireito},
-        Vertex{O, CorBracoDireito},
-        Vertex{P, CorBracoDireito}
+        Vertex{P, CorBracoDireito},
+        Vertex{O, CorBracoDireito}
     };
 
     std::array<Vertex, 3> BracoDireito2 = {
         Vertex{B, CorBracoDireito},
-        Vertex{N, CorBracoDireito},
-        Vertex{O, CorBracoDireito}
+        Vertex{O, CorBracoDireito},
+        Vertex{N, CorBracoDireito}
     };
 
     std::array<Vertex, 3> MaoDireita1 = {
         Vertex{O, CorMaoDireita},
-        Vertex{Q, CorMaoDireita},
-        Vertex{R, CorMaoDireita}
+        Vertex{R, CorMaoDireita},
+        Vertex{Q, CorMaoDireita}
     };
 
     std::array<Vertex, 3> MaoDireita2 = {
         Vertex{O, CorMaoDireita},
-        Vertex{R, CorMaoDireita},
-        Vertex{S, CorMaoDireita}
+        Vertex{S, CorMaoDireita},
+        Vertex{R, CorMaoDireita}
     };
 
     std::array<Vertex, 3> CanhaoDireito1 = {
         Vertex{Q, CorCanhaoDireito},
-        Vertex{T, CorCanhaoDireito},
-        Vertex{U, CorCanhaoDireito}
+        Vertex{U, CorCanhaoDireito},
+        Vertex{T, CorCanhaoDireito}
     };
 
     std::array<Vertex, 3> CanhaoDireito2 = {
         Vertex{Q, CorCanhaoDireito},
-        Vertex{U, CorCanhaoDireito},
-        Vertex{V, CorCanhaoDireito}
+        Vertex{V, CorCanhaoDireito},
+        Vertex{U, CorCanhaoDireito}
     };
 
     std::array<Vertex, 3> MotorEsquerdo = {
         Vertex{X, CorMotorEsquerdo},
-        Vertex{W, CorMotorEsquerdo},
-        Vertex{Y, CorMotorEsquerdo}
+        Vertex{Y, CorMotorEsquerdo},
+        Vertex{W, CorMotorEsquerdo}
     };
 
     std::array<Vertex, 3> MotorDireito = {
         Vertex{Z, CorMotorDireito},
-        Vertex{A1, CorMotorDireito},
-        Vertex{B1, CorMotorDireito}
+        Vertex{B1, CorMotorDireito},
+        Vertex{A1, CorMotorDireito}
     };
 
     std::array<Vertex, 3> BoudingBox1 = {
         Vertex{BoundingBoxA, CorBoundingBox},
-        Vertex{BoundingBoxB, CorBoundingBox},
-        Vertex{BoundingBoxC, CorBoundingBox}
+        Vertex{BoundingBoxC, CorBoundingBox},
+        Vertex{BoundingBoxB, CorBoundingBox}
     };
 
     std::array<Vertex, 3> BoudingBox2 = {
         Vertex{BoundingBoxA, CorBoundingBox},
-        Vertex{BoundingBoxC, CorBoundingBox},
-        Vertex{BoundingBoxD, CorBoundingBox}
+        Vertex{BoundingBoxD, CorBoundingBox},
+        Vertex{BoundingBoxC, CorBoundingBox}
     };
 
 

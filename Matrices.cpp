@@ -92,21 +92,3 @@ void TranslationMatrixNave(std::array<std::array<Vertex, 3>, 7>& Objeto, glm::ve
 		}
 	}
 }
-
-glm::mat4 ModelViewProjection(float AspectRatio, glm::vec3 Eye, glm::vec3 Center, glm::vec3 Up, float FoVAngle) {
-	// Model vai ser a matriz formada pelas transformações de translação,
-	// rotação e escala. Uma matriz composta
-	glm::mat4 ModelMatrix = glm::identity<glm::mat4>();
-
-	//View
-	glm::mat4 ViewMatrix = glm::lookAt(Eye, Center, Up);
-
-	float FoV = glm::radians(FoVAngle);
-	//float AspectRatio = 800.0f / 800.0f;
-	float Near = 0.001f;
-	float Far = 1000.0f;
-	glm::mat4 Projection = glm::perspective(FoV, AspectRatio, Near, Far);
-
-	glm::mat4 ModelViewProjection = Projection * ViewMatrix * ModelMatrix;
-	return ModelViewProjection;
-};

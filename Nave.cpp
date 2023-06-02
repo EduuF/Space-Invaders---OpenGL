@@ -77,38 +77,38 @@ std::array<std::array<Vertex, 3>, 7> Nave::getNaveModel() {
 
     std::array<Vertex, 3> Corpo = { 
         Vertex{A, CorCorpo, {0.0f, 0.0f}},
-        Vertex{B, CorCorpo, {1.0f, 0.0f}},
-        Vertex{C, CorCorpo, {1.0f, 1.0f}} };
+        Vertex{C, AntiVerde, {1.0f, 0.0f}},
+        Vertex{B, CorCorpo, {1.0f, 1.0f}} };
 
     std::array<Vertex, 3> CanhaoEsquerdo = { 
         Vertex{A, AntiVermelho}, 
-        Vertex{D, AntiVerde}, 
-        Vertex{E, AntiAzul} };
+        Vertex{E, AntiVerde}, 
+        Vertex{D, AntiAzul} };
 
     std::array<Vertex, 3> CanhaoDireito = { 
         Vertex{C, AntiAzul}, 
-        Vertex{F, AntiVermelho}, 
-        Vertex{G, AntiVerde} };
+        Vertex{G, AntiVermelho}, 
+        Vertex{F, AntiVerde} };
 
     std::array<Vertex, 3> MotorEsquerdo = { 
         Vertex{A, CorMotorEsquerdo}, 
-        Vertex{H, CorMotorEsquerdo}, 
-        Vertex{I, CorMotorEsquerdo} };
+        Vertex{I, CorMotorEsquerdo}, 
+        Vertex{H, CorMotorEsquerdo} };
 
     std::array<Vertex, 3> MotorDireito = { 
         Vertex{C, CorMotorDireito}, 
-        Vertex{J, CorMotorDireito}, 
-        Vertex{K, CorMotorDireito} };
+        Vertex{K, CorMotorDireito}, 
+        Vertex{J, CorMotorDireito} };
 
     std::array<Vertex, 3> BoudingBox1 = { 
         Vertex{BoundingBoxA, CorBoudingBox}, 
-        Vertex{BoundingBoxB, CorBoudingBox}, 
-        Vertex{BoundingBoxC, CorBoudingBox} };
+        Vertex{BoundingBoxC, CorBoudingBox}, 
+        Vertex{BoundingBoxB, CorBoudingBox} };
 
     std::array<Vertex, 3> BoudingBox2 = { 
         Vertex{BoundingBoxA, CorBoudingBox}, 
-        Vertex{BoundingBoxC, CorBoudingBox}, 
-        Vertex{BoundingBoxD, CorBoudingBox} };
+        Vertex{BoundingBoxD, CorBoudingBox}, 
+        Vertex{BoundingBoxC, CorBoudingBox} };
 
 
     std::array<std::array<Vertex, 3>, 7> NaveVertices = {
