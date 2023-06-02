@@ -17,4 +17,6 @@ public:
 
     std::array<std::array<Vertex, 3>, 7> getNaveModel();
 
+    void MoveRight(float Amount);
+
 };

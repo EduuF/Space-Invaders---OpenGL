@@ -134,3 +134,7 @@ std::array<std::array<Vertex, 3>, 7> Nave::getNaveModel() {
     return NaveVertices;
 }
 
+void Nave::MoveRight(float Amount) {
+    this->rotacionaANave(Amount);
+}
+

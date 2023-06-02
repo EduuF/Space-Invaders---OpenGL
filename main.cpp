@@ -364,11 +364,13 @@ int main() {
 		}
 
 		if (glfwGetKey(Window, GLFW_KEY_D) == GLFW_PRESS) {
-			Camera.MoveRight(1.0f * DeltaTime);
+			nave1.MoveRight(100.0f * DeltaTime);
+			std::cout << nave1.modeloDaNave[0][0].Position.x << std::endl;
 		}
 
 		if (glfwGetKey(Window, GLFW_KEY_A) == GLFW_PRESS) {
-			Camera.MoveRight(-1.0f * DeltaTime);
+			nave1.MoveRight(-100.0f * DeltaTime);
+			std::cout << nave1.modeloDaNave[0][0].Position.x << std::endl;
 		}
 	}
 
