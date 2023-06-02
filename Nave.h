@@ -2,10 +2,15 @@
 #include <glm/gtx/string_cast.hpp>
 #include <array>
 #include "Triangle.h"
+#include "Missil.h"
 
 class Nave {
 public:
     glm::vec4 NaveCentro;
+    glm::vec4 NaveUp;
+    glm::vec3 escala;
+
+    bool CanhaoDireitoAtira;
 
 	Nave(glm::vec4 NaveCentro);
 
@@ -18,5 +23,6 @@ public:
     std::array<std::array<Vertex, 3>, 7> getNaveModel();
 
     void MoveRight(float Amount);
+    Missil Atira(float velocidade);
 
 };

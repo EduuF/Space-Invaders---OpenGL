@@ -48,6 +48,9 @@
     <ClCompile Include="VAO.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
+    <ClCompile Include="Missil.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Vectors.h">
@@ -75,6 +78,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="VAO.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Missil.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

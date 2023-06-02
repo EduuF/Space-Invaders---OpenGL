@@ -10,15 +10,22 @@ Nave::Nave(glm::vec4 NaveCentro) {
 
     this->modeloDaNave = NaveModel; // Acopla modelo base
 
+    // Encontra o UP da nave
+    this->NaveUp = glm::vec4{ 0.0f, 1.0f, 0.0f, 0.0f };
+
     // Altera os vértices da nave
     glm::vec4 Origem = { 0.0f, 0.0f, 0.0f, 1.0f };
     TranslationMatrixNave(this->modeloDaNave, Origem, this->NaveCentro);
+
+    this->escala = glm::vec3{ 1.0f, 1.0f, 1.0f };
+    this->CanhaoDireitoAtira = false;
 }
 
 void Nave::ajustaEscalaDaNave(glm::vec3 FatorDeEscala) {
     for (auto& parte : this->modeloDaNave) { // Para cada triangulo do objeto
         ScaleMatrix(parte, FatorDeEscala, this->NaveCentro); // Escala o triangulo
     }
+    this->escala = FatorDeEscala;
 }
 
 void Nave::transladaANave(glm::vec3 fatorDeTranslacao) {
@@ -26,7 +33,7 @@ void Nave::transladaANave(glm::vec3 fatorDeTranslacao) {
 }
 
 void Nave::rotacionaANave(float graus) {
-    RotationMatrixNave(this->modeloDaNave, graus, this->NaveCentro); // Rotaciona o triangulo em relação ao centro do OBJ
+    RotationMatrixNave(this->modeloDaNave, graus, this->NaveCentro, this->NaveUp); // Rotaciona o OBJ em relação a seu centro
 }
 
 
@@ -136,5 +143,20 @@ std::array<std::array<Vertex, 3>, 7> Nave::getNaveModel() {
 
 void Nave::MoveRight(float Amount) {
     this->rotacionaANave(Amount);
+}
+
+Missil Nave::Atira(float velocidade) {
+
+    if (this->CanhaoDireitoAtira) {
+
+        Missil missil(this->modeloDaNave[2][1].Position, this->NaveUp, velocidade);
+        this->CanhaoDireitoAtira = false;
+        return missil;
+    }
+    else {
+        Missil missil(this->modeloDaNave[1][1].Position, this->NaveUp, velocidade);
+        this->CanhaoDireitoAtira = true;
+        return missil;
+    }
 }
 

@@ -3,6 +3,7 @@
 #include "Alien.h"
 #include "Matrices.h"
 #include "Triangle.h"
+#include "Missil.h"
 
 #include <iostream>
 #include <fstream>
@@ -117,11 +118,6 @@ GLuint LoadShaders(const char* VertexShaderFile, const char* FragmnetShaderFile)
 	return ProgramId;
 }
 
-//struct Vertex {
-//	glm::vec4 Position;
-//	glm::vec4 Color;
-//};
-
 
 class FlyCamera {
 public:
@@ -156,12 +152,13 @@ public:
 
 // Declara um objeto camera globalmente
 FlyCamera Camera;
-bool bEnableMouseMovement = false;
+//bool bEnableMouseMovement = false;
 glm::vec2 PreviousCursor(0.0, 0.0);
 
 void MouseButtonCallback(GLFWwindow* Window, int Button, int Action, int Modifiers) {
 	std::cout << "Button: " << Button << " Action: " << Action << " Modifiers: " << Modifiers << std::endl;
 
+	/*
 	if (Button == GLFW_MOUSE_BUTTON_LEFT) {
 		if (Action == GLFW_PRESS) {
 
@@ -174,9 +171,22 @@ void MouseButtonCallback(GLFWwindow* Window, int Button, int Action, int Modifie
 			bEnableMouseMovement = false;
 		}
 	}
+	*/
+
+	if (Button == GLFW_MOUSE_BUTTON_LEFT) {
+		if (Action == GLFW_PRESS) {
+
+			double X, Y;
+			glfwGetCursorPos(Window, &X, &Y);
+			PreviousCursor = glm::vec2{ X, Y };
+		}
+		if (Action == GLFW_RELEASE) {
+		}
+	}
 }
 
 void MouseMotionCallback(GLFWwindow* Window, double X, double Y) {
+	/*
 	if (bEnableMouseMovement) {
 		glm::vec2 CurrentCursor(X, Y);
 		glm::vec2 DeltaCursor = CurrentCursor - PreviousCursor;
@@ -184,16 +194,41 @@ void MouseMotionCallback(GLFWwindow* Window, double X, double Y) {
 		PreviousCursor = CurrentCursor;
 		std::cout << "DeltaCursor: " << glm::to_string(DeltaCursor) << std::endl;
 	}
+	*/
+	glm::vec2 CurrentCursor(X, Y);
+
+	PreviousCursor = CurrentCursor;
+	//std::cout << "X: " << X << " Y: " << Y << std::endl;
+}
+
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+	glViewport(0, 0, width, height);
+}
+
+glm::vec3 MoveNave(double MouseXPos, glm::vec4 navePos) {
+	float alfa = 0.035;
+	MouseXPos = ((MouseXPos / Width) - 0.5f) * 4;
+	float realSpeed = (MouseXPos - navePos.x) * alfa ;
+	glm::vec3 fatorDeTransalacao{ realSpeed , 0.0f, 0.0f};
+
+	return fatorDeTransalacao;
+
 }
 
 int main() {
 	 
-
 	// Inicializa GLFW
 	glfwInit();
 
 	// Criar uma janela
 	GLFWwindow* Window = glfwCreateWindow(Width, Height, "Space Invaders - CG 2023/1 - Aluno: Eduardo Fiuza - Professor: Renato Ferreira", nullptr, nullptr);
+
+	// Cria o Viewport
+	//glViewport(0, 0, Width, Height);
+
+	// Ajusta o Viewport dependendo se o usuário aumentou ou diminui a tela
+	//glfwSetFramebufferSizeCallback(Window, framebuffer_size_callback);
 
 	// Cadastrar as callbacks no GLFW
 	glfwSetMouseButtonCallback(Window, MouseButtonCallback);
@@ -228,7 +263,7 @@ int main() {
 	glm::vec3 fatorDeTranslacaoNave{ -0.5f, -0.5f, 0.0f };
 	nave1.transladaANave(fatorDeTranslacaoNave);
 	float angleRotacaoNave = -30;
-	nave1.rotacionaANave(angleRotacaoNave);
+	//nave1.rotacionaANave(angleRotacaoNave);
 
 	// Cria inimigos
 	std::array<Alien, 3> TodosAliens;
@@ -237,38 +272,19 @@ int main() {
 	}
 	glm::vec3 fatorDeTranslacaoAlien{ 0.8,0.4,0.0 };
 	TodosAliens[0].transladaOAlien(fatorDeTranslacaoAlien);
+	TodosAliens[1].transladaOAlien(fatorDeTranslacaoAlien);
 	float angleRotacaoAlien = 45;
-	TodosAliens[0].rotacionaOAlien(angleRotacaoAlien);
+	//TodosAliens[0].rotacionaOAlien(angleRotacaoAlien);
 
-	// Model Matrix
-	glm::mat4 ModelMatrix = glm::identity<glm::mat4>();
+	// Guarda os Misseis
+	std::array<Missil, 100> TodosMisseis;
+	GLuint contadorDeMisseis = 0;
 
 	// Copiar os vértices do triangulo para a memória da GPU
 	GLuint VertexBuffer;
 
 	// Pedir para o OpenGL gerar o identificador do VertexBuffer
 	glGenBuffers(1, &VertexBuffer);
-
-	// Ativar o VertexBuffer como sendo o Buffer para onde vamos copiar os dados do triangulo
-	glBindBuffer(GL_ARRAY_BUFFER, VertexBuffer);
-
-	// Copiar os dados dos triangulos para a memória de vídeo
-	// Carregue os dados de todos os triângulos no buffer da GPU.
-	// (Buffer ativado, quantos bytes serão copiados, ponteiro para os dados, tipo de uso do buffer)
-	const int tamanhoDaNave = 7; // A quantidade de triangulos na nave
-	const int tamanhoDoAlien =  18; // A quantidade de triangulos do Alien
-
-	std::array<std::array<Vertex, 3>, tamanhoDaNave+tamanhoDoAlien*3> bufferData; // Cria um vetor de triangulos
-	std::copy(nave1.modeloDaNave.begin(), nave1.modeloDaNave.end(), bufferData.begin()); // Copia todos os triangulos da nave para o bufferData
-	int i = 1;
-	for (int i = 0; i < 3; i++) {
-		std::copy(TodosAliens[i].modeloDoInimigo.begin(), TodosAliens[i].modeloDoInimigo.end(), bufferData.begin() + tamanhoDaNave + (i * tamanhoDoAlien)); // Copia todos os triangulos do Alien para o bufferData
-	}
-	
-	// Copiar os dados dos triângulos para a memória de vídeo
-	// Carregue os dados de todos os triângulos no buffer da GPU.
-	// (Buffer ativado, quantos bytes serão copiados, ponteiro para os dados, tipo de uso do buffer)
-	glBufferData(GL_ARRAY_BUFFER, sizeof(bufferData), bufferData.data(), GL_STATIC_DRAW);
 
 	// Definir cor de fundo da janela
 	glClearColor(0.99f, 0.85f, 0.98f, 1.0f); // Azul escuro
@@ -291,12 +307,41 @@ int main() {
 			PreviousTime = CurrentTime;
 		}
 
+		// Model Matrix
+		glm::mat4 ModelMatrix = glm::identity<glm::mat4>();
+
+		// Ativar o VertexBuffer como sendo o Buffer para onde vamos copiar os dados do triangulo
+		glBindBuffer(GL_ARRAY_BUFFER, VertexBuffer);
+
+		// Copiar os dados dos triangulos para a memória de vídeo
+		// Carregue os dados de todos os triângulos no buffer da GPU.
+		// (Buffer ativado, quantos bytes serão copiados, ponteiro para os dados, tipo de uso do buffer)
+		const int tamanhoDaNave = 7; // A quantidade de triangulos na nave
+		const int tamanhoDoAlien = 18; // A quantidade de triangulos do Alien
+		const int tamanhoDoMissil = 4;
+
+		std::array<std::array<Vertex, 3>, tamanhoDaNave + tamanhoDoAlien * 3 + tamanhoDoMissil * (TodosMisseis.size())> bufferData; // Cria um vetor de triangulos
+		std::copy(nave1.modeloDaNave.begin(), nave1.modeloDaNave.end(), bufferData.begin()); // Copia todos os triangulos da nave para o bufferData
+		int i = 1;
+		for (int i = 0; i < 3; i++) {
+			std::copy(TodosAliens[i].modeloDoInimigo.begin(), TodosAliens[i].modeloDoInimigo.end(), bufferData.begin() + tamanhoDaNave + (i * tamanhoDoAlien)); // Copia todos os triangulos do Alien para o bufferData
+		}
+		for (int i = 0; i < TodosMisseis.size(); i++) {
+			std::copy(TodosMisseis[i].modelo.begin(), TodosMisseis[i].modelo.end(), bufferData.begin() + tamanhoDaNave + (TodosAliens.size() * tamanhoDoAlien) + (i * tamanhoDoMissil));
+		}
+
+		// Copiar os dados dos triângulos para a memória de vídeo
+		// Carregue os dados de todos os triângulos no buffer da GPU.
+		// (Buffer ativado, quantos bytes serão copiados, ponteiro para os dados, tipo de uso do buffer)
+		glBufferData(GL_ARRAY_BUFFER, sizeof(bufferData), bufferData.data(), GL_STATIC_DRAW);
+
 		// Limpa o framebuffer. GL_COLOR_BUFFER_BIT limpa o buffer de cor e preenche com a cor definida em "glClearColor"
 		// Para desenharmos objetos 3D na tela teremos que voltar ao glClear para limparmos o buffer de profundidade
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		// Ativar o programa de Shader
 		glUseProgram(ProgramId);
+
 
 		glm::mat4 ViewProjectionMatrix = Camera.GetViewProjection();
 
@@ -354,9 +399,23 @@ int main() {
 		// Envia o conteúdo do framebuffer da janela para ser desenhado na tela
 		glfwSwapBuffers(Window);
 
+		glm::vec4 naveXPos = nave1.NaveCentro;
+		double X, Y;
+		glfwGetCursorPos(Window, &X, &Y);
+		nave1.transladaANave(MoveNave(X, naveXPos));
+		
 		// Processa os inputs do teclado
 		if (glfwGetKey(Window, GLFW_KEY_W) == GLFW_PRESS) {
-			Camera.MoveFoward(1.0f * DeltaTime);
+			float velocidade = 0.01f * DeltaTime;
+			Missil missil = nave1.Atira(velocidade);
+			GLuint posicaoDoMissel = contadorDeMisseis % 100;
+			TodosMisseis[posicaoDoMissel] = missil;
+			contadorDeMisseis = posicaoDoMissel + 1;
+
+			for (i = 0; i < 20; i++) {
+				std::cout << "Missil nº: " << i << " | "  << glm::to_string(TodosMisseis[i].Centro) << std::endl;
+			}
+			
 		}
 
 		if (glfwGetKey(Window, GLFW_KEY_S) == GLFW_PRESS) {
@@ -364,18 +423,24 @@ int main() {
 		}
 
 		if (glfwGetKey(Window, GLFW_KEY_D) == GLFW_PRESS) {
-			nave1.MoveRight(100.0f * DeltaTime);
+			nave1.MoveRight(-150.0f * DeltaTime);
 			std::cout << nave1.modeloDaNave[0][0].Position.x << std::endl;
 		}
 
 		if (glfwGetKey(Window, GLFW_KEY_A) == GLFW_PRESS) {
-			nave1.MoveRight(-100.0f * DeltaTime);
+			nave1.MoveRight(150.0f * DeltaTime);
 			std::cout << nave1.modeloDaNave[0][0].Position.x << std::endl;
 		}
-	}
 
+		for (int i = 0; i < TodosMisseis.size(); i++) {
+			TodosMisseis[i].moveFoward();
+
+		}
+	}
 	// Desalocar o VertexBuffer
 	glDeleteBuffers(1, &VertexBuffer);
+
+	
 
 	// Encerra GLFW
 	glfwTerminate();

@@ -153,6 +153,7 @@
     <ClCompile Include="glad.c" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Matrices.cpp" />
+    <ClCompile Include="Missil.cpp" />
     <ClCompile Include="Nave.cpp" />
     <ClCompile Include="VAO.cpp" />
     <ClCompile Include="VBO.cpp" />
@@ -163,6 +164,7 @@
     <ClInclude Include="Buffer.h" />
     <ClInclude Include="EBO.h" />
     <ClInclude Include="Matrices.h" />
+    <ClInclude Include="Missil.h" />
     <ClInclude Include="Nave.h" />
     <ClInclude Include="Triangle.h" />
     <ClInclude Include="VAO.h" />

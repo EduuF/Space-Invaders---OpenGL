@@ -6,7 +6,10 @@
 class Alien {
 public:
 	Alien();
+
 	glm::vec4 Centro;
+	glm::vec4 Up;
+
 	Alien(glm::vec4 Centro);
 
 	std::array<std::array<Vertex, 3>, 18> modeloDoInimigo;
