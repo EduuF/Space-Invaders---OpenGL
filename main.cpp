@@ -207,7 +207,7 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 }
 
 glm::vec3 MoveNave(double MouseXPos, glm::vec4 navePos) {
-	float alfa = 0.035;
+	float alfa = 0.015;
 	MouseXPos = ((MouseXPos / Width) - 0.5f) * 4;
 	float realSpeed = (MouseXPos - navePos.x) * alfa ;
 	glm::vec3 fatorDeTransalacao{ realSpeed , 0.0f, 0.0f};
@@ -266,13 +266,23 @@ int main() {
 	//nave1.rotacionaANave(angleRotacaoNave);
 
 	// Cria inimigos
-	std::array<Alien, 3> TodosAliens;
-	for (int i = 0; i < 3; i++) {
-		TodosAliens[i] = Alien(glm::vec4{ -1.0f + ((i+1) * 0.5f), 0.8f, 0.0f, 1.0f });
+	const GLuint NumeroDeLinhasDeInimigos = 5;
+	const GLuint NumeroDeColunasDeInimigos = 10;
+	const GLuint NumeroTotalDeInimigos = NumeroDeLinhasDeInimigos * NumeroDeColunasDeInimigos;
+	const float LarguraAlien = 0.22f;
+	const float LarguraIntervalo = 0.11f;
+	const float LarguraJanela = (LarguraAlien * NumeroDeColunasDeInimigos) + (LarguraIntervalo * (NumeroDeColunasDeInimigos - 1));
+	const float WidthGap = ((4 - LarguraJanela) / 2) - 2;
+
+	std::array<Alien, NumeroTotalDeInimigos> TodosAliens;
+	for (int i = 0; i < NumeroTotalDeInimigos; i++) {
+		GLuint linha = i / NumeroDeColunasDeInimigos;
+		GLuint coluna = i % NumeroDeColunasDeInimigos;
+		TodosAliens[i] = Alien(glm::vec4{ WidthGap + (coluna *LarguraIntervalo) + (coluna * LarguraAlien), 1.8f - (linha * 0.3),  0.0f, 1.0f });
 	}
 	glm::vec3 fatorDeTranslacaoAlien{ 0.8,0.4,0.0 };
-	TodosAliens[0].transladaOAlien(fatorDeTranslacaoAlien);
-	TodosAliens[1].transladaOAlien(fatorDeTranslacaoAlien);
+	//TodosAliens[0].transladaOAlien(fatorDeTranslacaoAlien);
+	//TodosAliens[1].transladaOAlien(fatorDeTranslacaoAlien);
 	float angleRotacaoAlien = 45;
 	//TodosAliens[0].rotacionaOAlien(angleRotacaoAlien);
 
@@ -293,6 +303,9 @@ int main() {
 
 	// Guarda o tempo do frame anterior
 	double PreviousTime = glfwGetTime();
+
+	//Delay de tiros
+	double ContadorDeDelayDeTiros = 0;
 
 	// Rendeiza apenas a face da frente
 	glEnable(GL_CULL_FACE);
@@ -322,10 +335,10 @@ int main() {
 		const int tamanhoDoAlien = 18; // A quantidade de triangulos do Alien
 		const int tamanhoDoMissil = 4;
 
-		std::array<std::array<Vertex, 3>, tamanhoDaNave + (tamanhoDoAlien * 3) + (tamanhoDoMissil * (TodosMisseis.size()))> bufferData; // Cria um vetor de triangulos
+		std::array<std::array<Vertex, 3>, tamanhoDaNave + (tamanhoDoAlien * 3 * TodosAliens.size()) + (tamanhoDoMissil * (TodosMisseis.size()))> bufferData; // Cria um vetor de triangulos
 
 		std::copy(nave1.modeloDaNave.begin(), nave1.modeloDaNave.end(), bufferData.begin()); // Copia todos os triangulos da nave para o bufferData
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < TodosAliens.size(); i++) {
 			std::copy(TodosAliens[i].modeloDoInimigo.begin(), TodosAliens[i].modeloDoInimigo.end(), bufferData.begin() + tamanhoDaNave + (i * tamanhoDoAlien)); // Copia todos os triangulos do Alien para o bufferData
 		}
 		for (int i = 0; i < TodosMisseis.size(); i++) {
@@ -419,11 +432,15 @@ int main() {
 		
 		// Processa os inputs do teclado
 		if (glfwGetKey(Window, GLFW_KEY_W) == GLFW_PRESS) {
-			float velocidade = 1.0f * DeltaTime;
-			Missil missil = nave1.Atira(velocidade);
-			GLuint posicaoDoMissel = contadorDeMisseis % numeroDeMisseis;
-			TodosMisseis[posicaoDoMissel] = missil;
-			contadorDeMisseis = posicaoDoMissel + 1;			
+			if (ContadorDeDelayDeTiros <= 0.0) {
+				ContadorDeDelayDeTiros = 0.5;
+				float velocidade = 1.0f * DeltaTime;
+				Missil missil = nave1.Atira(velocidade);
+				GLuint posicaoDoMissel = contadorDeMisseis % numeroDeMisseis;
+				TodosMisseis[posicaoDoMissel] = missil;
+				contadorDeMisseis = posicaoDoMissel + 1;
+			}
+			ContadorDeDelayDeTiros -= DeltaTime;
 		}
 
 		if (glfwGetKey(Window, GLFW_KEY_S) == GLFW_PRESS) {
