@@ -5,11 +5,12 @@
 
 Missil::Missil() {};
 
-Missil::Missil(glm::vec4 Centro, glm::vec4 direcao, float velocidade) {
+Missil::Missil(bool NaveOuAlien, glm::vec4 Centro, glm::vec4 direcao, float velocidade) {
 
     this->Centro = Centro; // Diz qual é o centro de onde o objeto será criado
-    std::array<std::array<Vertex, 3>, 4> Model = this->getModel(); // Modelo Base
 
+    std::array<std::array<Vertex, 3>, 4> Model = this->getModel(NaveOuAlien); // Modelo Base
+    
     this->modelo = Model; // Acopla modelo base
     this->velocidade = velocidade;
 
@@ -67,27 +68,58 @@ void Missil::moveFoward() {
 }
 
 
-std::array<std::array<Vertex, 3>, 4> Missil::getModel() {
+std::array<std::array<Vertex, 3>, 4> Missil::getModel(bool NaveOuAlien) {
 
-    // Modela a nave
-    glm::vec4 A{ -0.02f, -0.00f,  0.0f, 1.0f };
-    glm::vec4 B{ -0.00f,  0.02f,  0.0f, 1.0f };
-    glm::vec4 C{  0.02f,  0.00f,  0.0f, 1.0f };
-    glm::vec4 D{  0.00f, -0.02f,  0.0f, 1.0f };
+    glm::vec4 A{ 0.0f, 0.0f,  0.0f, 1.0f };
+    glm::vec4 B{ 0.0f, 0.0f,  0.0f, 1.0f };
+    glm::vec4 C{ 0.0f, 0.0f,  0.0f, 1.0f };
+    glm::vec4 D{ 0.0f, 0.0f,  0.0f, 1.0f };
+
+    // Cores
+    glm::vec4 CorMissil{ 0.0f, 0.0f, 0.0f, 1.0f };
+    glm::vec4 CorBoudingBox{ 0.0f, 0.0f, 0.0f, 1.0f };
+
+    // Texturas
+    glm::vec2 TexturaMissil{ 1.0f, 1.0f };
+    glm::vec2 TexturaBoudingBox{ 1.0f, 1.0f };
+
+    if (NaveOuAlien) {
+        // Modela o tiro da nave
+        A = glm::vec4{ -0.02f, -0.00f,  0.0f, 1.0f };
+        B = glm::vec4{ -0.00f,  0.02f,  0.0f, 1.0f };
+        C = glm::vec4{ 0.02f,  0.00f,  0.0f, 1.0f };
+        D = glm::vec4{ 0.00f, -0.02f,  0.0f, 1.0f };
+
+        // Cores
+        CorMissil = glm::vec4{ 1.0f, 0.0f, 0.0f, 1.0f };
+        CorBoudingBox = glm::vec4{ 0.0f, 0.0f, 0.0f, 1.0f };
+
+        // Texturas
+        TexturaMissil = glm::vec2{ 1.0f, 1.0f };
+        TexturaBoudingBox = glm::vec2{ 1.0f, 1.0f };
+    }
+    else {
+        // Modela o tiro do Alien
+        A = glm::vec4{ -0.02f, -0.01f,  0.0f, 1.0f };
+        B = glm::vec4{ -0.01f,  0.02f,  0.0f, 1.0f };
+        C = glm::vec4{ 0.02f,  0.01f,  0.0f, 1.0f };
+        D = glm::vec4{ 0.01f, -0.02f,  0.0f, 1.0f };
+
+        // Cores
+        CorMissil = glm::vec4 {0.63f, 0.0f, 0.7f, 1.0f };
+        CorBoudingBox = glm::vec4{ 0.0f, 0.0f, 0.0f, 1.0f };
+
+        // Texturas
+        TexturaMissil = glm::vec2{ 1.0f, 1.0f };
+        TexturaBoudingBox = glm::vec2{ 1.0f, 1.0f };
+    }
+    
 
     // Bouding Box 
     glm::vec4 BoundingBoxA = A;
     glm::vec4 BoundingBoxB = B;
     glm::vec4 BoundingBoxC = C;
     glm::vec4 BoundingBoxD = D;
-
-    // Cores
-    glm::vec4 CorMissil{ 1.0f, 0.0f, 0.0f, 1.0f };
-    glm::vec4 CorBoudingBox{ 0.0f, 0.0f, 0.0f, 1.0f };
-
-    // Texturas
-    glm::vec2 TexturaMissil{ 1.0f, 1.0f };
-    glm::vec2 TexturaBoudingBox{ 1.0f, 1.0f };
 
     std::array<Vertex, 3> Missil1 = {
         Vertex{A, CorMissil},

@@ -384,8 +384,8 @@ int main() {
 		glDrawArrays(GL_TRIANGLES, 0, (tamanhoDaNave - 2) * 3);
 
 		// Desenha a Bouding Box
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		glDrawArrays(GL_TRIANGLES, (tamanhoDaNave - 2) * 3, 6);
+		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		//glDrawArrays(GL_TRIANGLES, (tamanhoDaNave - 2) * 3, 6);
 
 		// Desenha os inimigos
 		for (int i = 0; i < TodosAliens.size(); i++) {
@@ -394,8 +394,8 @@ int main() {
 			glDrawArrays(GL_TRIANGLES, ((tamanhoDaNave) * 3) + ((tamanhoDoAlien) * 3 * i) , ((tamanhoDoAlien - 2) * 3));
 
 			// Desenha Bouding Box dos inimigos
-			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-			glDrawArrays(GL_TRIANGLES, (tamanhoDaNave + (tamanhoDoAlien * (i+1)) - 2) * 3, 6);
+			//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			//glDrawArrays(GL_TRIANGLES, (tamanhoDaNave + (tamanhoDoAlien * (i+1)) - 2) * 3, 6);
 		}
 
 		// Desenha os tiros
@@ -433,7 +433,7 @@ int main() {
 		// Processa os inputs do teclado
 		if (glfwGetKey(Window, GLFW_KEY_W) == GLFW_PRESS) {
 			if (ContadorDeDelayDeTiros <= 0.0) {
-				ContadorDeDelayDeTiros = 0.5;
+				ContadorDeDelayDeTiros = 0.2;
 				float velocidade = 1.0f * DeltaTime;
 				Missil missil = nave1.Atira(velocidade);
 				GLuint posicaoDoMissel = contadorDeMisseis % numeroDeMisseis;

@@ -12,9 +12,11 @@ public:
     glm::vec4 Up;
     glm::vec4 Right;
 
+    bool NaveOuAlien;
+
     float velocidade;
 
-    Missil(glm::vec4 Centro, glm::vec4 direcao, float velocidade);
+    Missil(bool NaveOuAlien, glm::vec4 Centro, glm::vec4 direcao, float velocidade);
     Missil();
     ~Missil();
 
@@ -25,7 +27,7 @@ public:
 
     void moveFoward();
 
-    std::array<std::array<Vertex, 3>, 4> getModel();
+    std::array<std::array<Vertex, 3>, 4> getModel(bool NaveOuAlien);
 
 };
 

@@ -150,14 +150,16 @@ void Nave::MoveRight(float Amount) {
 
 Missil Nave::Atira(float velocidade) {
 
+    bool NaveOuAlien = true;
+
     if (this->CanhaoDireitoAtira) {
 
-        Missil missil(this->modeloDaNave[2][2].Position, this->NaveUp, velocidade);
+        Missil missil(NaveOuAlien, this->modeloDaNave[2][2].Position, this->NaveUp, velocidade);
         this->CanhaoDireitoAtira = false;
         return missil;
     }
     else {
-        Missil missil(this->modeloDaNave[1][1].Position, this->NaveUp, velocidade);
+        Missil missil(NaveOuAlien, this->modeloDaNave[1][1].Position, this->NaveUp, velocidade);
         this->CanhaoDireitoAtira = true;
         return missil;
     }
