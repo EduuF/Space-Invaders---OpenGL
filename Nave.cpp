@@ -152,7 +152,7 @@ Missil Nave::Atira(float velocidade) {
 
     if (this->CanhaoDireitoAtira) {
 
-        Missil missil(this->modeloDaNave[2][1].Position, this->NaveUp, velocidade);
+        Missil missil(this->modeloDaNave[2][2].Position, this->NaveUp, velocidade);
         this->CanhaoDireitoAtira = false;
         return missil;
     }

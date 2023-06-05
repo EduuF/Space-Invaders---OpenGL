@@ -13,26 +13,26 @@ Missil::Missil(glm::vec4 Centro, glm::vec4 direcao, float velocidade) {
     this->modelo = Model; // Acopla modelo base
     this->velocidade = velocidade;
 
-    // Altera os vértices da nave
-    glm::vec4 Origem = { 0.0f, 0.0f, 0.0f, 1.0f };
-    TranslationMatrixMissil(this->modelo, Origem, this->Centro);
-
     // Define UP como y
-    this->Up = glm::vec4{0.0f, 1.0f, 0.0f, 0.0f};
+    this->Up = glm::vec4{ 0.0f, 1.0f, 0.0f, 0.0f };
 
     // Define o Right
     this->Right = glm::vec4{ 1.0f, 0.0f, 0.0f, 0.0f };
 
+    // Altera os vértices da nave
+    glm::vec4 Origem = { 0.0f, 0.0f, 0.0f, 1.0f };
+    TranslationMatrixMissil(this->modelo, Origem, this->Centro);    
+
     // Graus da direcao em relação à Origem
     glm::vec3 yAxis = glm::normalize(this->Up);
     glm::vec3 v2 = glm::normalize(direcao);
-    float dotProduct = glm::dot(v2, yAxis);
-    if (v2.x < 0) {
-        dotProduct = -1 * dotProduct;
-    }
-    std::cout << dotProduct << std::endl;
+    float dotProduct = glm::dot(yAxis, v2);
     float angleRad = acos(dotProduct);
     float graus = angleRad * 180.0f / glm::pi<float>();
+
+    if (v2.x > yAxis.x) {
+        graus = -graus;
+    }
 
     this->rotaciona(graus);
 }
@@ -49,29 +49,28 @@ void Missil::rotaciona(float graus) {
 
 void Missil::moveFoward() {    
     //Encontra o angulo entre 2 vetores
-    //std::cout << "Up1: " << glm::to_string(this->Up) << std::endl;
-    glm::vec3 v1 = glm::normalize(this->Up);
-    glm::vec3 v2 = glm::normalize(glm::vec3{0.0f, 1.0f, 0.0f});
+    glm::vec3 v1 = glm::vec3{0.0f, 1.0f, 0.0f};
+    glm::vec3 v2 = this->Up;
     float dotProduct = glm::dot(v1, v2);
     float angleRad = glm::acos(dotProduct);
-    //std::cout << "Angle: " << angleRad << std::endl;
     float graus = angleRad * 180.0f / glm::pi<float>();
 
-    //std::cout << "Up2: " << glm::to_string(this->Up) << std::endl;
+    if (v2.x > v1.x) {
+        graus = -graus;
+    }
 
-    glm::vec3 fatorDeTranslacao{ this->Centro.x, this->Centro.y, this->Centro.z };
-    this->translada(-1.0f * fatorDeTranslacao);
-    this->rotaciona(-graus);
+    glm::vec3 fatorDeTranslacao{ this->Centro.x, 0.0f, 0.0f };
+    glm::vec4 Origem{ 0.0f, 1.0f, 0.0f, 1.0f };
+    RotationMatrixMissil(this->modelo, -graus, Origem, this->Up, this->Right);
     this->translada(glm::vec3{ 0.0f, this->velocidade, 0.0f });
-    this->rotaciona(graus);
-    this->translada(fatorDeTranslacao);
+    RotationMatrixMissil(this->modelo, graus, Origem, this->Up, this->Right);
 }
 
 
 std::array<std::array<Vertex, 3>, 4> Missil::getModel() {
 
     // Modela a nave
-    glm::vec4 A{ -0.01f, -0.00f,  0.0f, 1.0f };
+    glm::vec4 A{ -0.02f, -0.00f,  0.0f, 1.0f };
     glm::vec4 B{ -0.00f,  0.02f,  0.0f, 1.0f };
     glm::vec4 C{  0.02f,  0.00f,  0.0f, 1.0f };
     glm::vec4 D{  0.00f, -0.02f,  0.0f, 1.0f };

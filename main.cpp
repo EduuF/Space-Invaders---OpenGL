@@ -277,7 +277,7 @@ int main() {
 	//TodosAliens[0].rotacionaOAlien(angleRotacaoAlien);
 
 	// Guarda os Misseis
-	const GLuint numeroDeMisseis = 10;
+	const GLuint numeroDeMisseis = 200;
 
 	std::array<Missil, numeroDeMisseis> TodosMisseis;
 	GLuint contadorDeMisseis = 0;
@@ -436,10 +436,12 @@ int main() {
 
 		if (glfwGetKey(Window, GLFW_KEY_A) == GLFW_PRESS) {
 			nave1.MoveRight(150.0f * DeltaTime);
+			//std::cout << glm::to_string(nave1.NaveUp) << std::endl;
 		}
 
 		for (int i = 0; i < TodosMisseis.size(); i++) {
 			TodosMisseis[i].moveFoward();
+			//std::cout << glm::to_string(TodosMisseis[i].Up) << std::endl;
 		}
 	}
 	// Desalocar o VertexBuffer
