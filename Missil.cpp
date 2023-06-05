@@ -100,13 +100,13 @@ std::array<std::array<Vertex, 3>, 4> Missil::getModel(bool NaveOuAlien) {
     }
     else {
         // Modela o tiro do Alien
-        A = glm::vec4{ -0.02f, -0.01f,  0.0f, 1.0f };
-        B = glm::vec4{ -0.01f,  0.02f,  0.0f, 1.0f };
-        C = glm::vec4{ 0.02f,  0.01f,  0.0f, 1.0f };
-        D = glm::vec4{ 0.01f, -0.02f,  0.0f, 1.0f };
+        A = glm::vec4{ -0.01f,  0.00f,  0.0f, 1.0f };
+        B = glm::vec4{  0.00f,  0.03f,  0.0f, 1.0f };
+        C = glm::vec4{  0.01f,  0.00f,  0.0f, 1.0f };
+        D = glm::vec4{  0.00f, -0.03f,  0.0f, 1.0f };
 
         // Cores
-        CorMissil = glm::vec4 {0.63f, 0.0f, 0.7f, 1.0f };
+        CorMissil = glm::vec4 {0.63f, 0.0f, 0.9f, 1.0f };
         CorBoudingBox = glm::vec4{ 0.0f, 0.0f, 0.0f, 1.0f };
 
         // Texturas

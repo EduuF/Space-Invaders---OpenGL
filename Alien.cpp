@@ -11,6 +11,9 @@ Alien::Alien(glm::vec4 Centro) {
 
     this->modeloDoInimigo = inimigoModel; // Acopla modelo base
 
+    this->CanhaoDireitoAtira = true;
+    this->disponível = true;
+
     // Encontra o UP do Alien
     this->Up = glm::vec4{ 0.0f, 1.0f, 0.0f, 0.0f };
 
@@ -236,4 +239,29 @@ std::array<std::array<Vertex, 3>, 18> Alien::getAlienModel() {
     };
 
     return alienVertices;
+}
+
+Missil Alien::Atira(float velocidade){
+
+    bool NaveOuAlien = false;
+
+    if (this->CanhaoDireitoAtira) {
+
+        Missil missil(NaveOuAlien, this->modeloDoInimigo[7][2].Position, -1.0f * this->Up, velocidade);
+        this->CanhaoDireitoAtira = false;
+        return missil;
+    }
+    else {
+        Missil missil(NaveOuAlien, this->modeloDoInimigo[14][1].Position, -1.0f * this->Up, velocidade);
+        this->CanhaoDireitoAtira = true;
+        return missil;
+    }
+}
+
+void Alien::DropaBomba() {
+    this->disponível = false;
+
+    //rotaciona
+
+
 }

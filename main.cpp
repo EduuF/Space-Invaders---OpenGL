@@ -13,6 +13,7 @@
 #include <glm/gtx/string_cast.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <array>
+#include <random>
 
 const int Width = 800;
 const int Height = 800;
@@ -431,6 +432,8 @@ int main() {
 		nave1.transladaANave(MoveNave(X, naveXPos));
 		
 		// Processa os inputs do teclado
+
+		// Nave Atira
 		if (glfwGetKey(Window, GLFW_KEY_W) == GLFW_PRESS) {
 			if (ContadorDeDelayDeTiros <= 0.0) {
 				ContadorDeDelayDeTiros = 0.2;
@@ -443,8 +446,13 @@ int main() {
 			ContadorDeDelayDeTiros -= DeltaTime;
 		}
 
+		// Alien Atira (DEBUG)
 		if (glfwGetKey(Window, GLFW_KEY_S) == GLFW_PRESS) {
-			Camera.MoveFoward(-1.0f * DeltaTime);
+			float velocidade = 1.5f * DeltaTime;
+			Missil missil = TodosAliens[0].Atira(velocidade);
+			GLuint posicaoDoMissel = contadorDeMisseis % numeroDeMisseis;
+			TodosMisseis[posicaoDoMissel] = missil;
+			contadorDeMisseis = posicaoDoMissel + 1;
 		}
 
 		if (glfwGetKey(Window, GLFW_KEY_D) == GLFW_PRESS) {
@@ -460,6 +468,23 @@ int main() {
 			TodosMisseis[i].moveFoward();
 			//std::cout << glm::to_string(TodosMisseis[i].Up) << std::endl;
 		}
+
+		// Verifica se os Aliens atiram mísseis
+		std::random_device rd;
+		std::uniform_int_distribution<int> dist(1, 10000);
+
+		if (dist(rd) > 9900) {
+			int AlienQueAtira = dist(rd) % NumeroTotalDeInimigos;
+			
+			float velocidade = 1.5f * DeltaTime;
+			Missil missil = TodosAliens[AlienQueAtira].Atira(velocidade);
+			GLuint posicaoDoMissel = contadorDeMisseis % numeroDeMisseis;
+			TodosMisseis[posicaoDoMissel] = missil;
+			contadorDeMisseis = posicaoDoMissel + 1;
+		}
+
+	
+
 	}
 	// Desalocar o VertexBuffer
 	glDeleteBuffers(1, &VertexBuffer);

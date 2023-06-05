@@ -51,6 +51,9 @@
     <ClCompile Include="Missil.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
+    <ClCompile Include="Bomba.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Vectors.h">
@@ -81,6 +84,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Missil.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Bomba.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

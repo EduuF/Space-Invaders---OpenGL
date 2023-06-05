@@ -148,6 +148,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Alien.cpp" />
+    <ClCompile Include="Bomba.cpp" />
     <ClCompile Include="Buffer.cpp" />
     <ClCompile Include="EBO.cpp" />
     <ClCompile Include="glad.c" />
@@ -161,6 +162,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Alien.h" />
+    <ClInclude Include="Bomba.h" />
     <ClInclude Include="Buffer.h" />
     <ClInclude Include="EBO.h" />
     <ClInclude Include="Matrices.h" />
