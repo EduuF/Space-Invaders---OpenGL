@@ -10,8 +10,11 @@ Nave::Nave(glm::vec4 NaveCentro) {
 
     this->modeloDaNave = NaveModel; // Acopla modelo base
 
-    // Encontra o UP da nave
+    // Define o UP da nave
     this->NaveUp = glm::vec4{ 0.0f, 1.0f, 0.0f, 0.0f };
+
+    // Define o Right da nave
+    this->naveRight = glm::vec4{1.0f, 0.0f, 0.0f, 0.0f};
 
     // Altera os vértices da nave
     glm::vec4 Origem = { 0.0f, 0.0f, 0.0f, 1.0f };
@@ -33,7 +36,7 @@ void Nave::transladaANave(glm::vec3 fatorDeTranslacao) {
 }
 
 void Nave::rotacionaANave(float graus) {
-    RotationMatrixNave(this->modeloDaNave, graus, this->NaveCentro, this->NaveUp); // Rotaciona o OBJ em relação a seu centro
+    RotationMatrixNave(this->modeloDaNave, graus, this->NaveCentro, this->NaveUp, this->naveRight); // Rotaciona o OBJ em relação a seu centro
 }
 
 

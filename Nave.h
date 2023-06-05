@@ -8,6 +8,7 @@ class Nave {
 public:
     glm::vec4 NaveCentro;
     glm::vec4 NaveUp;
+    glm::vec4 naveRight;
     glm::vec3 escala;
 
     bool CanhaoDireitoAtira;

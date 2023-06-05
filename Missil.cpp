@@ -8,9 +8,9 @@ Missil::Missil() {};
 Missil::Missil(glm::vec4 Centro, glm::vec4 direcao, float velocidade) {
 
     this->Centro = Centro; // Diz qual é o centro de onde o objeto será criado
-    std::array<std::array<Vertex, 3>, 4> NaveModel = this->getModel(); // Modelo Base
+    std::array<std::array<Vertex, 3>, 4> Model = this->getModel(); // Modelo Base
 
-    this->modelo = NaveModel; // Acopla modelo base
+    this->modelo = Model; // Acopla modelo base
     this->velocidade = velocidade;
 
     // Altera os vértices da nave
@@ -20,10 +20,17 @@ Missil::Missil(glm::vec4 Centro, glm::vec4 direcao, float velocidade) {
     // Define UP como y
     this->Up = glm::vec4{0.0f, 1.0f, 0.0f, 0.0f};
 
+    // Define o Right
+    this->Right = glm::vec4{ 1.0f, 0.0f, 0.0f, 0.0f };
+
     // Graus da direcao em relação à Origem
-    glm::vec3 v1 = glm::normalize(this->Up);
-    glm::vec3 v2 = glm::normalize(glm::vec3{ this->Up.x, this->Up.y, this->Up.z});
-    float dotProduct = glm::dot(v1, v2);
+    glm::vec3 yAxis = glm::normalize(this->Up);
+    glm::vec3 v2 = glm::normalize(direcao);
+    float dotProduct = glm::dot(v2, yAxis);
+    if (v2.x < 0) {
+        dotProduct = -1 * dotProduct;
+    }
+    std::cout << dotProduct << std::endl;
     float angleRad = acos(dotProduct);
     float graus = angleRad * 180.0f / glm::pi<float>();
 
@@ -37,20 +44,20 @@ void Missil::translada(glm::vec3 fatorDeTranslacao) {
 }
 
 void Missil::rotaciona(float graus) {
-    RotationMatrixMissil(this->modelo, graus, this->Centro, this->Up); // Rotaciona o triangulo em relação ao centro do OBJ
+    RotationMatrixMissil(this->modelo, graus, this->Centro, this->Up, this->Right); // Rotaciona o triangulo em relação ao centro do OBJ
 }
 
 void Missil::moveFoward() {    
-
     //Encontra o angulo entre 2 vetores
-    std::cout << "Up1: " << glm::to_string(this->Up) << std::endl;
+    //std::cout << "Up1: " << glm::to_string(this->Up) << std::endl;
     glm::vec3 v1 = glm::normalize(this->Up);
     glm::vec3 v2 = glm::normalize(glm::vec3{0.0f, 1.0f, 0.0f});
     float dotProduct = glm::dot(v1, v2);
-    float angleRad = acos(dotProduct);
+    float angleRad = glm::acos(dotProduct);
+    //std::cout << "Angle: " << angleRad << std::endl;
     float graus = angleRad * 180.0f / glm::pi<float>();
 
-    std::cout << "Up2: " << glm::to_string(this->Up) << std::endl;
+    //std::cout << "Up2: " << glm::to_string(this->Up) << std::endl;
 
     glm::vec3 fatorDeTranslacao{ this->Centro.x, this->Centro.y, this->Centro.z };
     this->translada(-1.0f * fatorDeTranslacao);
@@ -64,10 +71,10 @@ void Missil::moveFoward() {
 std::array<std::array<Vertex, 3>, 4> Missil::getModel() {
 
     // Modela a nave
-    glm::vec4 A{ -0.01f, -0.01f,  0.0f, 1.0f };
-    glm::vec4 B{ -0.1f,   0.01f,  0.0f, 1.0f };
-    glm::vec4 C{ 0.01f, 0.01f,  0.0f, 1.0f };
-    glm::vec4 D{ 0.01f, -0.01f,  0.0f, 1.0f };
+    glm::vec4 A{ -0.01f, -0.00f,  0.0f, 1.0f };
+    glm::vec4 B{ -0.00f,  0.02f,  0.0f, 1.0f };
+    glm::vec4 C{  0.02f,  0.00f,  0.0f, 1.0f };
+    glm::vec4 D{  0.00f, -0.02f,  0.0f, 1.0f };
 
     // Bouding Box 
     glm::vec4 BoundingBoxA = A;
@@ -84,14 +91,14 @@ std::array<std::array<Vertex, 3>, 4> Missil::getModel() {
     glm::vec2 TexturaBoudingBox{ 1.0f, 1.0f };
 
     std::array<Vertex, 3> Missil1 = {
-        Vertex{A, CorMissil, {0.0f, 0.0f}},
-        Vertex{D, CorMissil, {1.0f, 0.0f}},
-        Vertex{B, CorMissil, {1.0f, 1.0f}} };
+        Vertex{A, CorMissil},
+        Vertex{D, CorMissil},
+        Vertex{B, CorMissil} };
 
     std::array<Vertex, 3> Missil2 = {
-        Vertex{D, CorMissil, {0.0f, 0.0f}},
-        Vertex{B, CorMissil, {0.0f, 0.0f}},
-        Vertex{C, CorMissil, {0.0f, 0.0f}} };
+        Vertex{D, CorMissil},
+        Vertex{C, CorMissil},
+        Vertex{B, CorMissil} };
 
     std::array<Vertex, 3> BoudingBox1 = {
         Vertex{BoundingBoxA, CorBoudingBox, {0.0f, 0.0f}},

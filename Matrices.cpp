@@ -22,7 +22,7 @@ void ScaleMatrix(std::array<Vertex, 3>& Triangle, glm::vec3 FatorDeEscala, glm::
 	}
 }
 
-void RotationMatrixAlien(std::array<std::array<Vertex, 3>, 18>& Objeto, float graus, glm::vec4& Centro, glm::vec4& Up) {
+void RotationMatrixAlien(std::array<std::array<Vertex, 3>, 18>& Objeto, float graus, glm::vec4& Centro, glm::vec4& Up, glm::vec4 Right) {
 
 	glm::vec3 eixoDeRotacao{ 0.0f, 0.0f, 1.0f };
 	glm::mat4 I = glm::identity<glm::mat4>();
@@ -36,6 +36,7 @@ void RotationMatrixAlien(std::array<std::array<Vertex, 3>, 18>& Objeto, float gr
 	glm::mat4 Transformation = TranslationToObjectBack * Rotation * TranslationToObjectOrigin;
 
 	Up = Transformation * Up;
+	Right = Transformation * Right;
 
 	for (auto& triangulo : Objeto) {
 		for (auto& vertex : triangulo) {
@@ -44,7 +45,7 @@ void RotationMatrixAlien(std::array<std::array<Vertex, 3>, 18>& Objeto, float gr
 	}
 }
 
-void RotationMatrixNave(std::array<std::array<Vertex, 3>, 7>& Objeto, float graus, glm::vec4& Centro, glm::vec4& NaveUp) {
+void RotationMatrixNave(std::array<std::array<Vertex, 3>, 7>& Objeto, float graus, glm::vec4& Centro, glm::vec4& NaveUp, glm::vec4 Right) {
 
 	glm::vec3 eixoDeRotacao{ 0.0f, 0.0f, 1.0f };
 	glm::mat4 I = glm::identity<glm::mat4>();
@@ -58,6 +59,7 @@ void RotationMatrixNave(std::array<std::array<Vertex, 3>, 7>& Objeto, float grau
 	glm::mat4 Transformation = TranslationToObjectBack * Rotation * TranslationToObjectOrigin;
 
 	NaveUp = Transformation * NaveUp;
+	Right = Transformation * Right;
 
 	for (auto& triangulo : Objeto) {
 		for (auto& vertex : triangulo) {
@@ -66,7 +68,7 @@ void RotationMatrixNave(std::array<std::array<Vertex, 3>, 7>& Objeto, float grau
 	}
 }
 
-void RotationMatrixMissil(std::array<std::array<Vertex, 3>, 4>& Objeto, float graus, glm::vec4& Centro, glm::vec4& NaveUp) {
+void RotationMatrixMissil(std::array<std::array<Vertex, 3>, 4>& Objeto, float graus, glm::vec4& Centro, glm::vec4& Up, glm::vec4 Right) {
 
 	glm::vec3 eixoDeRotacao{ 0.0f, 0.0f, 1.0f };
 	glm::mat4 I = glm::identity<glm::mat4>();
@@ -79,7 +81,8 @@ void RotationMatrixMissil(std::array<std::array<Vertex, 3>, 4>& Objeto, float gr
 
 	glm::mat4 Transformation = TranslationToObjectBack * Rotation * TranslationToObjectOrigin;
 
-	NaveUp = Transformation * NaveUp;
+	Up = Transformation * Up;
+	Right = Transformation * Right;
 
 	for (auto& triangulo : Objeto) {
 		for (auto& vertex : triangulo) {

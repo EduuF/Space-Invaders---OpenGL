@@ -9,6 +9,7 @@ public:
 
 	glm::vec4 Centro;
 	glm::vec4 Up;
+	glm::vec4 Right;
 
 	Alien(glm::vec4 Centro);
 

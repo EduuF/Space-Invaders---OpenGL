@@ -10,6 +10,7 @@ class Missil {
 public:
     glm::vec4 Centro;
     glm::vec4 Up;
+    glm::vec4 Right;
 
     float velocidade;
 

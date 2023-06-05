@@ -258,7 +258,7 @@ int main() {
 
 	// Cria uma nave
 	Nave nave1 = Nave(glm::vec4{0.0f, 0.0f, 0.0f, 1.0f}); // A quarta dimensão deve ser 1.0f pois é um ponto
-	glm::vec3 fatorDeEscalaNave{ 2.0f, 6.0f, 0.0f };
+	glm::vec3 fatorDeEscalaNave{ 1.0f, 3.0f, 0.0f };
 	nave1.ajustaEscalaDaNave(fatorDeEscalaNave);
 	glm::vec3 fatorDeTranslacaoNave{ -0.5f, -0.5f, 0.0f };
 	nave1.transladaANave(fatorDeTranslacaoNave);
@@ -277,7 +277,9 @@ int main() {
 	//TodosAliens[0].rotacionaOAlien(angleRotacaoAlien);
 
 	// Guarda os Misseis
-	std::array<Missil, 100> TodosMisseis;
+	const GLuint numeroDeMisseis = 10;
+
+	std::array<Missil, numeroDeMisseis> TodosMisseis;
 	GLuint contadorDeMisseis = 0;
 
 	// Copiar os vértices do triangulo para a memória da GPU
@@ -320,9 +322,9 @@ int main() {
 		const int tamanhoDoAlien = 18; // A quantidade de triangulos do Alien
 		const int tamanhoDoMissil = 4;
 
-		std::array<std::array<Vertex, 3>, tamanhoDaNave + tamanhoDoAlien * 3 + tamanhoDoMissil * (TodosMisseis.size())> bufferData; // Cria um vetor de triangulos
+		std::array<std::array<Vertex, 3>, tamanhoDaNave + (tamanhoDoAlien * 3) + (tamanhoDoMissil * (TodosMisseis.size()))> bufferData; // Cria um vetor de triangulos
+
 		std::copy(nave1.modeloDaNave.begin(), nave1.modeloDaNave.end(), bufferData.begin()); // Copia todos os triangulos da nave para o bufferData
-		int i = 1;
 		for (int i = 0; i < 3; i++) {
 			std::copy(TodosAliens[i].modeloDoInimigo.begin(), TodosAliens[i].modeloDoInimigo.end(), bufferData.begin() + tamanhoDaNave + (i * tamanhoDoAlien)); // Copia todos os triangulos do Alien para o bufferData
 		}
@@ -383,6 +385,17 @@ int main() {
 			glDrawArrays(GL_TRIANGLES, (tamanhoDaNave + (tamanhoDoAlien * (i+1)) - 2) * 3, 6);
 		}
 
+		// Desenha os tiros
+		for (int i = 0; i < numeroDeMisseis; i++) {
+
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			glDrawArrays(GL_TRIANGLES, ((tamanhoDaNave + (tamanhoDoAlien * TodosAliens.size())) * 3) + (tamanhoDoMissil * 3 * i), (tamanhoDoMissil - 2) * 3);
+
+			// Desenha Bouding Box dos tiros
+			//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			//glDrawArrays(GL_TRIANGLES, (tamanhoDaNave + (tamanhoDoAlien * TodosAliens.size()) + (tamanhoDoMissil * (i+1)) -2 )* 3, 6);
+		}
+
 		// Reverte o estado que nós criamos
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glDisableVertexAttribArray(0);
@@ -406,16 +419,11 @@ int main() {
 		
 		// Processa os inputs do teclado
 		if (glfwGetKey(Window, GLFW_KEY_W) == GLFW_PRESS) {
-			float velocidade = 0.01f * DeltaTime;
+			float velocidade = 1.0f * DeltaTime;
 			Missil missil = nave1.Atira(velocidade);
-			GLuint posicaoDoMissel = contadorDeMisseis % 100;
+			GLuint posicaoDoMissel = contadorDeMisseis % numeroDeMisseis;
 			TodosMisseis[posicaoDoMissel] = missil;
-			contadorDeMisseis = posicaoDoMissel + 1;
-
-			for (i = 0; i < 20; i++) {
-				std::cout << "Missil nº: " << i << " | "  << glm::to_string(TodosMisseis[i].Centro) << std::endl;
-			}
-			
+			contadorDeMisseis = posicaoDoMissel + 1;			
 		}
 
 		if (glfwGetKey(Window, GLFW_KEY_S) == GLFW_PRESS) {
@@ -424,17 +432,14 @@ int main() {
 
 		if (glfwGetKey(Window, GLFW_KEY_D) == GLFW_PRESS) {
 			nave1.MoveRight(-150.0f * DeltaTime);
-			std::cout << nave1.modeloDaNave[0][0].Position.x << std::endl;
 		}
 
 		if (glfwGetKey(Window, GLFW_KEY_A) == GLFW_PRESS) {
 			nave1.MoveRight(150.0f * DeltaTime);
-			std::cout << nave1.modeloDaNave[0][0].Position.x << std::endl;
 		}
 
 		for (int i = 0; i < TodosMisseis.size(); i++) {
 			TodosMisseis[i].moveFoward();
-
 		}
 	}
 	// Desalocar o VertexBuffer

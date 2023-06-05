@@ -14,6 +14,9 @@ Alien::Alien(glm::vec4 Centro) {
     // Encontra o UP do Alien
     this->Up = glm::vec4{ 0.0f, 1.0f, 0.0f, 0.0f };
 
+    // Define o Right do Alien
+    this->Right = glm::vec4{1.0f, 0.0f, 0.0f, 0.0f};
+
     // Altera os vértices da nave
     glm::vec4 Origem = { 0.0f, 0.0f, 0.0f, 1.0f };
     TranslationMatrixAlien(this->modeloDoInimigo, Origem, this->Centro);
@@ -31,7 +34,7 @@ void Alien::transladaOAlien(glm::vec3 fatorDeTranslacao) {
 }
 
 void Alien::rotacionaOAlien(float graus) {
-    RotationMatrixAlien(this->modeloDoInimigo, graus, this->Centro, this->Up); // Rotaciona o triangulo em relação ao centro do OBJ
+    RotationMatrixAlien(this->modeloDoInimigo, graus, this->Centro, this->Up, this->Right); // Rotaciona o triangulo em relação ao centro do OBJ
 }
 
 std::array<std::array<Vertex, 3>, 18> Alien::getAlienModel() {
