@@ -3,11 +3,15 @@
 #include <array>
 #include "Triangle.h"
 #include "Missil.h"
+#include "Bomba.h"
 
 class Alien {
 public:
 
 	bool disponível;
+	bool hasBomb;
+	bool ataca;
+	Bomba bomba;
 
 	Alien();
 
@@ -28,5 +32,5 @@ public:
 	std::array<std::array<Vertex, 3>, 18> getAlienModel();
     
 	Missil Atira(float velocidade);
-	void DropaBomba();
+	void DropaBomba();	
 };

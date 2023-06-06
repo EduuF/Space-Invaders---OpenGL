@@ -68,23 +68,23 @@ std::array<std::array<Vertex, 3>, 6> Bomba::getModel() {
 
     std::array<Vertex, 3> AletaEsquerda = {
         Vertex{A, CorCorpo, {0.0f, 0.0f}},
-        Vertex{B, AntiVerde, {1.0f, 0.0f}},
-        Vertex{C, CorCorpo, {1.0f, 1.0f}} };
+        Vertex{C, AntiVerde, {1.0f, 0.0f}},
+        Vertex{B, CorCorpo, {1.0f, 1.0f}} };
 
     std::array<Vertex, 3> AletaDireita = {
         Vertex{D, AntiVermelho},
-        Vertex{E, AntiVerde},
-        Vertex{F, AntiAzul} };
+        Vertex{F, AntiVerde},
+        Vertex{E, AntiAzul} };
 
     std::array<Vertex, 3> Corpo1 = {
         Vertex{G, AntiAzul},
-        Vertex{H, AntiVermelho},
-        Vertex{I, AntiVerde} };
+        Vertex{I, AntiVermelho},
+        Vertex{H, AntiVerde} };
 
     std::array<Vertex, 3> Corpo2 = {
         Vertex{G, CorMotorEsquerdo},
-        Vertex{I, CorMotorEsquerdo},
-        Vertex{J, CorMotorEsquerdo} };
+        Vertex{J, CorMotorEsquerdo},
+        Vertex{I, CorMotorEsquerdo} };
 
     std::array<Vertex, 3> BoudingBox1 = {
         Vertex{BoundingBoxA, CorBoudingBox},

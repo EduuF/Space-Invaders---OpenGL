@@ -13,6 +13,8 @@ Alien::Alien(glm::vec4 Centro) {
 
     this->CanhaoDireitoAtira = true;
     this->disponível = true;
+    this->hasBomb = false;
+    this->ataca = false;
 
     // Encontra o UP do Alien
     this->Up = glm::vec4{ 0.0f, 1.0f, 0.0f, 0.0f };
@@ -23,6 +25,8 @@ Alien::Alien(glm::vec4 Centro) {
     // Altera os vértices da nave
     glm::vec4 Origem = { 0.0f, 0.0f, 0.0f, 1.0f };
     TranslationMatrixAlien(this->modeloDoInimigo, Origem, this->Centro);
+
+    this->bomba = Bomba(this->Centro);
 }
 
 
@@ -259,9 +263,5 @@ Missil Alien::Atira(float velocidade){
 }
 
 void Alien::DropaBomba() {
-    this->disponível = false;
-
-    //rotaciona
-
-
+    //this->bomba = Bomba(this->Centro);
 }
