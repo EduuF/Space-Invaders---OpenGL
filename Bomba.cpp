@@ -60,40 +60,33 @@ std::array<std::array<Vertex, 3>, 6> Bomba::getModel() {
     glm::vec4 AntiVerde{ 1.0f, 0.0f, 1.0f, 1.0f };
     glm::vec4 AntiAzul{ 1.0f, 1.0f, 0.0f, 1.0f };
 
-    glm::vec4 CorCorpo{ 0.45f, 0.56f, 0.67f, 1.0f };
-    glm::vec4 CorCanhaoDireito{ 0.1f, 0.0f, 1.0f, 1.0f };
-    glm::vec4 CorCanhaoEsquerdo{ 0.1f, 0.0f, 1.0f, 1.0f };
-    glm::vec4 CorMotorDireito{ 1.0f, 0.0f, 0.0f, 1.0f };
-    glm::vec4 CorMotorEsquerdo{ 1.0f, 0.0f, 0.0f, 1.0f };
+    glm::vec4 CorCorpo{ 0.80f, 0.30f, 0.67f, 1.0f };
+    glm::vec4 CorCorpo2{ 0.90f, 0.40f, 0.77f, 1.0f };
     glm::vec4 CorBoudingBox{ 0.0f, 0.0f, 0.0f, 1.0f };
 
     // Texturas
     glm::vec2 TexturaCorpo{ 0.45f, 0.56f };
-    glm::vec2 TexturaCanhaoDireito{ 1.0f, 1.0f };
-    glm::vec2 TexturaCanhaoEsquerdo{ 1.0f, 1.0f };
-    glm::vec2 TexturaMotorDireito{ 1.0f, 1.0f };
-    glm::vec2 TexturaMotorEsquerdo{ 1.0f, 1.0f };
     glm::vec2 TexturaBoudingBox{ 1.0f, 1.0f };
 
     std::array<Vertex, 3> AletaEsquerda = {
-        Vertex{A, CorCorpo, {0.0f, 0.0f}},
-        Vertex{C, AntiVerde, {1.0f, 0.0f}},
-        Vertex{B, CorCorpo, {1.0f, 1.0f}} };
+        Vertex{A, Vermelho, {0.0f, 0.0f}},
+        Vertex{C, Vermelho, {1.0f, 0.0f}},
+        Vertex{B, Vermelho, {1.0f, 1.0f}} };
 
     std::array<Vertex, 3> AletaDireita = {
-        Vertex{D, AntiVermelho},
-        Vertex{F, AntiVerde},
-        Vertex{E, AntiAzul} };
+        Vertex{D, Vermelho},
+        Vertex{F, Vermelho},
+        Vertex{E, Vermelho} };
 
     std::array<Vertex, 3> Corpo1 = {
-        Vertex{G, AntiAzul},
-        Vertex{I, AntiVermelho},
-        Vertex{H, AntiVerde} };
+        Vertex{G, CorCorpo},
+        Vertex{I, CorCorpo},
+        Vertex{H, CorCorpo} };
 
     std::array<Vertex, 3> Corpo2 = {
-        Vertex{G, CorMotorEsquerdo},
-        Vertex{J, CorMotorEsquerdo},
-        Vertex{I, CorMotorEsquerdo} };
+        Vertex{G, CorCorpo2},
+        Vertex{J, CorCorpo2},
+        Vertex{I, CorCorpo2} };
 
     std::array<Vertex, 3> BoudingBox1 = {
         Vertex{BoundingBoxA, CorBoudingBox},

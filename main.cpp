@@ -135,7 +135,7 @@ public:
 
 	glm::mat4 GetViewProjection() const {
 		glm::mat4 View = glm::lookAt(Location, Location + Direction, Up);
-		glm::mat4 Projection = glm::perspective(FieldOfView, AspectRatio, Near, Far);
+		glm::mat4 Projection = glm::ortho(-2.0f, 2.0f, -2.0f, 2.0f, Near, Far);
 		return Projection * View;
 	}
 
@@ -148,7 +148,7 @@ public:
 	float FieldOfView = glm::radians(45.0f);
 	float AspectRatio = Width / Height;
 	float Near = 0.01f;
-	float Far = 1000.0f;
+	float Far = 100.0f;
 };
 
 // Declara um objeto camera globalmente
