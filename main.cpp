@@ -259,14 +259,14 @@ int main() {
 
 	// Cria uma nave
 	Nave nave1 = Nave(glm::vec4{0.0f, 0.0f, 0.0f, 1.0f}); // A quarta dimensão deve ser 1.0f pois é um ponto
-	glm::vec3 fatorDeEscalaNave{ 1.0f, 2.0f, 0.0f };
+	glm::vec3 fatorDeEscalaNave{ 1.5f, 3.0f, 0.0f };
 	nave1.ajustaEscalaDaNave(fatorDeEscalaNave);
 	glm::vec3 fatorDeTranslacaoNave{ -0.5f, -1.6f, 0.0f };
 	nave1.transladaANave(fatorDeTranslacaoNave);
 
 	// Cria inimigos
 	const GLuint NumeroDeLinhasDeInimigos = 5;
-	const GLuint NumeroDeColunasDeInimigos = 18;
+	const GLuint NumeroDeColunasDeInimigos = 10;
 	const GLuint NumeroTotalDeInimigos = NumeroDeLinhasDeInimigos * NumeroDeColunasDeInimigos;
 	const float LarguraAlien = 0.11f;
 	const float LarguraIntervalo = 0.1f;
@@ -321,11 +321,17 @@ int main() {
 	float intensidadeDePiscada = 2.0f;
 
 	// Velocidade dos inimigos
-	float velocidadeInimigos = 1.5f;
-	float velocidadeSubidaEDescidaInimigos = 1.5f;
+	float velocidadeInimigos = 0.2f;
+	float velocidadeSubidaEDescidaInimigos = 1.0f;
 
 	// Altura do planeta
 	float alturaDoPlaneta = -1.8f;
+
+	// Chance de o inimigo atirar x em 10000
+	int chanceDeInimigoAtirar = 100;
+
+	// Chance de algum inimigo tentar dropar uma bomba x em 10000
+	int chanceDeInimigoTentarDroparBomba = 1000;
 
 	// Rendeiza apenas a face da frente
 	glEnable(GL_CULL_FACE);
@@ -508,13 +514,16 @@ int main() {
 
 		for (int i = 0; i < TodosAliens.size(); i++) {
 			if (TodosAliens[i].ataca) { // Move os Aliens do esquadrão que está atacando
-				if (TodosAliens[i].Centro.y > 0.5f && TodosAliens[i].Centro.z < 1.0f) { // Sobe Z
+				float localDeSobrevoo = 2.0f - (NumeroDeLinhasDeInimigos * 0.3); // Define a area onde o inimigo deve sobrevoar outros inimigos
+
+				if (TodosAliens[i].Centro.y > localDeSobrevoo && TodosAliens[i].Centro.z < 0.7f) { // Sobe Z
 					TodosAliens[i].transladaOAlien(fatorDeTranslacaoEsquadraoSobe); 
 					if (i == AlienQueCarregaABomba && !TodosAliens[i].bomba.Dropada) { // Se for o alien com bomba
 						TodosAliens[i].bomba.translada(fatorDeTranslacaoEsquadraoSobe); // Sobe a bomba
 					}
 				}
-				if (TodosAliens[i].Centro.y < 0.5f && TodosAliens[i].Centro.z > 0.0f) { // Desce Z
+
+				if (TodosAliens[i].Centro.y < localDeSobrevoo && TodosAliens[i].Centro.z > 0.0f) { // Desce Z
 					TodosAliens[i].transladaOAlien(fatorDeTranslacaoEsquadraoDesce);
 					if (i == AlienQueCarregaABomba && !TodosAliens[i].bomba.Dropada) { // Se for o Alien com bomba
 						TodosAliens[i].bomba.translada(fatorDeTranslacaoEsquadraoDesce); // Desce a bomba
@@ -587,7 +596,7 @@ int main() {
 		std::random_device AlienAtira;
 		std::uniform_int_distribution<int> dist(1, 10000);
 
-		if (dist(AlienAtira) > 9000) {
+		if (dist(AlienAtira) > 10000 - chanceDeInimigoAtirar) {
 			int AlienQueAtira = dist(AlienAtira) % NumeroTotalDeInimigos;
 			
 			float velocidade = 1.5f * DeltaTime;
@@ -599,11 +608,11 @@ int main() {
 		// Verifica se algum alien vai carregar a bomba
 		if (!bombaInGame) {
 			std::random_device randomBomb;
-			std::uniform_int_distribution<int> distBombaNormal(1, 100000);
+			std::uniform_int_distribution<int> distBombaNormal(1, 10000);
 
 			int rng = (distBombaNormal(randomBomb));
 
-			if (rng > 9900) {
+			if (rng > 10000 - chanceDeInimigoTentarDroparBomba) {
 				int candidatoAAlienteQueCarregaABomba = dist(randomBomb) % NumeroTotalDeInimigos;
 				if (TodosAliens[candidatoAAlienteQueCarregaABomba].ataca != true && TodosAliens[candidatoAAlienteQueCarregaABomba].recua != true) {
 					AlienQueCarregaABomba = candidatoAAlienteQueCarregaABomba;
