@@ -259,19 +259,19 @@ int main() {
 
 	// Cria uma nave
 	Nave nave1 = Nave(glm::vec4{0.0f, 0.0f, 0.0f, 1.0f}); // A quarta dimensão deve ser 1.0f pois é um ponto
-	glm::vec3 fatorDeEscalaNave{ 1.0f, 3.0f, 0.0f };
+	glm::vec3 fatorDeEscalaNave{ 1.0f, 2.0f, 0.0f };
 	nave1.ajustaEscalaDaNave(fatorDeEscalaNave);
-	glm::vec3 fatorDeTranslacaoNave{ -0.5f, -0.5f, 0.0f };
+	glm::vec3 fatorDeTranslacaoNave{ -0.5f, -1.6f, 0.0f };
 	nave1.transladaANave(fatorDeTranslacaoNave);
 	float angleRotacaoNave = -30;
 	//nave1.rotacionaANave(angleRotacaoNave);
 
 	// Cria inimigos
 	const GLuint NumeroDeLinhasDeInimigos = 5;
-	const GLuint NumeroDeColunasDeInimigos = 10;
+	const GLuint NumeroDeColunasDeInimigos = 18;
 	const GLuint NumeroTotalDeInimigos = NumeroDeLinhasDeInimigos * NumeroDeColunasDeInimigos;
-	const float LarguraAlien = 0.22f;
-	const float LarguraIntervalo = 0.11f;
+	const float LarguraAlien = 0.11f;
+	const float LarguraIntervalo = 0.1f;
 	const float LarguraJanela = (LarguraAlien * NumeroDeColunasDeInimigos) + (LarguraIntervalo * (NumeroDeColunasDeInimigos - 1));
 	const float WidthGap = ((4 - LarguraJanela) / 2) - 2;
 
@@ -282,6 +282,10 @@ int main() {
 		TodosAliens[i] = Alien(glm::vec4{ WidthGap + (coluna *LarguraIntervalo) + (coluna * LarguraAlien), 1.8f - (linha * 0.3),  0.0f, 1.0f });
 	}
 	glm::vec3 fatorDeTranslacaoAlien{ 0.8,0.4,0.0 };
+	glm::vec3 fatorDeEscalaAlien{ 0.5f, 0.5f, 0.0f };
+	for (int i = 0; i < TodosAliens.size(); i++) {
+		TodosAliens[i].ajustaEscalaDoAlien(fatorDeEscalaAlien);
+	}
 	//TodosAliens[0].transladaOAlien(fatorDeTranslacaoAlien);
 	//TodosAliens[1].transladaOAlien(fatorDeTranslacaoAlien);
 	float angleRotacaoAlien = 45;
@@ -341,7 +345,6 @@ int main() {
 		const int tamanhoDoMissil = 4;
 		const int tamanhoDaBomba = 6;
 
-		std::cout << "FFFFFFFFFFF" << std::endl;
 
 		std::array<std::array<Vertex, 3>, tamanhoDaNave + (tamanhoDoAlien * TodosAliens.size()) + (tamanhoDoMissil * (TodosMisseis.size()) + tamanhoDaBomba)> bufferData; // Cria um vetor de triangulos
 
@@ -349,17 +352,14 @@ int main() {
 		for (int i = 0; i < TodosAliens.size(); i++) {
 			std::copy(TodosAliens[i].modeloDoInimigo.begin(), TodosAliens[i].modeloDoInimigo.end(), bufferData.begin() + tamanhoDaNave + (i * tamanhoDoAlien)); // Copia todos os triangulos do Alien para o bufferData
 		}
-		std::cout << "IIIIIIIIII" << std::endl;
 		for (int i = 0; i < TodosMisseis.size(); i++) {
 			std::copy(TodosMisseis[i].modelo.begin(), TodosMisseis[i].modelo.end(), bufferData.begin() + tamanhoDaNave + (TodosAliens.size() * tamanhoDoAlien) + (i * tamanhoDoMissil));
 		}
-		std::cout << "JJJJJJJJJJ" << std::endl;
 		// Se a bomba estiver em game, desenha ela.
 		if (bombaInGame) {
 			std::copy(TodosAliens[AlienQueCarregaABomba].bomba.Model.begin(), TodosAliens[AlienQueCarregaABomba].bomba.Model.end(), bufferData.begin() + tamanhoDaNave + (TodosAliens.size() * tamanhoDoAlien) + (numeroDeMisseis * tamanhoDoMissil));
 		}
 
-		std::cout << "GGGGGGGG" << std::endl;
 
 		// Copiar os dados dos triângulos para a memória de vídeo
 		// Carregue os dados de todos os triângulos no buffer da GPU.
@@ -430,7 +430,6 @@ int main() {
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 			glDrawArrays(GL_TRIANGLES, (tamanhoDaNave + (tamanhoDoAlien * TodosAliens.size()) + (tamanhoDoMissil * TodosMisseis.size()))*3, (tamanhoDaBomba - 2) * 3);
 		}
-		std::cout << "HHHHHHHHHHHH" << std::endl;
 
 		// Reverte o estado que nós criamos
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -491,11 +490,36 @@ int main() {
 			//std::cout << glm::to_string(TodosMisseis[i].Up) << std::endl;
 		}
 
+		// Anda com o esquadrão
+		glm::vec3 fatorDeTranslacaoEsquadrão{ 0.0f, -0.1f * DeltaTime, 0.0f };
+		glm::vec3 fatorDeTranslacaoEsquadraoSobe{ 0.0f, 0.0f, 0.8f * DeltaTime };
+		glm::vec3 fatorDeTranslacaoEsquadraoDesce{ 0.0f, 0.0f, -0.8f * DeltaTime };
+
+		for (int i = 0; i < TodosAliens.size(); i++) {
+			if (TodosAliens[i].ataca) { // Move os Aliens do esquadrão
+				if (TodosAliens[i].modeloDoInimigo[0][0].Position.y > 0.5f && TodosAliens[i].modeloDoInimigo[0][0].Position.z < 0.5f) {
+					TodosAliens[i].transladaOAlien(fatorDeTranslacaoEsquadraoSobe);
+					//if (i = AlienQueCarregaABomba) {
+					//	TodosAliens[i].bomba.translada(fatorDeTranslacaoEsquadraoSobe);
+					//}
+				}
+				if (TodosAliens[i].modeloDoInimigo[0][0].Position.y < 0.5f && TodosAliens[i].modeloDoInimigo[0][0].Position.z > 0.0f) {
+					TodosAliens[i].transladaOAlien(fatorDeTranslacaoEsquadraoDesce);
+					//if (i = AlienQueCarregaABomba) {
+					//	TodosAliens[i].bomba.translada(fatorDeTranslacaoEsquadraoDesce);
+					//}
+				}
+				TodosAliens[i].transladaOAlien(fatorDeTranslacaoEsquadrão);
+			}
+			
+		}
+		TodosAliens[AlienQueCarregaABomba].bomba.translada(fatorDeTranslacaoEsquadrão); // Anda com a bomba
+
 		// Verifica se os Aliens atiram mísseis
 		std::random_device AlienAtira;
 		std::uniform_int_distribution<int> dist(1, 10000);
 
-		if (dist(AlienAtira) > 9800) {
+		if (dist(AlienAtira) > 9900) {
 			int AlienQueAtira = dist(AlienAtira) % NumeroTotalDeInimigos;
 			
 			float velocidade = 1.5f * DeltaTime;
@@ -504,51 +528,47 @@ int main() {
 			TodosMisseis[posicaoDoMissel] = missil;
 			contadorDeMisseis = posicaoDoMissel + 1;
 		}
-		std::cout << "AAAAAA" << std::endl;
 		// Verifica se algum alien vai carregar a bomba
 		if (!bombaInGame) {
-			std::cout << "BBBBBB" << std::endl;
 			std::random_device randomBomb;
 			std::uniform_int_distribution<int> distBombaNormal(1, 100000);
 
 			int rng = (distBombaNormal(randomBomb));
 
-			if (rng > 99000) {
+			if (rng > 88000) {
 				AlienQueCarregaABomba = dist(randomBomb) % NumeroTotalDeInimigos;
 				TodosAliens[AlienQueCarregaABomba].hasBomb = true;
 				TodosAliens[AlienQueCarregaABomba].bomba.translada(TodosAliens[AlienQueCarregaABomba].Centro);
 				TodosAliens[AlienQueCarregaABomba].ataca = true;
 				bombaInGame = true;
-			}
-			std::cout << "CCCCCCC" << std::endl;
-			// Chama esquadrão para atacar junto
-			if (rng > 66000) {
-				std::array<int, 8> vizinhos{
-					AlienQueCarregaABomba - NumeroDeColunasDeInimigos - 1,
-					AlienQueCarregaABomba - NumeroDeColunasDeInimigos,
-					AlienQueCarregaABomba - NumeroDeColunasDeInimigos + 1,
-					AlienQueCarregaABomba - 1,
-					AlienQueCarregaABomba + 1,
-					AlienQueCarregaABomba + NumeroDeColunasDeInimigos - 1,
-					AlienQueCarregaABomba + NumeroDeColunasDeInimigos,
-					AlienQueCarregaABomba + NumeroDeColunasDeInimigos + 1
-				};
-				std::cout << "DDDDDDDD" << std::endl;
-				// Verifica os membros válidos do esquadrão
-				for (int i = 0; i < 8; i++) {
-					if (vizinhos[i] < 0) {
-						vizinhos[i] = 0;
-					} else if (vizinhos[i] > NumeroTotalDeInimigos) {
-						vizinhos[i] = NumeroTotalDeInimigos;
-					}
+				// Chama esquadrão para atacar junto
+				if (rng > 90000) {
+					std::array<int, 8> vizinhos{
+						AlienQueCarregaABomba - NumeroDeColunasDeInimigos - 1,
+						AlienQueCarregaABomba - NumeroDeColunasDeInimigos,
+						AlienQueCarregaABomba - NumeroDeColunasDeInimigos + 1,
+						AlienQueCarregaABomba - 1,
+						AlienQueCarregaABomba + 1,
+						AlienQueCarregaABomba + NumeroDeColunasDeInimigos - 1,
+						AlienQueCarregaABomba + NumeroDeColunasDeInimigos,
+						AlienQueCarregaABomba + NumeroDeColunasDeInimigos + 1
+					};
+					// Verifica os membros válidos do esquadrão
+					for (int i = 0; i < 8; i++) {
+						if (vizinhos[i] < 0) {
+							continue;
+						}
+						else if (vizinhos[i] > NumeroTotalDeInimigos) {
+							continue;
+						}
 
-					// Coloca esquadrão em posição de ataque
-					TodosAliens[vizinhos[i]].ataca = true;
+						// Coloca esquadrão em posição de ataque
+						TodosAliens[vizinhos[i]].ataca = true;
+					}
 				}
-				std::cout << "EEEEEEEEEE" << std::endl;
 			}
+			
 		}
-		std::cout << "TemBomba: " << bombaInGame << std::endl;
 	}
 	// Desalocar o VertexBuffer
 	glDeleteBuffers(1, &VertexBuffer);
