@@ -11,7 +11,7 @@
 void ScaleMatrix(std::array<Vertex, 3>& Triangle, glm::vec3 FatorDeEscala, glm::vec4 &Centro) {
 	glm::vec3 OrigemDoObjeto{ Centro.x, Centro.y, Centro.z };
 	glm::mat4 I = glm::identity<glm::mat4>();
-	glm::mat4 TranslationToObjectOrigin = glm::translate(I, -OrigemDoObjeto); // Translada Centro para o Origem do ambiente
+	glm::mat4 TranslationToObjectOrigin = glm::translate(I, -1.0f * OrigemDoObjeto); // Translada Centro para o Origem do ambiente
 	glm::mat4 Scale = glm::scale(I, FatorDeEscala); // Faz escala
 	glm::mat4 TranslationToObjectBack = glm::translate(I, OrigemDoObjeto); // Translada o ponto de volta para seu lugar original
 	// Composição de transformações
@@ -20,6 +20,7 @@ void ScaleMatrix(std::array<Vertex, 3>& Triangle, glm::vec3 FatorDeEscala, glm::
 	for (auto& vertex : Triangle) {
 		vertex.Position = Transformation * vertex.Position;
 	}
+
 }
 
 void RotationMatrixAlien(std::array<std::array<Vertex, 3>, 18>& Objeto, float graus, glm::vec4& Centro, glm::vec4& Up, glm::vec4 Right) {
@@ -166,6 +167,7 @@ void TranslationMatrixBomba(std::array<std::array<Vertex, 3>, 6>& Objeto, glm::v
 
 	// Translada o centro do objeto
 	CentroObjeto = Translation * CentroObjeto;
+
 
 	// Translada o restante dos vertices
 	for (auto& triangulo : Objeto) {

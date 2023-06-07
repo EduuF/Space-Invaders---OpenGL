@@ -11,8 +11,11 @@ public:
 	bool disponível;
 	bool hasBomb;
 	bool ataca;
+	bool recua;
 	Bomba bomba;
 	int life;
+
+	double yOriginal;
 
 	Alien();
 

@@ -13,6 +13,11 @@ public:
     glm::vec4 Up;
     glm::vec4 Right;
 
+    bool Dropada;
+    bool Aumentando;
+
+    glm::vec3 escala;
+
     std::array<std::array<Vertex, 3>, 6> Model;
 
     float velocidade;
@@ -23,6 +28,7 @@ public:
 
     void translada(glm::vec3 fatorDeTranslacao);
     void rotaciona(float graus);
+    void ajustaEscala(glm::vec3 FatorDeEscala);
 
     std::array<std::array<Vertex, 3>, 6> getModel();
 
