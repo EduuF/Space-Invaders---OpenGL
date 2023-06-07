@@ -12,6 +12,7 @@ public:
 	bool hasBomb;
 	bool ataca;
 	bool recua;
+	bool vivo;
 	Bomba bomba;
 	int life;
 

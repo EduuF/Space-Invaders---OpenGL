@@ -17,6 +17,7 @@ Alien::Alien(glm::vec4 Centro) {
     this->ataca = false;
     this->life = 10;
     this->recua = false;
+    this->vivo = true;
 
     // Encontra o UP do Alien
     this->Up = glm::vec4{ 0.0f, 1.0f, 0.0f, 0.0f };
