@@ -27,8 +27,6 @@ Alien::Alien(glm::vec4 Centro) {
     // Altera os vértices da nave
     glm::vec4 Origem = { 0.0f, 0.0f, 0.0f, 1.0f };
     TranslationMatrixAlien(this->modeloDoInimigo, Origem, this->Centro);
-
-    this->bomba = Bomba(this->Centro);
 }
 
 
@@ -264,6 +262,7 @@ Missil Alien::Atira(float velocidade){
     }
 }
 
-void Alien::DropaBomba() {
-    //this->bomba = Bomba(this->Centro);
+void Alien::CarregaBomba() {
+    this->bomba = Bomba(this->Centro);
 }
+

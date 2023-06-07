@@ -12,11 +12,11 @@ public:
     glm::vec4 Centro;
     glm::vec4 Up;
     glm::vec4 Right;
+    glm::vec3 escala;
 
     bool Dropada;
     bool Aumentando;
-
-    glm::vec3 escala;
+    
 
     std::array<std::array<Vertex, 3>, 6> Model;
 

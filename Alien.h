@@ -36,5 +36,5 @@ public:
 	std::array<std::array<Vertex, 3>, 18> getAlienModel();
     
 	Missil Atira(float velocidade);
-	void DropaBomba();	
+	void CarregaBomba();
 };

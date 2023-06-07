@@ -263,8 +263,6 @@ int main() {
 	nave1.ajustaEscalaDaNave(fatorDeEscalaNave);
 	glm::vec3 fatorDeTranslacaoNave{ -0.5f, -1.6f, 0.0f };
 	nave1.transladaANave(fatorDeTranslacaoNave);
-	float angleRotacaoNave = -30;
-	//nave1.rotacionaANave(angleRotacaoNave);
 
 	// Cria inimigos
 	const GLuint NumeroDeLinhasDeInimigos = 5;
@@ -319,8 +317,15 @@ int main() {
 	int AlienQueCarregaABomba = 0;
 
 	// Pica a bomba quando dropada
-	float velocidadeDePiscada = 5.0f;
+	float velocidadeDePiscada = 2.0f;
 	float intensidadeDePiscada = 2.0f;
+
+	// Velocidade dos inimigos
+	float velocidadeInimigos = 1.5f;
+	float velocidadeSubidaEDescidaInimigos = 1.5f;
+
+	// Altura do planeta
+	float alturaDoPlaneta = -1.8f;
 
 	// Rendeiza apenas a face da frente
 	glEnable(GL_CULL_FACE);
@@ -497,19 +502,19 @@ int main() {
 		}
 
 		// Anda com o esquadrão
-		glm::vec3 fatorDeTranslacaoEsquadrão{ 0.0f, -1.5f * DeltaTime, 0.0f };
-		glm::vec3 fatorDeTranslacaoEsquadraoSobe{ 0.0f, 0.0f, 1.5f * DeltaTime };
-		glm::vec3 fatorDeTranslacaoEsquadraoDesce{ 0.0f, 0.0f, -1.5f * DeltaTime };
+		glm::vec3 fatorDeTranslacaoEsquadrão{ 0.0f, -1.0f * velocidadeInimigos * DeltaTime, 0.0f };
+		glm::vec3 fatorDeTranslacaoEsquadraoSobe{ 0.0f, 0.0f, velocidadeSubidaEDescidaInimigos * DeltaTime };
+		glm::vec3 fatorDeTranslacaoEsquadraoDesce{ 0.0f, 0.0f, -1.0f * velocidadeSubidaEDescidaInimigos * DeltaTime };
 
 		for (int i = 0; i < TodosAliens.size(); i++) {
 			if (TodosAliens[i].ataca) { // Move os Aliens do esquadrão que está atacando
-				if (TodosAliens[i].modeloDoInimigo[0][0].Position.y > 0.5f && TodosAliens[i].modeloDoInimigo[0][0].Position.z < 1.0f) { // Sobe Z
+				if (TodosAliens[i].Centro.y > 0.5f && TodosAliens[i].Centro.z < 1.0f) { // Sobe Z
 					TodosAliens[i].transladaOAlien(fatorDeTranslacaoEsquadraoSobe); 
 					if (i == AlienQueCarregaABomba && !TodosAliens[i].bomba.Dropada) { // Se for o alien com bomba
 						TodosAliens[i].bomba.translada(fatorDeTranslacaoEsquadraoSobe); // Sobe a bomba
 					}
 				}
-				if (TodosAliens[i].modeloDoInimigo[0][0].Position.y < 0.5f && TodosAliens[i].modeloDoInimigo[0][0].Position.z > 0.0f) { // Desce Z
+				if (TodosAliens[i].Centro.y < 0.5f && TodosAliens[i].Centro.z > 0.0f) { // Desce Z
 					TodosAliens[i].transladaOAlien(fatorDeTranslacaoEsquadraoDesce);
 					if (i == AlienQueCarregaABomba && !TodosAliens[i].bomba.Dropada) { // Se for o Alien com bomba
 						TodosAliens[i].bomba.translada(fatorDeTranslacaoEsquadraoDesce); // Desce a bomba
@@ -518,7 +523,7 @@ int main() {
 
 				TodosAliens[i].transladaOAlien(fatorDeTranslacaoEsquadrão); // Anda ele rumo ao planeta				
 
-				if (TodosAliens[i].modeloDoInimigo[0][0].Position.y < -1.0f) { // Se o Alien chegar ao planeta
+				if (TodosAliens[i].Centro.y < alturaDoPlaneta) { // Se o Alien chegar ao planeta
 					TodosAliens[i].recua = true; // Manda recuar
 					TodosAliens[i].ataca = false;
 					if (i == AlienQueCarregaABomba) { // Se for o Alien que carrega a bomba
@@ -528,25 +533,25 @@ int main() {
 			}
 
 			if (TodosAliens[i].recua) {
-				if (TodosAliens[i].modeloDoInimigo[0][0].Position.y > 0.5f && TodosAliens[i].modeloDoInimigo[0][0].Position.y < TodosAliens[i].yOriginal && TodosAliens[i].modeloDoInimigo[0][0].Position.z < 1.0f) { // Sobe Z
+				if (TodosAliens[i].Centro.y > 0.5f && TodosAliens[i].Centro.y < TodosAliens[i].yOriginal && TodosAliens[i].Centro.z < 1.0f) { // Sobe Z
 					TodosAliens[i].transladaOAlien(fatorDeTranslacaoEsquadraoSobe);
 				}
 
-				if (TodosAliens[i].modeloDoInimigo[0][0].Position.y >= TodosAliens[i].yOriginal && TodosAliens[i].modeloDoInimigo[0][0].Position.z > -0.1f) { // Desce Z
+				if (TodosAliens[i].Centro.y >= TodosAliens[i].yOriginal && TodosAliens[i].Centro.z > -0.1f) { // Desce Z
 					TodosAliens[i].transladaOAlien(fatorDeTranslacaoEsquadraoDesce);
 				}
 
-				if (TodosAliens[i].modeloDoInimigo[0][0].Position.z < 0.0f) { // Se a nave tiver descido demais quando foi retornar
-					TodosAliens[i].transladaOAlien(glm::vec3{ 0.0f, 0.0f, 0.0f - TodosAliens[i].modeloDoInimigo[0][0].Position.z }); // conserta sua posição
+				if (TodosAliens[i].Centro.z < 0.0f) { // Se a nave tiver descido demais quando foi retornar
+					TodosAliens[i].transladaOAlien(glm::vec3{ 0.0f, 0.0f, 0.0f - TodosAliens[i].Centro.z }); // conserta sua posição
 				}
 
-				if (TodosAliens[i].modeloDoInimigo[0][0].Position.y < TodosAliens[i].yOriginal) {
+				if (TodosAliens[i].Centro.y < TodosAliens[i].yOriginal) {
 					TodosAliens[i].transladaOAlien(-1.0f * fatorDeTranslacaoEsquadrão); // Retorna ele para a posição original
 				}
 
-				if (TodosAliens[i].modeloDoInimigo[0][0].Position.y >= TodosAliens[i].yOriginal && TodosAliens[i].modeloDoInimigo[0][0].Position.z == 0.0f) {
+				if (TodosAliens[i].Centro.y >= TodosAliens[i].yOriginal && TodosAliens[i].Centro.z == 0.0f) {
 					TodosAliens[i].recua = false;
-					TodosAliens[i].transladaOAlien(glm::vec3{ 0.0f, TodosAliens[i].yOriginal - TodosAliens[i].Centro.y, 0.0f - TodosAliens[i].modeloDoInimigo[0][0].Position.z });
+					TodosAliens[i].transladaOAlien(glm::vec3{ 0.0f, TodosAliens[i].yOriginal - TodosAliens[i].Centro.y, 0.0f - TodosAliens[i].Centro.z });
 				}
 			}
 
@@ -555,24 +560,25 @@ int main() {
 		if (!TodosAliens[AlienQueCarregaABomba].bomba.Dropada) { // Verifica se ela não foi dropada no planeta
 			TodosAliens[AlienQueCarregaABomba].bomba.translada(fatorDeTranslacaoEsquadrão); // Anda com a bomba
 		} else {
-			if (TodosAliens[AlienQueCarregaABomba].bomba.Model[0][0].Position.z < 0.0f) {
-				TodosAliens[AlienQueCarregaABomba].bomba.Aumentando = true;
+			if (TodosAliens[AlienQueCarregaABomba].bomba.Centro.z != 0.0f) {
+				TodosAliens[AlienQueCarregaABomba].bomba.translada(glm::vec3{ 0.0f, 0.0f, 0.0f - TodosAliens[AlienQueCarregaABomba].bomba.Centro.z });
 			}
-			if (TodosAliens[AlienQueCarregaABomba].bomba.Model[0][0].Position.z > intensidadeDePiscada) {
+			
+			if (TodosAliens[AlienQueCarregaABomba].bomba.escala.x >= 2.1f) {
 				TodosAliens[AlienQueCarregaABomba].bomba.Aumentando = false;
 			}
-
+			if (TodosAliens[AlienQueCarregaABomba].bomba.escala.x <= 0.9f) {
+				TodosAliens[AlienQueCarregaABomba].bomba.Aumentando = true;
+			}
 
 			if (TodosAliens[AlienQueCarregaABomba].bomba.Aumentando) {
-				TodosAliens[AlienQueCarregaABomba].bomba.translada(glm::vec3{ 0.0f , 0.0f , DeltaTime * velocidadeDePiscada });
+				TodosAliens[AlienQueCarregaABomba].bomba.ajustaEscala(glm::vec3{ 1 + DeltaTime, 1 + DeltaTime, 0.0f });
 				//std::cout << glm::to_string(TodosAliens[AlienQueCarregaABomba].bomba.Centro) << std::endl;
 			}
 			else {
-				TodosAliens[AlienQueCarregaABomba].bomba.translada(glm::vec3{ 0.0f , 0.0f , -1.0f * DeltaTime * velocidadeDePiscada });
+				TodosAliens[AlienQueCarregaABomba].bomba.ajustaEscala(glm::vec3{ 1 - DeltaTime, 1 - DeltaTime, 0.0f });
 				//std::cout << glm::to_string(TodosAliens[AlienQueCarregaABomba].bomba.Centro) << std::endl;
 			}
-
-			
 			
 		}
 		
@@ -602,7 +608,8 @@ int main() {
 				if (TodosAliens[candidatoAAlienteQueCarregaABomba].ataca != true && TodosAliens[candidatoAAlienteQueCarregaABomba].recua != true) {
 					AlienQueCarregaABomba = candidatoAAlienteQueCarregaABomba;
 					TodosAliens[AlienQueCarregaABomba].hasBomb = true;
-					TodosAliens[AlienQueCarregaABomba].bomba.translada(TodosAliens[AlienQueCarregaABomba].Centro);
+					TodosAliens[AlienQueCarregaABomba].CarregaBomba();
+					//TodosAliens[AlienQueCarregaABomba].bomba.translada(TodosAliens[AlienQueCarregaABomba].Centro);
 					TodosAliens[AlienQueCarregaABomba].ataca = true;
 					bombaInGame = true;
 					// Chama esquadrão para atacar junto

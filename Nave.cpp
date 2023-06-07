@@ -21,14 +21,14 @@ Nave::Nave(glm::vec4 NaveCentro) {
     TranslationMatrixNave(this->modeloDaNave, Origem, this->NaveCentro);
 
     this->escala = glm::vec3{ 1.0f, 1.0f, 1.0f };
-    this->CanhaoDireitoAtira = false;
+    this->CanhaoDireitoAtira = false; 
 }
 
 void Nave::ajustaEscalaDaNave(glm::vec3 FatorDeEscala) {
     for (auto& parte : this->modeloDaNave) { // Para cada triangulo do objeto
         ScaleMatrix(parte, FatorDeEscala, this->NaveCentro); // Escala o triangulo
     }
-    this->escala = FatorDeEscala;
+    this->escala *= FatorDeEscala;
 }
 
 void Nave::transladaANave(glm::vec3 fatorDeTranslacao) {
