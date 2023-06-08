@@ -48,17 +48,37 @@ void RotationMatrix(std::vector<std::vector<Vertex>>& Objeto, float graus, glm::
 	}
 }
 
-void TranslationMatrix(std::vector<std::vector<Vertex>>& Objeto, glm::vec4& CentroObjeto,  glm::vec3 T) {
+void TranslationMatrix(std::vector<std::vector<Vertex>>& Objeto, glm::vec4& CentroObjeto, glm::vec4& Up,  glm::vec3 T) {
 	glm::mat4 I = glm::identity<glm::mat4>();
 	glm::mat4 Translation = glm::translate(I, T); // Translation translada qualquer ponto em 10 no x, 10 no y e 10 no z
 
 	// Translada o centro do objeto
 	CentroObjeto = Translation * CentroObjeto;
+	Up = Translation * Up;
 
 	// Translada o restante dos vertices
 	for (auto& poligono : Objeto) {
 		for (auto& vertex : poligono) {
 			vertex.Position = Translation * vertex.Position;
+		}
+	}
+}
+
+void RotacionaEmRelacaoAOrigem(std::vector<std::vector<Vertex>>& Objeto, float graus, glm::vec4& Centro, glm::vec4& Up, glm::vec4 Right) {
+	glm::vec3 eixoDeRotacao{ 0.0f, 0.0f, 1.0f };
+	glm::mat4 I = glm::identity<glm::mat4>();
+	float Angle = glm::radians(graus);
+
+	glm::vec3 Origem{ 0.0f, 0.0f, 0.0f};
+	glm::mat4 Rotation = glm::rotate(I, Angle, eixoDeRotacao); // Rotaciona
+
+	Up = Rotation * Up;
+	Right = Rotation * Right;
+	Centro = Rotation * Centro;
+
+	for (auto& poligono : Objeto) {
+		for (auto& vertex : poligono) {
+			vertex.Position = Rotation * vertex.Position;
 		}
 	}
 }

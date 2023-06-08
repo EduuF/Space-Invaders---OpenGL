@@ -14,7 +14,7 @@ Bomba::Bomba(glm::vec4 Centro) {
 
     // Altera os vértices da nave
     glm::vec4 Origem = { 0.0f, 0.0f, 0.0f, 1.0f };
-    TranslationMatrix(this->Model, Origem, this->Centro);
+    TranslationMatrix(this->Model, Origem, this->Up, this->Centro);
 
     this->escala = glm::vec3{ 1.0f, 1.0f, 1.0f };
     this->Dropada = false;
@@ -23,7 +23,7 @@ Bomba::Bomba(glm::vec4 Centro) {
 
 
 void Bomba::translada(glm::vec3 fatorDeTranslacao) {
-    TranslationMatrix(this->Model, this->Centro, fatorDeTranslacao);
+    TranslationMatrix(this->Model, this->Centro, this->Up ,fatorDeTranslacao);
 }
 
 void Bomba::rotaciona(float graus) {

@@ -22,7 +22,7 @@ Missil::Missil(bool NaveOuAlien, glm::vec4 Centro, glm::vec4 direcao, float velo
 
     // Altera os vértices da nave
     glm::vec4 Origem = { 0.0f, 0.0f, 0.0f, 1.0f };
-    TranslationMatrix(this->modelo, Origem, this->Centro);    
+    TranslationMatrix(this->modelo, Origem, this->Up ,this->Centro);    
 
     // Graus da direcao em relação à Origem
     glm::vec3 yAxis = glm::normalize(this->Up);
@@ -41,7 +41,7 @@ Missil::Missil(bool NaveOuAlien, glm::vec4 Centro, glm::vec4 direcao, float velo
 Missil::~Missil() {};
 
 void Missil::translada(glm::vec3 fatorDeTranslacao) {
-    TranslationMatrix(this->modelo, this->Centro, fatorDeTranslacao);
+    TranslationMatrix(this->modelo, this->Centro, this->Up, fatorDeTranslacao);
 }
 
 void Missil::rotaciona(float graus) {
@@ -61,10 +61,9 @@ void Missil::moveFoward() {
     }
 
     glm::vec3 fatorDeTranslacao{ this->Centro.x, 0.0f, 0.0f };
-    glm::vec4 Origem{ 0.0f, 1.0f, 0.0f, 1.0f };
-    RotationMatrix(this->modelo, -graus, Origem, this->Up, this->Right);
+    RotacionaEmRelacaoAOrigem(this->modelo, -graus, this->Centro, this->Up, this->Right);
     this->translada(glm::vec3{ 0.0f, this->velocidade, 0.0f });
-    RotationMatrix(this->modelo, graus, Origem, this->Up, this->Right);
+    RotacionaEmRelacaoAOrigem(this->modelo, graus, this->Centro, this->Up, this->Right);
 }
 
 

@@ -18,7 +18,7 @@ Nave::Nave(glm::vec4 NaveCentro) {
 
     // Altera os vértices da nave
     glm::vec4 Origem = { 0.0f, 0.0f, 0.0f, 1.0f };
-    TranslationMatrix(this->modeloDaNave, Origem, this->NaveCentro);
+    TranslationMatrix(this->modeloDaNave, Origem, this->NaveUp , this->NaveCentro);
 
     this->escala = glm::vec3{ 1.0f, 1.0f, 1.0f };
     this->CanhaoDireitoAtira = false; 
@@ -30,7 +30,7 @@ void Nave::ajustaEscalaDaNave(glm::vec3 FatorDeEscala) {
 }
 
 void Nave::transladaANave(glm::vec3 fatorDeTranslacao) {
-    TranslationMatrix(this->modeloDaNave, this->NaveCentro, fatorDeTranslacao);
+    TranslationMatrix(this->modeloDaNave, this->NaveCentro, this->NaveUp , fatorDeTranslacao);
 }
 
 void Nave::rotacionaANave(float graus) {

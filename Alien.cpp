@@ -27,7 +27,7 @@ Alien::Alien(glm::vec4 Centro) {
 
     // Altera os vértices da nave
     glm::vec4 Origem = { 0.0f, 0.0f, 0.0f, 1.0f };
-    TranslationMatrix(this->modeloDoInimigo, Origem, this->Centro);
+    TranslationMatrix(this->modeloDoInimigo, Origem, this->Up ,this->Centro);
 }
 
 
@@ -37,7 +37,7 @@ void Alien::ajustaEscalaDoAlien(glm::vec3 FatorDeEscala) {
 }
 
 void Alien::transladaOAlien(glm::vec3 fatorDeTranslacao) {
-    TranslationMatrix(this->modeloDoInimigo, this->Centro, fatorDeTranslacao);
+    TranslationMatrix(this->modeloDoInimigo, this->Centro, this->Up , fatorDeTranslacao);
 }
 
 void Alien::rotacionaOAlien(float graus) {
@@ -103,7 +103,6 @@ std::vector<std::vector<Vertex>> Alien::getAlienModel() {
     glm::vec4 CorMotorEsquerdo{ 1.0f, 0.0f, 0.0f, 1.0f };
     glm::vec4 CorMotorDireito{ 1.0f, 0.0f, 0.0f, 1.0f };
     glm::vec4 CorBoundingBox{ 0.0f, 0.0f, 0.0f, 1.0f };
-
 
     std::vector<Vertex> Corpo1 = {
         Vertex{A, CorCorpo},

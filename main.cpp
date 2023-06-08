@@ -303,7 +303,7 @@ int main() {
 	glGenBuffers(1, &VertexBuffer);
 
 	// Definir cor de fundo da janela
-	glClearColor(0.99f, 0.85f, 0.98f, 1.0f); // Azul escuro
+	glClearColor(0.15f, 0.05f, 0.10f, 1.0f); // Azul escuro
 
 	// Guarda o tempo do frame anterior
 	double PreviousTime = glfwGetTime();
@@ -327,7 +327,7 @@ int main() {
 	float alturaDoPlaneta = -1.8f;
 
 	// Chance de o inimigo atirar x em 10000
-	int chanceDeInimigoAtirar = 500;
+	int chanceDeInimigoAtirar = 0;
 
 	// Chance de algum inimigo tentar dropar uma bomba x em 10000
 	int chanceDeInimigoTentarDroparBomba = 100;
@@ -335,7 +335,6 @@ int main() {
 	// Cadencia de tiros da nave
 	float CadenciaDeTiros = 0.3f;
 	
-
 	// Rendeiza apenas a face da frente
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
@@ -392,7 +391,7 @@ int main() {
 
 		// Se a bomba estiver em game, desenha ela.
 		if (AlienComBomba != -1) {
-			for (auto triangulo: TodosAliens[AlienComBomba].bomba.Model) {
+			for (auto triangulo : TodosAliens[AlienComBomba].bomba.Model) {
 				bufferData.insert(bufferData.end(), triangulo.begin(), triangulo.end());
 			}
 		}
@@ -467,6 +466,7 @@ int main() {
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 			glDrawArrays(GL_TRIANGLES, (tamanhoDaNave + (tamanhoDoAlien * TodosAliens.size()) + (tamanhoDoMissil * TodosMisseis.size()))*3, (tamanhoDaBomba - 2) * 3);
 		}
+
 
 		// Reverte o estado que nós criamos
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
