@@ -16,11 +16,14 @@ public:
 	bool ataca;
 	bool recua;
 	bool vivo;
+	bool intangivel;
 
 	Bomba bomba;
 	int life;
 
 	double yOriginal;
+
+	float tempoDeIntangibilidade;
 
 	Alien();
 

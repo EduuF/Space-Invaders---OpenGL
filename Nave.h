@@ -12,6 +12,10 @@ public:
     glm::vec3 escala;
 
     bool CanhaoDireitoAtira;
+    bool intangivel;
+
+    int life;
+    float tempoDeIntangibilidade;
 
 	Nave(glm::vec4 NaveCentro);
 

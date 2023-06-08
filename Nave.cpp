@@ -22,6 +22,9 @@ Nave::Nave(glm::vec4 NaveCentro) {
 
     this->escala = glm::vec3{ 1.0f, 1.0f, 1.0f };
     this->CanhaoDireitoAtira = false; 
+    this->life = 5000000;
+    this->tempoDeIntangibilidade = 1.0f;
+    this->intangivel = false;
 }
 
 void Nave::ajustaEscalaDaNave(glm::vec3 FatorDeEscala) {

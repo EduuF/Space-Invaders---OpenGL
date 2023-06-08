@@ -327,13 +327,19 @@ int main() {
 	float alturaDoPlaneta = -1.8f;
 
 	// Chance de o inimigo atirar x em 10000
-	int chanceDeInimigoAtirar = 0;
+	int chanceDeInimigoAtirar = 100;
 
 	// Chance de algum inimigo tentar dropar uma bomba x em 10000
 	int chanceDeInimigoTentarDroparBomba = 100;
 
 	// Cadencia de tiros da nave
 	float CadenciaDeTiros = 0.3f;
+
+	// Tempo de intangibilidade dos Alien
+	float tempoDeIntangibilidadeAlien = 2.0f;
+
+	// Tempo de intangibilidade da nave
+	float tempoDeIntangibilidadeNave = 2.0f;
 	
 	// Rendeiza apenas a face da frente
 	glEnable(GL_CULL_FACE);
@@ -342,7 +348,7 @@ int main() {
 	// Loop de eventos da aplicação
 	while (!glfwWindowShouldClose(Window)){
 
-		if (TodosAliens.size() == 0) {
+		if (TodosAliens.size() == 0 || nave1.life <= 0) {
 			break;
 		}
 
@@ -687,7 +693,30 @@ int main() {
 				}
 			}
 		}
+
 		// Anda com os misseis e Verifica colisão
+
+		// Verifica tangibilidade
+		for (auto& Alien : TodosAliens) {
+			if (Alien.intangivel) { // Se o Alien está intangivel
+				Alien.tempoDeIntangibilidade -= 1.0f * DeltaTime; // DIminui o tempo de intangibilidade restante
+				if (Alien.tempoDeIntangibilidade <= 0.0f) { // Se o tempo de intangibilidade restante é menor ou igual 0
+					Alien.tempoDeIntangibilidade = tempoDeIntangibilidadeNave; // Restaura o tempo de intangibilidade
+					Alien.intangivel = false; // E torna o Alien Tangivel novamente
+				}
+			}
+			
+		}
+
+		if (nave1.intangivel) {
+			nave1.tempoDeIntangibilidade -= 1.0f * DeltaTime; // DIminui o tempo de intangibilidade restante
+			if (nave1.tempoDeIntangibilidade <= 0.0f) { // Se o tempo de intangibilidade restante é menor ou igual 0
+				nave1.tempoDeIntangibilidade = tempoDeIntangibilidadeAlien;// Restaura o tempo de intangibilidade
+				nave1.intangivel = false; // E torna a Nave tangivel de novo
+			}
+		}
+
+
 		GLuint AlienAtingido = -1;
 		GLuint MissilAtingido = -1;
 		bool atingiu = false;
@@ -704,35 +733,73 @@ int main() {
 			}
 			TodosMisseis[i].moveFoward();
 
-			// Verifica colisão dos tiros
-			if (TodosMisseis[i].NaveOuAlien == false) {
+			if (!atingiu) { // Se nenhum missil atingiu ninguém neste frame
+				if (TodosMisseis[i].NaveOuAlien == false) { // Se for um missil de Alien
+					if (nave1.intangivel) {
+						continue;
+					}
+					auto distanciaTiroNave = glm::length(nave1.NaveCentro - TodosMisseis[i].Centro); // Calcula a distância do tiro para o centro da nave
+
+					if (distanciaTiroNave <= 0.2f) { // Se a distância for menor que x
+						nave1.life -=1; // Tira 1 de life da nave
+						nave1.intangivel = true;
+						std::cout << "nave1.life: " << nave1.life << std::endl;
+						MissilAtingido = i; // Salve o valor do missil que atingiu a nave
+						atingiu = true;
+						continue;
+					}
+				} else { // Se for um míssil da Nave
+					for (int j = 0; j < TodosAliens.size(); j++) { // Para cada um dos aliens
+						if (TodosAliens[j].intangivel) {
+							continue;
+						}
+						auto distanciaTiroAlien = glm::length(TodosAliens[j].Centro - TodosMisseis[i].Centro); // Calcula a distância do tiro para o centro do alien
+
+						if (distanciaTiroAlien <= 0.1f) { // Se a distância for menor que x
+							AlienAtingido = j; // Salva qual Alien foi atingido
+							MissilAtingido = i; // Salva qual tiro que atingiu
+							atingiu = true;
+							break;
+						}
+					}
+				}				
+			}
+		}
+
+		// Verifica se a nave bateu em algum Alien
+		for (int i = 0; i < TodosAliens.size(); i++) {
+			if (TodosAliens[i].Centro.y > -1.4f) {
 				continue;
 			}
-
-			if (!atingiu) {
-				for (int j = 0; j < TodosAliens.size(); j++) {
-					auto distanciaTiroAlien = glm::length(TodosAliens[j].Centro - TodosMisseis[i].Centro);
-
-					if (distanciaTiroAlien <= 0.1f) {
-						AlienAtingido = j;
-						MissilAtingido = i;
-						atingiu = true;
-						break;
-					}
-				}
+			if (TodosAliens[i].intangivel) {
+				continue;
 			}
-
-		}
-
-		if (AlienAtingido != -1) {
-			TodosAliens[AlienAtingido].life -= 1;
-			if (TodosAliens[AlienAtingido].life <= 0) {
-				TodosAliens.erase(TodosAliens.begin() + AlienAtingido);
+			if (nave1.intangivel) {
+				break;
+			}
+			auto distanciaNaveAlien = glm::length(TodosAliens[i].Centro - nave1.NaveCentro); // Calcula a distância do Alien para a nave
+			if (distanciaNaveAlien <= 0.2) {
+				AlienAtingido = i;
+				std::cout << "nave1.life: " << nave1.life << std::endl;
+				nave1.life -= 1; // Tira 1 de life da nave
+				nave1.intangivel = true;
+				atingiu = true;
+				break;
 			}
 		}
+		
+		
 
-		if (MissilAtingido != -1) {
-			TodosMisseis.erase(TodosMisseis.begin() + MissilAtingido);
+		if (AlienAtingido != -1) { // Se algum algum Alien foi atingido
+			TodosAliens[AlienAtingido].life -= 1; // Tira 1 de life do Alien
+			TodosAliens[AlienAtingido].intangivel = true;
+			if (TodosAliens[AlienAtingido].life <= 0) { // Se a vida do Alien chegar a 0
+				TodosAliens.erase(TodosAliens.begin() + AlienAtingido); // Mata o Alien
+			}
+		}
+
+		if (MissilAtingido != -1) { // Se Algum Missil atingiu algo
+			TodosMisseis.erase(TodosMisseis.begin() + MissilAtingido); // Apaga o Missil
 		}
 	}
 	// Desalocar o VertexBuffer

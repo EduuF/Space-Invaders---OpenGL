@@ -18,6 +18,8 @@ Alien::Alien(glm::vec4 Centro) {
     this->life = 10;
     this->recua = false;
     this->vivo = true;
+    this->intangivel = false;
+    this->tempoDeIntangibilidade = 2.0f;
 
     // Encontra o UP do Alien
     this->Up = glm::vec4{ 0.0f, 1.0f, 0.0f, 0.0f };
