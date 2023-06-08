@@ -12,7 +12,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/string_cast.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <array>
+
 #include <random>
 #include <vector>
 
@@ -294,11 +294,7 @@ int main() {
 	float angleRotacaoAlien = 45;
 	//TodosAliens[0].rotacionaOAlien(angleRotacaoAlien);
 
-	// Guarda os Misseis
-	const GLuint numeroDeMisseis = 200;
-
 	std::vector<Missil> TodosMisseis;
-	GLuint contadorDeMisseis = 0;
 
 	// Copiar os vértices do triangulo para a memória da GPU
 	GLuint VertexBuffer;
@@ -501,7 +497,6 @@ int main() {
 		if (glfwGetKey(Window, GLFW_KEY_S) == GLFW_PRESS) {
 			float velocidade = 1.5f * DeltaTime;
 			Missil missil = TodosAliens[0].Atira(velocidade);
-			GLuint posicaoDoMissel = contadorDeMisseis % numeroDeMisseis;
 			TodosMisseis.push_back(missil);
 		}
 
@@ -516,7 +511,12 @@ int main() {
 
 		// Anda com os misseis
 		for (int i = 0; i < TodosMisseis.size(); i++) {
-			if (TodosMisseis[i].modelo[0][0].Position.x > 1.5f) {
+			if (
+				TodosMisseis[i].modelo[0][0].Position.x > 1.5f || 
+				TodosMisseis[i].modelo[0][0].Position.x < -2.0f || 
+				TodosMisseis[i].modelo[0][0].Position.y < -2.0f || 
+				TodosMisseis[i].modelo[0][0].Position.y > 2.0f
+				) {
 				TodosMisseis.erase(TodosMisseis.begin() + i);
 				continue;
 			}
@@ -616,9 +616,7 @@ int main() {
 			
 			float velocidade = 1.5f * DeltaTime;
 			Missil missil = TodosAliens[AlienQueAtira].Atira(velocidade);
-			GLuint posicaoDoMissel = contadorDeMisseis % numeroDeMisseis;
 			TodosMisseis.push_back(missil);
-			contadorDeMisseis = posicaoDoMissel + 1;
 		}
 		// Verifica se algum alien vai carregar a bomba
 		if (!bombaInGame) {

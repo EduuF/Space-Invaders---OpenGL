@@ -1,6 +1,6 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/string_cast.hpp>
-#include <array>
+#include <vector>
 #include "Triangle.h"
 #include "Missil.h"
 #include "Bomba.h"
