@@ -382,7 +382,7 @@ int main() {
 				AlienComBomba = i;
 			}
 		}
-	
+
 		for (int i = 0; i < TodosMisseis.size(); i++) {
 			for (auto triangulo: TodosMisseis[i].modelo) {
 				bufferData.insert(bufferData.end(), triangulo.begin(), triangulo.end());
@@ -541,6 +541,7 @@ int main() {
 			}
 
 		}
+
 		// Anda com o esquadrão
 		glm::vec3 fatorDeTranslacaoEsquadrão{ 0.0f, -1.0f * velocidadeInimigos * DeltaTime, 0.0f };
 		glm::vec3 fatorDeTranslacaoEsquadraoSobe{ 0.0f, 0.0f, velocidadeSubidaEDescidaInimigos * DeltaTime };
@@ -574,7 +575,7 @@ int main() {
 					}
 				}
 			}
-			
+
 			if (TodosAliens[i].recua) {
 				if (TodosAliens[i].Centro.y > 0.5f && TodosAliens[i].Centro.y < TodosAliens[i].yOriginal && TodosAliens[i].Centro.z < 1.0f) { // Sobe Z
 					TodosAliens[i].transladaOAlien(fatorDeTranslacaoEsquadraoSobe);
@@ -626,7 +627,7 @@ int main() {
 				}
 			}
 		}
-		
+
 		// Verifica se os Aliens atiram mísseis
 		std::random_device AlienAtira;
 		std::uniform_int_distribution<int> dist(1, 10000);
@@ -644,7 +645,7 @@ int main() {
 			std::random_device randomBomb;
 			std::uniform_int_distribution<int> distBombaNormal(1, 10000);
 
-			int rng = (distBombaNormal(randomBomb));
+			int rng = distBombaNormal(randomBomb);
 
 			if (rng > 10000 - chanceDeInimigoTentarDroparBomba) {
 				int candidatoAAlieQueCarregaABomba = rng % TodosAliens.size();
@@ -667,12 +668,13 @@ int main() {
 						vizinhos.push_back(AlienQueCarregaABomba + NumeroDeColunasDeInimigos - 1);
 						vizinhos.push_back(AlienQueCarregaABomba + NumeroDeColunasDeInimigos);
 						vizinhos.push_back(AlienQueCarregaABomba + NumeroDeColunasDeInimigos + 1);
+
 						// Verifica os membros válidos do esquadrão
 						for (int i = 0; i < 8; i++) {
 							if (vizinhos[i] < 0) {
 								continue;
 							}
-							else if (vizinhos[i] > TodosAliens.size()) {
+							else if (vizinhos[i] >= TodosAliens.size()) {
 								continue;
 							}
 							else if (TodosAliens[vizinhos[i]].recua == true || TodosAliens[vizinhos[i]].ataca == true) {
@@ -686,7 +688,7 @@ int main() {
 			}
 		}
 		// Anda com os misseis e Verifica colisão
-		GLuint NaveAtingida = -1;
+		GLuint AlienAtingido = -1;
 		GLuint MissilAtingido = -1;
 		bool atingiu = false;
 
@@ -712,7 +714,7 @@ int main() {
 					auto distanciaTiroAlien = glm::length(TodosAliens[j].Centro - TodosMisseis[i].Centro);
 
 					if (distanciaTiroAlien <= 0.1f) {
-						NaveAtingida = j;
+						AlienAtingido = j;
 						MissilAtingido = i;
 						atingiu = true;
 						break;
@@ -721,12 +723,15 @@ int main() {
 			}
 
 		}
-		if (NaveAtingida != -1) {
-			std::cout << "NaveAtingida: " << NaveAtingida << std::endl;
-			TodosAliens.erase(TodosAliens.begin() + NaveAtingida);
+
+		if (AlienAtingido != -1) {
+			TodosAliens[AlienAtingido].life -= 1;
+			if (TodosAliens[AlienAtingido].life <= 0) {
+				TodosAliens.erase(TodosAliens.begin() + AlienAtingido);
+			}
 		}
+
 		if (MissilAtingido != -1) {
-			std::cout << "MissilAtingido: " << MissilAtingido << std::endl;
 			TodosMisseis.erase(TodosMisseis.begin() + MissilAtingido);
 		}
 	}
