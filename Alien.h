@@ -8,6 +8,8 @@
 class Alien {
 public:
 
+	glm::vec3 escala;
+
 	int ID;
 	bool disponível;
 	bool hasBomb;

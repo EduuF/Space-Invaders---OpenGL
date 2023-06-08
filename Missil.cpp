@@ -22,7 +22,7 @@ Missil::Missil(bool NaveOuAlien, glm::vec4 Centro, glm::vec4 direcao, float velo
 
     // Altera os vértices da nave
     glm::vec4 Origem = { 0.0f, 0.0f, 0.0f, 1.0f };
-    TranslationMatrixMissil(this->modelo, Origem, this->Centro);    
+    TranslationMatrix(this->modelo, Origem, this->Centro);    
 
     // Graus da direcao em relação à Origem
     glm::vec3 yAxis = glm::normalize(this->Up);
@@ -41,11 +41,11 @@ Missil::Missil(bool NaveOuAlien, glm::vec4 Centro, glm::vec4 direcao, float velo
 Missil::~Missil() {};
 
 void Missil::translada(glm::vec3 fatorDeTranslacao) {
-    TranslationMatrixMissil(this->modelo, this->Centro, fatorDeTranslacao);
+    TranslationMatrix(this->modelo, this->Centro, fatorDeTranslacao);
 }
 
 void Missil::rotaciona(float graus) {
-    RotationMatrixMissil(this->modelo, graus, this->Centro, this->Up, this->Right); // Rotaciona o triangulo em relação ao centro do OBJ
+    RotationMatrix(this->modelo, graus, this->Centro, this->Up, this->Right); // Rotaciona o triangulo em relação ao centro do OBJ
 }
 
 void Missil::moveFoward() {    
@@ -62,9 +62,9 @@ void Missil::moveFoward() {
 
     glm::vec3 fatorDeTranslacao{ this->Centro.x, 0.0f, 0.0f };
     glm::vec4 Origem{ 0.0f, 1.0f, 0.0f, 1.0f };
-    RotationMatrixMissil(this->modelo, -graus, Origem, this->Up, this->Right);
+    RotationMatrix(this->modelo, -graus, Origem, this->Up, this->Right);
     this->translada(glm::vec3{ 0.0f, this->velocidade, 0.0f });
-    RotationMatrixMissil(this->modelo, graus, Origem, this->Up, this->Right);
+    RotationMatrix(this->modelo, graus, Origem, this->Up, this->Right);
 }
 
 

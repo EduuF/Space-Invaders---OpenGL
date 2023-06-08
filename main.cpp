@@ -375,8 +375,6 @@ int main() {
 			bufferData.insert(bufferData.end(), triangulo.begin(), triangulo.end());
 		}
 
-		std::cout << "TodosAliens.size(): " << TodosAliens.size() << std::endl;
-
 		for (int i = 0; i < TodosAliens.size(); i++) {
 			for (auto triangulo: TodosAliens[i].modeloDoInimigo) {
 				bufferData.insert(bufferData.end(), triangulo.begin(), triangulo.end());

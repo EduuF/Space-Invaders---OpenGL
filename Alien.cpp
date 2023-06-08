@@ -27,22 +27,21 @@ Alien::Alien(glm::vec4 Centro) {
 
     // Altera os vértices da nave
     glm::vec4 Origem = { 0.0f, 0.0f, 0.0f, 1.0f };
-    TranslationMatrixAlien(this->modeloDoInimigo, Origem, this->Centro);
+    TranslationMatrix(this->modeloDoInimigo, Origem, this->Centro);
 }
 
 
 void Alien::ajustaEscalaDoAlien(glm::vec3 FatorDeEscala) {
-    for (auto& parte : modeloDoInimigo) { // Para cada triangulo do objeto
-        ScaleMatrix(parte, FatorDeEscala, this->Centro); // Escala o triangulo
-    }
+    ScaleMatrix(this->modeloDoInimigo, FatorDeEscala, this->Centro); // Escala o triangulo
+    this->escala *= FatorDeEscala;
 }
 
 void Alien::transladaOAlien(glm::vec3 fatorDeTranslacao) {
-    TranslationMatrixAlien(this->modeloDoInimigo, this->Centro, fatorDeTranslacao);
+    TranslationMatrix(this->modeloDoInimigo, this->Centro, fatorDeTranslacao);
 }
 
 void Alien::rotacionaOAlien(float graus) {
-    RotationMatrixAlien(this->modeloDoInimigo, graus, this->Centro, this->Up, this->Right); // Rotaciona o triangulo em relação ao centro do OBJ
+    RotationMatrix(this->modeloDoInimigo, graus, this->Centro, this->Up, this->Right); // Rotaciona o triangulo em relação ao centro do OBJ
 }
 
 std::vector<std::vector<Vertex>> Alien::getAlienModel() {

@@ -18,25 +18,23 @@ Nave::Nave(glm::vec4 NaveCentro) {
 
     // Altera os vértices da nave
     glm::vec4 Origem = { 0.0f, 0.0f, 0.0f, 1.0f };
-    TranslationMatrixNave(this->modeloDaNave, Origem, this->NaveCentro);
+    TranslationMatrix(this->modeloDaNave, Origem, this->NaveCentro);
 
     this->escala = glm::vec3{ 1.0f, 1.0f, 1.0f };
     this->CanhaoDireitoAtira = false; 
 }
 
 void Nave::ajustaEscalaDaNave(glm::vec3 FatorDeEscala) {
-    for (auto& parte : this->modeloDaNave) { // Para cada triangulo do objeto
-        ScaleMatrix(parte, FatorDeEscala, this->NaveCentro); // Escala o triangulo
-    }
+    ScaleMatrix(this->modeloDaNave, FatorDeEscala, this->NaveCentro); // Escala o triangulo
     this->escala *= FatorDeEscala;
 }
 
 void Nave::transladaANave(glm::vec3 fatorDeTranslacao) {
-    TranslationMatrixNave(this->modeloDaNave, this->NaveCentro, fatorDeTranslacao);
+    TranslationMatrix(this->modeloDaNave, this->NaveCentro, fatorDeTranslacao);
 }
 
 void Nave::rotacionaANave(float graus) {
-    RotationMatrixNave(this->modeloDaNave, graus, this->NaveCentro, this->NaveUp, this->naveRight); // Rotaciona o OBJ em relação a seu centro
+    RotationMatrix(this->modeloDaNave, graus, this->NaveCentro, this->NaveUp, this->naveRight); // Rotaciona o OBJ em relação a seu centro
 }
 
 
