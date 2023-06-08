@@ -8,7 +8,7 @@
 
 // Leva o triangulo para o centro do objeto, escala e volta para a posicao original
 // Isso evita que ao fazer a escala o objeto se aproxime ou afaste da origem do plano original
-void ScaleMatrix(std::array<Vertex, 3>& Triangle, glm::vec3 FatorDeEscala, glm::vec4 &Centro) {
+void ScaleMatrix(std::vector<Vertex>& Triangle, glm::vec3 FatorDeEscala, glm::vec4 &Centro) {
 	glm::vec3 OrigemDoObjeto{ Centro.x, Centro.y, Centro.z };
 	glm::mat4 I = glm::identity<glm::mat4>();
 	glm::mat4 TranslationToObjectOrigin = glm::translate(I, -1.0f * OrigemDoObjeto); // Translada Centro para o Origem do ambiente
@@ -23,7 +23,7 @@ void ScaleMatrix(std::array<Vertex, 3>& Triangle, glm::vec3 FatorDeEscala, glm::
 
 }
 
-void RotationMatrixAlien(std::array<std::array<Vertex, 3>, 18>& Objeto, float graus, glm::vec4& Centro, glm::vec4& Up, glm::vec4 Right) {
+void RotationMatrixAlien(std::vector<std::vector<Vertex>>& Objeto, float graus, glm::vec4& Centro, glm::vec4& Up, glm::vec4 Right) {
 
 	glm::vec3 eixoDeRotacao{ 0.0f, 0.0f, 1.0f };
 	glm::mat4 I = glm::identity<glm::mat4>();
@@ -46,7 +46,7 @@ void RotationMatrixAlien(std::array<std::array<Vertex, 3>, 18>& Objeto, float gr
 	}
 }
 
-void RotationMatrixNave(std::array<std::array<Vertex, 3>, 7>& Objeto, float graus, glm::vec4& Centro, glm::vec4& NaveUp, glm::vec4 Right) {
+void RotationMatrixNave(std::vector<std::vector<Vertex>>& Objeto, float graus, glm::vec4& Centro, glm::vec4& NaveUp, glm::vec4 Right) {
 
 	glm::vec3 eixoDeRotacao{ 0.0f, 0.0f, 1.0f };
 	glm::mat4 I = glm::identity<glm::mat4>();
@@ -69,7 +69,7 @@ void RotationMatrixNave(std::array<std::array<Vertex, 3>, 7>& Objeto, float grau
 	}
 }
 
-void RotationMatrixMissil(std::array<std::array<Vertex, 3>, 4>& Objeto, float graus, glm::vec4& Centro, glm::vec4& Up, glm::vec4 Right) {
+void RotationMatrixMissil(std::vector<std::vector<Vertex>>& Objeto, float graus, glm::vec4& Centro, glm::vec4& Up, glm::vec4 Right) {
 
 	glm::vec3 eixoDeRotacao{ 0.0f, 0.0f, 1.0f };
 	glm::mat4 I = glm::identity<glm::mat4>();
@@ -92,7 +92,7 @@ void RotationMatrixMissil(std::array<std::array<Vertex, 3>, 4>& Objeto, float gr
 	}
 }
 
-void RotationMatrixBomba(std::array<std::array<Vertex, 3>, 6>& Objeto, float graus, glm::vec4& Centro, glm::vec4& Up, glm::vec4 Right) {
+void RotationMatrixBomba(std::vector<std::vector<Vertex>>& Objeto, float graus, glm::vec4& Centro, glm::vec4& Up, glm::vec4 Right) {
 
 	glm::vec3 eixoDeRotacao{ 0.0f, 0.0f, 1.0f };
 	glm::mat4 I = glm::identity<glm::mat4>();
@@ -116,7 +116,7 @@ void RotationMatrixBomba(std::array<std::array<Vertex, 3>, 6>& Objeto, float gra
 }
 
 
-void TranslationMatrixAlien(std::array<std::array<Vertex, 3>, 18>& Objeto, glm::vec4& CentroObjeto,  glm::vec3 T) {
+void TranslationMatrixAlien(std::vector<std::vector<Vertex>>& Objeto, glm::vec4& CentroObjeto,  glm::vec3 T) {
 	glm::mat4 I = glm::identity<glm::mat4>();
 	glm::mat4 Translation = glm::translate(I, T); // Translation translada qualquer ponto em 10 no x, 10 no y e 10 no z
 
@@ -131,7 +131,7 @@ void TranslationMatrixAlien(std::array<std::array<Vertex, 3>, 18>& Objeto, glm::
 	}
 }
 
-void TranslationMatrixNave(std::array<std::array<Vertex, 3>, 7>& Objeto, glm::vec4& CentroObjeto, glm::vec3 T) {
+void TranslationMatrixNave(std::vector<std::vector<Vertex>>& Objeto, glm::vec4& CentroObjeto, glm::vec3 T) {
 	glm::mat4 I = glm::identity<glm::mat4>();
 	glm::mat4 Translation = glm::translate(I, T); // Translation translada qualquer ponto em 10 no x, 10 no y e 10 no z
 
@@ -146,7 +146,7 @@ void TranslationMatrixNave(std::array<std::array<Vertex, 3>, 7>& Objeto, glm::ve
 	}
 }
 
-void TranslationMatrixMissil(std::array<std::array<Vertex, 3>, 4>& Objeto, glm::vec4& CentroObjeto, glm::vec3 T) {
+void TranslationMatrixMissil(std::vector<std::vector<Vertex>>& Objeto, glm::vec4& CentroObjeto, glm::vec3 T) {
 	glm::mat4 I = glm::identity<glm::mat4>();
 	glm::mat4 Translation = glm::translate(I, T); // Translation translada qualquer ponto em 10 no x, 10 no y e 10 no z
 
@@ -161,7 +161,7 @@ void TranslationMatrixMissil(std::array<std::array<Vertex, 3>, 4>& Objeto, glm::
 	}
 }
 
-void TranslationMatrixBomba(std::array<std::array<Vertex, 3>, 6>& Objeto, glm::vec4& CentroObjeto, glm::vec3 T) {
+void TranslationMatrixBomba(std::vector<std::vector<Vertex>>& Objeto, glm::vec4& CentroObjeto, glm::vec3 T) {
 	glm::mat4 I = glm::identity<glm::mat4>();
 	glm::mat4 Translation = glm::translate(I, T); // Translation translada qualquer ponto em 10 no x, 10 no y e 10 no z
 

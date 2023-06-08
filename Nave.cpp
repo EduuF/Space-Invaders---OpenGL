@@ -6,7 +6,7 @@
 Nave::Nave(glm::vec4 NaveCentro) {
 
     this->NaveCentro = NaveCentro; // Diz qual é o centro de onde o objeto será criado
-    std::array<std::array<Vertex, 3>, 7> NaveModel = this->getNaveModel(); // Modelo Base
+    std::vector<std::vector<Vertex>> NaveModel = this->getNaveModel(); // Modelo Base
 
     this->modeloDaNave = NaveModel; // Acopla modelo base
 
@@ -40,7 +40,7 @@ void Nave::rotacionaANave(float graus) {
 }
 
 
-std::array<std::array<Vertex, 3>, 7> Nave::getNaveModel() {
+std::vector<std::vector<Vertex>> Nave::getNaveModel() {
 
     // Modela a nave
     glm::vec4 A{ -0.04f, -0.03f,  0.0f, 1.0f };
@@ -85,43 +85,43 @@ std::array<std::array<Vertex, 3>, 7> Nave::getNaveModel() {
     glm::vec2 TexturaMotorEsquerdo{ 1.0f, 1.0f };
     glm::vec2 TexturaBoudingBox{ 1.0f, 1.0f };
 
-    std::array<Vertex, 3> Corpo = { 
+    std::vector<Vertex> Corpo = { 
         Vertex{A, CorCorpo, {0.0f, 0.0f}},
         Vertex{C, AntiVerde, {1.0f, 0.0f}},
         Vertex{B, CorCorpo, {1.0f, 1.0f}} };
 
-    std::array<Vertex, 3> CanhaoEsquerdo = { 
+    std::vector<Vertex> CanhaoEsquerdo = { 
         Vertex{A, AntiVermelho}, 
         Vertex{E, AntiVerde}, 
         Vertex{D, AntiAzul} };
 
-    std::array<Vertex, 3> CanhaoDireito = { 
+    std::vector<Vertex> CanhaoDireito = { 
         Vertex{C, AntiAzul}, 
         Vertex{G, AntiVermelho}, 
         Vertex{F, AntiVerde} };
 
-    std::array<Vertex, 3> MotorEsquerdo = { 
+    std::vector<Vertex> MotorEsquerdo = { 
         Vertex{A, CorMotorEsquerdo}, 
         Vertex{I, CorMotorEsquerdo}, 
         Vertex{H, CorMotorEsquerdo} };
 
-    std::array<Vertex, 3> MotorDireito = { 
+    std::vector<Vertex> MotorDireito = { 
         Vertex{C, CorMotorDireito}, 
         Vertex{K, CorMotorDireito}, 
         Vertex{J, CorMotorDireito} };
 
-    std::array<Vertex, 3> BoudingBox1 = { 
+    std::vector<Vertex> BoudingBox1 = { 
         Vertex{BoundingBoxA, CorBoudingBox}, 
         Vertex{BoundingBoxC, CorBoudingBox}, 
         Vertex{BoundingBoxB, CorBoudingBox} };
 
-    std::array<Vertex, 3> BoudingBox2 = { 
+    std::vector<Vertex> BoudingBox2 = { 
         Vertex{BoundingBoxA, CorBoudingBox}, 
         Vertex{BoundingBoxD, CorBoudingBox}, 
         Vertex{BoundingBoxC, CorBoudingBox} };
 
 
-    std::array<std::array<Vertex, 3>, 7> NaveVertices = {
+    std::vector<std::vector<Vertex>> NaveVertices = {
 
         // Corpo
         Corpo,

@@ -9,7 +9,7 @@ Missil::Missil(bool NaveOuAlien, glm::vec4 Centro, glm::vec4 direcao, float velo
 
     this->Centro = Centro; // Diz qual é o centro de onde o objeto será criado
 
-    std::array<std::array<Vertex, 3>, 4> Model = this->getModel(NaveOuAlien); // Modelo Base
+    std::vector<std::vector<Vertex>> Model = this->getModel(NaveOuAlien); // Modelo Base
     
     this->modelo = Model; // Acopla modelo base
     this->velocidade = velocidade;
@@ -80,7 +80,7 @@ void Missil::AcertaMissil() {
 }
 
 
-std::array<std::array<Vertex, 3>, 4> Missil::getModel(bool NaveOuAlien) {
+std::vector<std::vector<Vertex>> Missil::getModel(bool NaveOuAlien) {
 
     glm::vec4 A{ 0.0f, 0.0f,  0.0f, 1.0f };
     glm::vec4 B{ 0.0f, 0.0f,  0.0f, 1.0f };
@@ -133,28 +133,28 @@ std::array<std::array<Vertex, 3>, 4> Missil::getModel(bool NaveOuAlien) {
     glm::vec4 BoundingBoxC = C;
     glm::vec4 BoundingBoxD = D;
 
-    std::array<Vertex, 3> Missil1 = {
+    std::vector<Vertex> Missil1 = {
         Vertex{A, CorMissil},
         Vertex{D, CorMissil},
         Vertex{B, CorMissil} };
 
-    std::array<Vertex, 3> Missil2 = {
+    std::vector<Vertex> Missil2 = {
         Vertex{D, CorMissil},
         Vertex{C, CorMissil},
         Vertex{B, CorMissil} };
 
-    std::array<Vertex, 3> BoudingBox1 = {
+    std::vector<Vertex> BoudingBox1 = {
         Vertex{BoundingBoxA, CorBoudingBox, {0.0f, 0.0f}},
         Vertex{BoundingBoxC, CorBoudingBox, {0.0f, 0.0f}},
         Vertex{BoundingBoxB, CorBoudingBox, {0.0f, 0.0f}} };
 
-    std::array<Vertex, 3> BoudingBox2 = {
+    std::vector<Vertex> BoudingBox2 = {
         Vertex{BoundingBoxA, CorBoudingBox, {0.0f, 0.0f}},
         Vertex{BoundingBoxD, CorBoudingBox, {0.0f, 0.0f}},
         Vertex{BoundingBoxC, CorBoudingBox, {0.0f, 0.0f}} };
 
 
-    std::array<std::array<Vertex, 3>, 4> MissilVertices = {
+    std::vector<std::vector<Vertex>> MissilVertices = {
 
         // Corpo
         Missil1,

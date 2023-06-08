@@ -37,7 +37,7 @@ void Bomba::ajustaEscala(glm::vec3 FatorDeEscala) {
     this->escala *= FatorDeEscala;
 }
 
-std::array<std::array<Vertex, 3>, 6> Bomba::getModel() {
+std::vector<std::vector<Vertex>> Bomba::getModel() {
 
     // Modela a nave
     glm::vec4 A{ -0.04f, 0.00f,  0.0f, 1.0f };
@@ -74,38 +74,38 @@ std::array<std::array<Vertex, 3>, 6> Bomba::getModel() {
     glm::vec2 TexturaCorpo{ 0.45f, 0.56f };
     glm::vec2 TexturaBoudingBox{ 1.0f, 1.0f };
 
-    std::array<Vertex, 3> AletaEsquerda = {
+    std::vector<Vertex> AletaEsquerda = {
         Vertex{A, Vermelho, {0.0f, 0.0f}},
         Vertex{C, Vermelho, {1.0f, 0.0f}},
         Vertex{B, Vermelho, {1.0f, 1.0f}} };
 
-    std::array<Vertex, 3> AletaDireita = {
+    std::vector<Vertex> AletaDireita = {
         Vertex{D, Vermelho},
         Vertex{F, Vermelho},
         Vertex{E, Vermelho} };
 
-    std::array<Vertex, 3> Corpo1 = {
+    std::vector<Vertex> Corpo1 = {
         Vertex{G, CorCorpo},
         Vertex{I, CorCorpo},
         Vertex{H, CorCorpo} };
 
-    std::array<Vertex, 3> Corpo2 = {
+    std::vector<Vertex> Corpo2 = {
         Vertex{G, CorCorpo2},
         Vertex{J, CorCorpo2},
         Vertex{I, CorCorpo2} };
 
-    std::array<Vertex, 3> BoudingBox1 = {
-        Vertex{BoundingBoxA, CorBoudingBox},
-        Vertex{BoundingBoxC, CorBoudingBox},
-        Vertex{BoundingBoxB, CorBoudingBox} };
+    std::vector<Vertex> BoudingBox1 = {
+        Vertex{BoundingBoxA},
+        Vertex{BoundingBoxC},
+        Vertex{BoundingBoxB} };
 
-    std::array<Vertex, 3> BoudingBox2 = {
-        Vertex{BoundingBoxA, CorBoudingBox},
-        Vertex{BoundingBoxD, CorBoudingBox},
-        Vertex{BoundingBoxC, CorBoudingBox} };
+    std::vector<Vertex> BoudingBox2 = {
+        Vertex{BoundingBoxA},
+        Vertex{BoundingBoxD},
+        Vertex{BoundingBoxC} };
 
 
-    std::array<std::array<Vertex, 3>, 6> BombaVertices = {
+    std::vector<std::vector<Vertex>> BombaVertices = {
 
         // Aletas
         AletaEsquerda,

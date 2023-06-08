@@ -4,6 +4,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/string_cast.hpp>
 #include <array>
+#include <vector>
 #include "Triangle.h"
 
 class Missil {
@@ -21,14 +22,14 @@ public:
     Missil();
     ~Missil();
 
-    std::array<std::array<Vertex, 3>, 4> modelo;
+    std::vector<std::vector<Vertex>> modelo;
 
     void translada(glm::vec3 fatorDeTranslacao);
     void rotaciona(float graus);
 
     void moveFoward();
 
-    std::array<std::array<Vertex, 3>, 4> getModel(bool NaveOuAlien);
+    std::vector<std::vector<Vertex>> getModel(bool NaveOuAlien);
     void AcertaMissil();
 
 };

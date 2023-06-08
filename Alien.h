@@ -28,13 +28,13 @@ public:
 
 	bool CanhaoDireitoAtira;
 
-	std::array<std::array<Vertex, 3>, 18> modeloDoInimigo;
+	std::vector<std::vector<Vertex>> modeloDoInimigo;
 	void ajustaEscalaDoAlien(glm::vec3 FatorDeEscala);
 	void transladaOAlien(glm::vec3 fatorDeTranslacao);
 	void rotacionaOAlien(float graus);
 
 
-	std::array<std::array<Vertex, 3>, 18> getAlienModel();
+	std::vector<std::vector<Vertex>> getAlienModel();
     
 	Missil Atira(float velocidade);
 	void CarregaBomba();

@@ -1,6 +1,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/string_cast.hpp>
 #include <array>
+#include <vector>
 #include "Triangle.h"
 #include "Missil.h"
 
@@ -15,13 +16,13 @@ public:
 
 	Nave(glm::vec4 NaveCentro);
 
-    std::array<std::array<Vertex, 3>, 7> modeloDaNave;
+    std::vector<std::vector<Vertex>> modeloDaNave;
 
     void ajustaEscalaDaNave(glm::vec3 FatorDeEscala);
     void transladaANave(glm::vec3 fatorDeTranslacao);
     void rotacionaANave(float graus);
 
-    std::array<std::array<Vertex, 3>, 7> getNaveModel();
+    std::vector<std::vector<Vertex>> getNaveModel();
 
     void MoveRight(float Amount);
     Missil Atira(float velocidade);

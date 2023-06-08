@@ -7,7 +7,7 @@ Alien::Alien() {}
 
 Alien::Alien(glm::vec4 Centro) {
     this->Centro = Centro;
-    std::array<std::array<Vertex, 3>, 18> inimigoModel = this->getAlienModel(); // Modelo Base
+    std::vector<std::vector<Vertex>> inimigoModel = this->getAlienModel(); // Modelo Base
 
     this->modeloDoInimigo = inimigoModel; // Acopla modelo base
 
@@ -45,7 +45,7 @@ void Alien::rotacionaOAlien(float graus) {
     RotationMatrixAlien(this->modeloDoInimigo, graus, this->Centro, this->Up, this->Right); // Rotaciona o triangulo em relação ao centro do OBJ
 }
 
-std::array<std::array<Vertex, 3>, 18> Alien::getAlienModel() {
+std::vector<std::vector<Vertex>> Alien::getAlienModel() {
 
     
 
@@ -106,116 +106,116 @@ std::array<std::array<Vertex, 3>, 18> Alien::getAlienModel() {
     glm::vec4 CorBoundingBox{ 0.0f, 0.0f, 0.0f, 1.0f };
 
 
-    std::array<Vertex, 3> Corpo1 = {
+    std::vector<Vertex> Corpo1 = {
         Vertex{A, CorCorpo},
         Vertex{D, CorCorpo},
         Vertex{C, CorCorpo}
     };
 
-    std::array<Vertex, 3> Corpo2 = {
+    std::vector<Vertex> Corpo2 = {
         Vertex{A, CorCorpo},
         Vertex{C, CorCorpo},
         Vertex{B, CorCorpo}
     };
 
-    std::array<Vertex, 3> BracoEsquerdo1 = {
+    std::vector<Vertex> BracoEsquerdo1 = {
         Vertex{A, CorBracoEsquerdo},
         Vertex{F, CorBracoEsquerdo},
         Vertex{E, CorBracoEsquerdo}
     };
 
-    std::array<Vertex, 3> BracoEsquerdo2 = {
+    std::vector<Vertex> BracoEsquerdo2 = {
         Vertex{A, CorBracoEsquerdo},
         Vertex{G, CorBracoEsquerdo},
         Vertex{F, CorBracoEsquerdo}
     };
 
-    std::array<Vertex, 3> MaoEsquerda1 = {
+    std::vector<Vertex> MaoEsquerda1 = {
         Vertex{H, CorMaoEsquerda},
         Vertex{J, CorMaoEsquerda},
         Vertex{I, CorMaoEsquerda}
     };
 
-    std::array<Vertex, 3> MaoEsquerda2 = {
+    std::vector<Vertex> MaoEsquerda2 = {
         Vertex{H, CorMaoEsquerda},
         Vertex{F, CorMaoEsquerda},
         Vertex{J, CorMaoEsquerda}
     };
 
-    std::array<Vertex, 3> CanhaoEsquerdo1 = {
+    std::vector<Vertex> CanhaoEsquerdo1 = {
         Vertex{K, CorCanhaoEsquerdo},
         Vertex{M, CorCanhaoEsquerdo},
         Vertex{L, CorCanhaoEsquerdo}
     };
 
-    std::array<Vertex, 3> CanhaoEsquerdo2 = {
+    std::vector<Vertex> CanhaoEsquerdo2 = {
         Vertex{K, CorCanhaoEsquerdo},
         Vertex{J, CorCanhaoEsquerdo},
         Vertex{M, CorCanhaoEsquerdo}
     };
 
-    std::array<Vertex, 3> BracoDireito1 = {
+    std::vector<Vertex> BracoDireito1 = {
         Vertex{B, CorBracoDireito},
         Vertex{P, CorBracoDireito},
         Vertex{O, CorBracoDireito}
     };
 
-    std::array<Vertex, 3> BracoDireito2 = {
+    std::vector<Vertex> BracoDireito2 = {
         Vertex{B, CorBracoDireito},
         Vertex{O, CorBracoDireito},
         Vertex{N, CorBracoDireito}
     };
 
-    std::array<Vertex, 3> MaoDireita1 = {
+    std::vector<Vertex> MaoDireita1 = {
         Vertex{O, CorMaoDireita},
         Vertex{R, CorMaoDireita},
         Vertex{Q, CorMaoDireita}
     };
 
-    std::array<Vertex, 3> MaoDireita2 = {
+    std::vector<Vertex> MaoDireita2 = {
         Vertex{O, CorMaoDireita},
         Vertex{S, CorMaoDireita},
         Vertex{R, CorMaoDireita}
     };
 
-    std::array<Vertex, 3> CanhaoDireito1 = {
+    std::vector<Vertex> CanhaoDireito1 = {
         Vertex{Q, CorCanhaoDireito},
         Vertex{U, CorCanhaoDireito},
         Vertex{T, CorCanhaoDireito}
     };
 
-    std::array<Vertex, 3> CanhaoDireito2 = {
+    std::vector<Vertex> CanhaoDireito2 = {
         Vertex{Q, CorCanhaoDireito},
         Vertex{V, CorCanhaoDireito},
         Vertex{U, CorCanhaoDireito}
     };
 
-    std::array<Vertex, 3> MotorEsquerdo = {
+    std::vector<Vertex> MotorEsquerdo = {
         Vertex{X, CorMotorEsquerdo},
         Vertex{Y, CorMotorEsquerdo},
         Vertex{W, CorMotorEsquerdo}
     };
 
-    std::array<Vertex, 3> MotorDireito = {
+    std::vector<Vertex> MotorDireito = {
         Vertex{Z, CorMotorDireito},
         Vertex{B1, CorMotorDireito},
         Vertex{A1, CorMotorDireito}
     };
 
-    std::array<Vertex, 3> BoudingBox1 = {
+    std::vector<Vertex> BoudingBox1 = {
         Vertex{BoundingBoxA, CorBoundingBox},
         Vertex{BoundingBoxC, CorBoundingBox},
         Vertex{BoundingBoxB, CorBoundingBox}
     };
 
-    std::array<Vertex, 3> BoudingBox2 = {
+    std::vector<Vertex> BoudingBox2 = {
         Vertex{BoundingBoxA, CorBoundingBox},
         Vertex{BoundingBoxD, CorBoundingBox},
         Vertex{BoundingBoxC, CorBoundingBox}
     };
 
 
-    std::array<std::array<Vertex, 3>, 18> alienVertices = {
+    std::vector<std::vector<Vertex>> alienVertices = {
         // Corpo
         Corpo1, Corpo2,
 
@@ -242,7 +242,6 @@ std::array<std::array<Vertex, 3>, 18> Alien::getAlienModel() {
         // Bouding Box
         BoudingBox2
     };
-
     return alienVertices;
 }
 

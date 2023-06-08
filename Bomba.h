@@ -4,6 +4,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/string_cast.hpp>
 #include <array>
+#include <vector>
 #include "Triangle.h"
 #include "Matrices.h"
 
@@ -18,7 +19,7 @@ public:
     bool Aumentando;
     
 
-    std::array<std::array<Vertex, 3>, 6> Model;
+    std::vector<std::vector<Vertex>> Model;
 
     float velocidade;
 
@@ -30,7 +31,7 @@ public:
     void rotaciona(float graus);
     void ajustaEscala(glm::vec3 FatorDeEscala);
 
-    std::array<std::array<Vertex, 3>, 6> getModel();
+    std::vector<std::vector<Vertex>> getModel();
 
 };
 
