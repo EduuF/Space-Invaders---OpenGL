@@ -14,6 +14,8 @@ public:
     glm::vec4 Right;
     glm::vec3 escala;
 
+
+    bool Descendo;
     bool Dropada;
     bool Aumentando;
     

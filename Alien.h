@@ -8,11 +8,13 @@
 class Alien {
 public:
 
+	int ID;
 	bool disponível;
 	bool hasBomb;
 	bool ataca;
 	bool recua;
 	bool vivo;
+
 	Bomba bomba;
 	int life;
 

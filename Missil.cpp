@@ -8,12 +8,11 @@ Missil::Missil() {};
 Missil::Missil(bool NaveOuAlien, glm::vec4 Centro, glm::vec4 direcao, float velocidade) {
 
     this->Centro = Centro; // Diz qual é o centro de onde o objeto será criado
-
-    std::vector<std::vector<Vertex>> Model = this->getModel(NaveOuAlien); // Modelo Base
+    this->NaveOuAlien = NaveOuAlien;
+    std::vector<std::vector<Vertex>> Model = this->getModel(this->NaveOuAlien); // Modelo Base
     
     this->modelo = Model; // Acopla modelo base
     this->velocidade = velocidade;
-    this->Acertou = false;
 
     // Define UP como y
     this->Up = glm::vec4{ 0.0f, 1.0f, 0.0f, 0.0f };
@@ -66,17 +65,6 @@ void Missil::moveFoward() {
     RotationMatrixMissil(this->modelo, -graus, Origem, this->Up, this->Right);
     this->translada(glm::vec3{ 0.0f, this->velocidade, 0.0f });
     RotationMatrixMissil(this->modelo, graus, Origem, this->Up, this->Right);
-}
-
-void Missil::AcertaMissil() {
-    this->Acertou = true;
-    // Vira o desenho do missil para ele não ser desenhado em tela
-    for (auto& triangulo : this->modelo) {
-        Vertex aux = triangulo[1];
-        triangulo[1] = triangulo[2];
-        triangulo[2] = aux;
-    }
-
 }
 
 

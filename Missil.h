@@ -13,7 +13,6 @@ public:
     glm::vec4 Right;
 
     bool NaveOuAlien;
-    bool Acertou;
 
     float velocidade;
 
@@ -29,7 +28,6 @@ public:
     void moveFoward();
 
     std::vector<std::vector<Vertex>> getModel(bool NaveOuAlien);
-    void AcertaMissil();
 
 };
 
