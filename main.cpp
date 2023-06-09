@@ -219,6 +219,13 @@ int main() {
 		std::cout << fase << std::endl;
 		// GameState
 		GameState gameState = GameState();
+		gameState.CadenciaDeTirosNave += 0.1f * fase;
+		gameState.NumeroDeLinhasDeInimigos += 1 * fase;
+		gameState.NumeroDeColunasDeInimigos += 1 * fase;
+		gameState.VelocidadeLateralNave -= 0.01f * fase;
+		gameState.velocidadeDosAlien += 0.01f * fase;
+		gameState.TempoParaBombaExplodirBombaDropada -= 1 * fase;
+		gameState.VelocidadeDoTiroAlien += 0.2f * fase;
 
 		// Inicializa GLFW
 		glfwInit();
