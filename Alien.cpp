@@ -15,7 +15,7 @@ Alien::Alien(glm::vec4 Centro) {
     this->disponível = true;
     this->hasBomb = false;
     this->ataca = false;
-    this->life = 5;
+    this->life = 50;
     this->recua = false;
     this->vivo = true;
     this->intangivel = false;

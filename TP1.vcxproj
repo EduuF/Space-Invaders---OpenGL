@@ -157,6 +157,7 @@
     <ClCompile Include="Missil.cpp" />
     <ClCompile Include="Nave.cpp" />
     <ClCompile Include="GameState.cpp" />
+    <ClCompile Include="PowerUp.cpp" />
     <ClCompile Include="VAO.cpp" />
     <ClCompile Include="VBO.cpp" />
     <ClCompile Include="Vectors.cpp" />
@@ -169,6 +170,7 @@
     <ClInclude Include="Matrices.h" />
     <ClInclude Include="Missil.h" />
     <ClInclude Include="Nave.h" />
+    <ClInclude Include="PowerUp.h" />
     <ClInclude Include="Triangle.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="VAO.h" />

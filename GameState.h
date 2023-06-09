@@ -27,7 +27,7 @@ public:
 	bool pressF1 = false;
 	bool releaseF1 = false;
 
-	float CadenciaDeTirosNave = 0.3f;
+	float CadenciaDeTirosNave = 0.1f;
 	float VelocidadeLateralNave = 0.03f;
 	float velocidadeDosAlien = 0.15f;
 	float velocidadeSubidaEDescidaInimigos = 1.2f;
@@ -40,7 +40,9 @@ public:
 	float tempoDeIntangibilidadeAlien = 2.0f;
 	float tempoDeIntangibilidadeNave = 2.0f;
 	float TempoDePiscadaAoSerAtingido = 0.1f;
-
+	float velocidadeDeDescidaDoPowerUp = 1.75f;
+	
+	int ChanceDeDroparPowerUp = 2500;
 	int chanceDeInimigoAtirar = 500;
 	int chanceDeInimigoTentarDroparBomba = 100;
 	int chanceDeFormarEsquadrao = 5000;

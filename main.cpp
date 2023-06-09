@@ -5,6 +5,7 @@
 #include "Triangle.h"
 #include "Missil.h"
 #include "GameState.h"
+#include "PowerUp.h"
 
 #include <iostream>
 #include <fstream>
@@ -287,6 +288,7 @@ int main() {
 		}
 
 		std::vector<Missil> TodosMisseis;
+		std::vector<PowerUp> TodosPowerUp;
 
 		GLuint VertexBuffer;// Copiar os vértices do triangulo para a memória da GPU
 		glGenBuffers(1, &VertexBuffer);// Pedir para o OpenGL gerar o identificador do VertexBuffer
@@ -318,6 +320,9 @@ int main() {
 				PreviousTime = CurrentTime;
 			}
 
+			// RNG do frame
+			int rng = gameState.GeraNumeroAleatorio();
+
 			// Ativar o VertexBuffer como sendo o Buffer para onde vamos copiar os dados do triangulo
 			glBindBuffer(GL_ARRAY_BUFFER, VertexBuffer);
 
@@ -328,6 +333,7 @@ int main() {
 			const int tamanhoDoAlien = 18; // A quantidade de triangulos do Alien
 			const int tamanhoDoMissil = 4;
 			const int tamanhoDaBomba = 6;
+			const int tamanhoDoPowerUp = 4;
 
 			gameState.AlienComABomba = -1;
 
@@ -351,6 +357,12 @@ int main() {
 				}
 			}
 
+			for (auto& powerUp: TodosPowerUp) {
+				for (auto triangulo : powerUp.Model) {
+					bufferData.insert(bufferData.end(), triangulo.begin(), triangulo.end());
+				}
+			}
+
 			// Se a bomba estiver em game, desenha ela.
 			if (gameState.AlienComABomba != -1) {
 				for (auto triangulo : TodosAliens[gameState.AlienComABomba].bomba.Model) {
@@ -362,7 +374,6 @@ int main() {
 			// Carregue os dados de todos os triângulos no buffer da GPU.
 			// (Buffer ativado, quantos bytes serão copiados, ponteiro para os dados, tipo de uso do buffer)
 			glBufferData(GL_ARRAY_BUFFER, bufferData.size() * sizeof(Vertex), bufferData.data(), GL_STATIC_DRAW);
-
 
 			// Limpa o framebuffer. GL_COLOR_BUFFER_BIT limpa o buffer de cor e preenche com a cor definida em "glClearColor"
 			// Para desenharmos objetos 3D na tela teremos que voltar ao glClear para limparmos o buffer de profundidade
@@ -435,10 +446,16 @@ int main() {
 				//glDrawArrays(GL_TRIANGLES, (tamanhoDaNave + (tamanhoDoAlien * TodosAliens.size()) + (tamanhoDoMissil * (i+1)) -2 )* 3, 6);
 			}
 
+			// Desenha os PowerUp
+			for (int i = 0; i < TodosPowerUp.size(); i++) {
+				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+				glDrawArrays(GL_TRIANGLES, ((tamanhoDaNave + (tamanhoDoAlien * TodosAliens.size()) + (tamanhoDoMissil * TodosMisseis.size())) * 3) + (tamanhoDoPowerUp * 3 * i), (tamanhoDoPowerUp * 3));
+			}
+
 			// Desenha a bomba (se houver)
 			if (gameState.AlienComABomba != -1) {
 				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-				glDrawArrays(GL_TRIANGLES, (tamanhoDaNave + (tamanhoDoAlien * TodosAliens.size()) + (tamanhoDoMissil * TodosMisseis.size())) * 3, (tamanhoDaBomba - 2) * 3);
+				glDrawArrays(GL_TRIANGLES, (tamanhoDaNave + (tamanhoDoAlien * TodosAliens.size()) + (tamanhoDoMissil * TodosMisseis.size()) + (tamanhoDoPowerUp * TodosPowerUp.size())) * 3, (tamanhoDaBomba - 2) * 3);
 			}
 
 
@@ -492,6 +509,9 @@ int main() {
 					else {
 						std::cout << "Missil Inimigo:  x->" << missil.Centro.x << " y->" << missil.Centro.y << std::endl;
 					}
+				}
+				for (auto& PowerUp : TodosPowerUp) {
+					std::cout << "PowerUP:  x->" << PowerUp.Centro.x << " y->" << PowerUp.Centro.y << std::endl;
 				}
 				gameState.PrintaEstadoDoJogo = false;
 			}
@@ -617,8 +637,6 @@ int main() {
 				}
 			}
 
-			int rng = gameState.GeraNumeroAleatorio();
-
 			// Verifica se os Aliens atiram mísseis		
 			if (rng > 10000 - gameState.chanceDeInimigoAtirar) {
 				int AlienQueAtira = rng % TodosAliens.size();
@@ -661,6 +679,14 @@ int main() {
 							TodosAliens[vizinhos[i]].ataca = true;
 						}
 					}
+				}
+			}
+
+			//Anda com todos Power Ups
+			for (int i = 0; i < TodosPowerUp.size(); i++) {
+				TodosPowerUp[i].moveOPowerUp(DeltaTime, gameState.velocidadeDeDescidaDoPowerUp);
+				if (TodosPowerUp[i].Centro.y > 2.0f || TodosPowerUp[i].Centro.y < -2.0f) {
+					TodosPowerUp.erase(TodosPowerUp.begin() + i);
 				}
 			}
 
@@ -746,6 +772,10 @@ int main() {
 			if (AlienAtingido != -1) { // Se algum algum Alien foi atingido
 				TodosAliens[AlienAtingido].life -= 1; // Tira 1 de life do Alien
 				TodosAliens[AlienAtingido].intangivel = true;
+				if (rng > 10000 - gameState.ChanceDeDroparPowerUp) {
+					int PowerUpNumber = rng % 4;
+					TodosPowerUp.push_back(PowerUp(TodosAliens[AlienAtingido].Centro, PowerUpNumber));
+				}
 				if (TodosAliens[AlienAtingido].life <= 0) { // Se a vida do Alien chegar a 0
 					TodosAliens.erase(TodosAliens.begin() + AlienAtingido); // Mata o Alien
 					if (TodosAliens.size() <= 0) {

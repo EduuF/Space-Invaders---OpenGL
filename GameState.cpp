@@ -90,14 +90,3 @@ void GameState::SoltaA() {
 	this->rotacionaNaveParaEsquerda = false;
 
 }
-
-
-void GameState::vitoria() {
-	this->endGame = true;
-	std::cout << "!!Vitória ^.^" << std::endl;
-}
-
-void GameState::gameOver() {
-	this->endGame = true;
-	std::cout << "!!Perdeu D,=" << std::endl;
-}
