@@ -22,7 +22,7 @@ Nave::Nave(glm::vec4 NaveCentro) {
 
     this->escala = glm::vec3{ 1.0f, 1.0f, 1.0f };
     this->CanhaoDireitoAtira = false; 
-    this->life = 500;
+    this->life = 1;
     this->tempoDeIntangibilidade = 2.0f;
     this->intangivel = false;
     this->TempoPiscando = 0.2f;

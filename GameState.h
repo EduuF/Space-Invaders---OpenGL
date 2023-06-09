@@ -12,7 +12,8 @@ public:
 	const GLuint NumeroDeColunasDeInimigos = 7;
 	int AlienComABomba = -1;
 
-	bool endGame = false;
+	bool vitoria = false;
+	bool gameOver = false;
 	bool pausedGame = false;
 	bool NaveAtira = false;
 	bool InimigoAtira = false;
@@ -61,9 +62,6 @@ public:
 	
 
 	int GeraNumeroAleatorio();
-
-	void vitoria();
-	void gameOver();
 };
 
 #endif
