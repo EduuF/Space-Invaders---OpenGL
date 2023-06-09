@@ -6,6 +6,7 @@
 #include "Missil.h"
 #include "GameState.h"
 #include "PowerUp.h"
+#include "Stars.h"
 
 #include <iostream>
 #include <fstream>
@@ -222,7 +223,6 @@ int main() {
 		gameState.CadenciaDeTirosNave += 0.1f * fase;
 		gameState.NumeroDeLinhasDeInimigos += 1 * fase;
 		gameState.NumeroDeColunasDeInimigos += 1 * fase;
-		gameState.VelocidadeLateralNave -= 0.01f * fase;
 		gameState.velocidadeDosAlien += 0.01f * fase;
 		gameState.TempoParaBombaExplodirBombaDropada -= 1 * fase;
 		gameState.VelocidadeDoTiroAlien += 0.2f * fase;
@@ -296,6 +296,7 @@ int main() {
 
 		std::vector<Missil> TodosMisseis;
 		std::vector<PowerUp> TodosPowerUp;
+		std::vector<Stars> TodasStars;
 
 		GLuint VertexBuffer;// Copiar os vértices do triangulo para a memória da GPU
 		glGenBuffers(1, &VertexBuffer);// Pedir para o OpenGL gerar o identificador do VertexBuffer
@@ -310,6 +311,7 @@ int main() {
 
 		// Loop de eventos da aplicação
 		while (!glfwWindowShouldClose(Window)) {
+
 
 			if (gameState.vitoria) {
 				break;
@@ -337,10 +339,11 @@ int main() {
 			// Carregue os dados de todos os triângulos no buffer da GPU.
 			// (Buffer ativado, quantos bytes serão copiados, ponteiro para os dados, tipo de uso do buffer)
 			const int tamanhoDaNave = 7; // A quantidade de triangulos na nave
-			const int tamanhoDoAlien = 18; // A quantidade de triangulos do Alien
+			const int tamanhoDoAlien = 38; // A quantidade de triangulos do Alien
 			const int tamanhoDoMissil = 4;
 			const int tamanhoDaBomba = 6;
 			const int tamanhoDoPowerUp = 4;
+			const int tamanhoDaEstrela = 2;
 
 			gameState.AlienComABomba = -1;
 
@@ -364,8 +367,14 @@ int main() {
 				}
 			}
 
-			for (auto& powerUp: TodosPowerUp) {
+			for (auto& powerUp : TodosPowerUp) {
 				for (auto triangulo : powerUp.Model) {
+					bufferData.insert(bufferData.end(), triangulo.begin(), triangulo.end());
+				}
+			}
+
+			for (auto& estrela : TodasStars) {
+				for (auto triangulo : estrela.Model) {
 					bufferData.insert(bufferData.end(), triangulo.begin(), triangulo.end());
 				}
 			}
@@ -459,10 +468,16 @@ int main() {
 				glDrawArrays(GL_TRIANGLES, ((tamanhoDaNave + (tamanhoDoAlien * TodosAliens.size()) + (tamanhoDoMissil * TodosMisseis.size())) * 3) + (tamanhoDoPowerUp * 3 * i), (tamanhoDoPowerUp * 3));
 			}
 
+			// Desenha as Estrelas
+			for (int i = 0; i < TodasStars.size(); i++) {
+				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+				glDrawArrays(GL_TRIANGLES, ((tamanhoDaNave + (tamanhoDoAlien * TodosAliens.size()) + (tamanhoDoMissil * TodosMisseis.size())) * 3) + (tamanhoDoPowerUp * TodosPowerUp.size() * 3) + (tamanhoDaEstrela * i * 3), (tamanhoDaEstrela * 3));
+			}
+
 			// Desenha a bomba (se houver)
 			if (gameState.AlienComABomba != -1) {
 				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-				glDrawArrays(GL_TRIANGLES, (tamanhoDaNave + (tamanhoDoAlien * TodosAliens.size()) + (tamanhoDoMissil * TodosMisseis.size()) + (tamanhoDoPowerUp * TodosPowerUp.size())) * 3, (tamanhoDaBomba - 2) * 3);
+				glDrawArrays(GL_TRIANGLES, (tamanhoDaNave + (tamanhoDoAlien * TodosAliens.size()) + (tamanhoDoMissil * TodosMisseis.size()) + (tamanhoDoPowerUp * TodosPowerUp.size()) + (tamanhoDaEstrela * TodasStars.size())) * 3, (tamanhoDaBomba - 2) * 3);
 			}
 
 
@@ -645,6 +660,12 @@ int main() {
 						gameState.gameOver = true;
 					}
 				}
+
+				// Troca skin dos aliens
+				Alien.TrocaSkin(DeltaTime);
+
+				// Desce um pouquinho com cada Alien
+				Alien.transladaOAlien(glm::vec3{ 0.0f, -0.0001f, 0.0f });
 			}
 
 			// Verifica se os Aliens atiram mísseis		
@@ -657,36 +678,31 @@ int main() {
 			// Verifica se algum alien vai carregar a bomba
 			if (gameState.AlienComABomba == -1) {
 				if (rng > 10000 - gameState.chanceDeInimigoTentarDroparBomba) {
-
 					// Define qual Alien vai carregar a bomba
 					int AlienQueCarregaABomba = rng % TodosAliens.size();
-					while (TodosAliens[AlienQueCarregaABomba].ataca || TodosAliens[AlienQueCarregaABomba].recua || TodosAliens[AlienQueCarregaABomba].hasBomb) {
-						AlienQueCarregaABomba = rng % TodosAliens.size();
-					}
-					TodosAliens[AlienQueCarregaABomba].CarregaBomba(gameState.TempoParaBombaExplodirBombaDropada);
-
-					// Chama esquadrão para atacar junto
-					if (rng > 10000 - gameState.chanceDeFormarEsquadrao) {
-						std::vector<int> vizinhos;
-						vizinhos.push_back(AlienQueCarregaABomba - gameState.NumeroDeColunasDeInimigos - 1);
-						vizinhos.push_back(AlienQueCarregaABomba - gameState.NumeroDeColunasDeInimigos);
-						vizinhos.push_back(AlienQueCarregaABomba - gameState.NumeroDeColunasDeInimigos + 1);
-						vizinhos.push_back(AlienQueCarregaABomba - 1);
-						vizinhos.push_back(AlienQueCarregaABomba + 1);
-						vizinhos.push_back(AlienQueCarregaABomba + gameState.NumeroDeColunasDeInimigos - 1);
-						vizinhos.push_back(AlienQueCarregaABomba + gameState.NumeroDeColunasDeInimigos);
-						vizinhos.push_back(AlienQueCarregaABomba + gameState.NumeroDeColunasDeInimigos + 1);
-
-						// Verifica os membros válidos do esquadrão
-						for (int i = 0; i < vizinhos.size(); i++) {
-							if (vizinhos[i] < 0)
-								continue;
-							else if (vizinhos[i] >= TodosAliens.size())
-								continue;
-							else if (TodosAliens[vizinhos[i]].recua == true || TodosAliens[vizinhos[i]].ataca == true)
-								continue;
-
-							TodosAliens[vizinhos[i]].ataca = true;
+					if (!TodosAliens[AlienQueCarregaABomba].ataca && !TodosAliens[AlienQueCarregaABomba].recua && !TodosAliens[AlienQueCarregaABomba].hasBomb) {
+						TodosAliens[AlienQueCarregaABomba].CarregaBomba(gameState.TempoParaBombaExplodirBombaDropada);
+						// Chama esquadrão para atacar junto
+						if (rng > 10000 - gameState.chanceDeFormarEsquadrao) {
+							std::vector<int> vizinhos;
+							vizinhos.push_back(AlienQueCarregaABomba - gameState.NumeroDeColunasDeInimigos - 1);
+							vizinhos.push_back(AlienQueCarregaABomba - gameState.NumeroDeColunasDeInimigos);
+							vizinhos.push_back(AlienQueCarregaABomba - gameState.NumeroDeColunasDeInimigos + 1);
+							vizinhos.push_back(AlienQueCarregaABomba - 1);
+							vizinhos.push_back(AlienQueCarregaABomba + 1);
+							vizinhos.push_back(AlienQueCarregaABomba + gameState.NumeroDeColunasDeInimigos - 1);
+							vizinhos.push_back(AlienQueCarregaABomba + gameState.NumeroDeColunasDeInimigos);
+							vizinhos.push_back(AlienQueCarregaABomba + gameState.NumeroDeColunasDeInimigos + 1);
+							// Verifica os membros válidos do esquadrão
+							for (int i = 0; i < vizinhos.size(); i++) {
+								if (vizinhos[i] < 0)
+									continue;
+								else if (vizinhos[i] >= TodosAliens.size())
+									continue;
+								else if (TodosAliens[vizinhos[i]].recua == true || TodosAliens[vizinhos[i]].ataca == true)
+									continue;
+								TodosAliens[vizinhos[i]].ataca = true;
+							}
 						}
 					}
 				}
@@ -697,6 +713,23 @@ int main() {
 				TodosPowerUp[i].moveOPowerUp(DeltaTime, gameState.velocidadeDeDescidaDoPowerUp);
 				if (TodosPowerUp[i].Centro.y > 2.0f || TodosPowerUp[i].Centro.y < -2.0f) {
 					TodosPowerUp.erase(TodosPowerUp.begin() + i);
+				}
+			}
+
+			// Cria Esrelas
+			if (TodasStars.size()  == 0 ){//< gameState.QuantidadeDeEstrelas) {
+				float EixoXDaEstrelha = ((rng % 400) / 100) - 2.0f;
+				float BrilhoEstrela = ((rng % 100) / 100);
+				float Profundidade = -1.0f * ((rng % 800) / 100);
+				std::cout << EixoXDaEstrelha << " | " << BrilhoEstrela << " | " << Profundidade << std::endl;  //FAZER ISSO SER FLOAT E CRIAR ESTRELAS
+
+			}
+
+			// Anda com as Estrelas
+			for (int i = 0; i < TodasStars.size(); i++) {
+				TodasStars[i].moveFoward(DeltaTime, gameState.velocidadeDeDescidaDoPowerUp);
+				if (TodasStars[i].Centro.y > 2.5f || TodasStars[i].Centro.y < -2.6f) {
+					TodasStars.erase(TodasStars.begin() + i);
 				}
 			}
 
@@ -780,6 +813,7 @@ int main() {
 				}
 			}
 
+
 			// Verifica se a nave pegou algum PowerUp
 			for (int i = 0; i < TodosPowerUp.size(); i++) {
 				if (TodosPowerUp[i].Centro.y > -1.4f) {
@@ -793,6 +827,7 @@ int main() {
 					break;
 				}
 			}
+
 
 			if (AlienAtingido != -1) { // Se algum algum Alien foi atingido
 				TodosAliens[AlienAtingido].life -= 1; // Tira 1 de life do Alien
@@ -809,6 +844,7 @@ int main() {
 				}
 			}
 
+
 			if (MissilAtingido != -1) { // Se Algum Missil atingiu algo
 				TodosMisseis.erase(TodosMisseis.begin() + MissilAtingido); // Apaga o Missil
 			}
@@ -821,6 +857,8 @@ int main() {
 				gameState.gameOver = true;
 			}
 		}
+
+
 		// Desalocar o VertexBuffer
 		glDeleteBuffers(1, &VertexBuffer);
 

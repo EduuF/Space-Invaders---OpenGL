@@ -4,11 +4,14 @@
 #include "Triangle.h"
 #include "Missil.h"
 #include "Bomba.h"
+#include "AlienModel.h"
 
 class Alien {
 public:
 
-	glm::vec3 escala;
+	glm::vec3 escala{ 1.0f, 1.0f, 1.0f };
+
+	std::vector<std::vector<std::vector<Vertex>>> modelos{ getAlienModelEstado1() , getAlienModelEstado2() , getAlienModelEstado3() };
 
 	int ID;
 	bool disponível;
@@ -18,14 +21,17 @@ public:
 	bool vivo;
 	bool intangivel;
 	bool piscando;
+	bool sobeAsa;
 
 	Bomba bomba;
 	int life;
+	int skin;
 
 	double yOriginal;
 
 	float tempoDeIntangibilidade;
 	float TempoPiscando;
+	float TempoParaTrocarSkin;
 
 	Alien();
 
@@ -43,7 +49,7 @@ public:
 	void rotacionaOAlien(float graus);
 
 
-	std::vector<std::vector<Vertex>> getAlienModel();
+	//std::vector<std::vector<Vertex>> getAlienModel();
     
 	Missil Atira(float velocidade);
 	void CarregaBomba(float CountDown);
@@ -53,4 +59,5 @@ public:
 	void RecuaEmEsquadrao(glm::vec3 fatorDeTranslacaoEsquadrao, glm::vec3 fatorDeTranslacaoEsquadraoSobe);
 	void AtualizaTempoDeTangibilidade(float DeltaTime, float tempoDeIntangibilidadeAlien);
 	void AtualizaEstadoDaBomba(float DeltaTime, glm::vec3 fatorDeTranslacaoEsquadrao, float intensidadePiscadaBombaDropada, float velocidadeDePiscadaBombaDropada);
+	void TrocaSkin(float DeltaTime);
 };

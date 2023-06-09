@@ -8,9 +8,10 @@
 class GameState {
 public:
 
-	int NumeroDeLinhasDeInimigos = 1;
-	int NumeroDeColunasDeInimigos = 2;
+	int NumeroDeLinhasDeInimigos = 3;
+	int NumeroDeColunasDeInimigos = 6;
 	int AlienComABomba = -1;
+	int QuantidadeDeEstrelas = 30;
 
 	bool vitoria = false;
 	bool gameOver = false;
@@ -29,12 +30,13 @@ public:
 	bool hasPowerUp0 = false;
 	bool hasPowerUp1 = false;
 	bool hasPowerUp2 = false;
+	bool ordemDeRecuada = false;
 
 	float CadenciaDeTirosNave = 0.1f;
 	float VelocidadeLateralNave = 0.05f;
 	float velocidadeDosAlien = 0.03f;
 	float velocidadeSubidaEDescidaInimigos = 1.2f;
-	float localDeSobrevooDosAliens = 2.0f - (this->NumeroDeLinhasDeInimigos * 0.3);
+	float localDeSobrevooDosAliens = 2.0f - ((this->NumeroDeLinhasDeInimigos+1) * 0.32);
 	float alturaDoPlaneta = -1.8f;
 	float velocidadeDePiscadaBombaDropada = 2.5f;
 	float intensidadePiscadaBombaDropada = 1.3f;
@@ -48,9 +50,9 @@ public:
 	float tempoDePowerUp1 = 10.0f;
 	float tempoDePowerUp2 = 10.0f;
 	
-	int ChanceDeDroparPowerUp = 250;
+	int ChanceDeDroparPowerUp = 700;
 	int chanceDeInimigoAtirar = 250;
-	int chanceDeInimigoTentarDroparBomba = 10;
+	int chanceDeInimigoTentarDroparBomba = 20;
 	int chanceDeFormarEsquadrao = 5000;
 
 	GameState();
