@@ -29,7 +29,7 @@ public:
     void ajustaEscala(glm::vec3 FatorDeEscala);
     void moveOPowerUp(float DeltaTime, float velocidadeDeDescidaDoPowerUp);
 
-    std::vector<std::vector<Vertex>> getModel(glm::vec4 Cor);
+    std::vector<std::vector<Vertex>> getModel(int tipo);
 };
 
 #endif

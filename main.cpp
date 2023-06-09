@@ -562,6 +562,9 @@ int main() {
 				gameState.gameOver = true;
 			}
 
+			// Aplica Power Ups
+			gameState.AplicaPowerUps(DeltaTime);
+
 			// Mexe a nave lateralmente
 			double X, Y;
 			glfwGetCursorPos(Window, &X, &Y);
@@ -699,6 +702,7 @@ int main() {
 
 			GLuint AlienAtingido = -1;
 			GLuint MissilAtingido = -1;
+			GLuint PowerUpAtingido = -1;
 			bool atingiu = false;
 
 			for (int i = 0; i < TodosMisseis.size(); i++) {
@@ -769,11 +773,25 @@ int main() {
 				}
 			}
 
+			// Verifica se a nave pegou algum PowerUp
+			for (int i = 0; i < TodosPowerUp.size(); i++) {
+				if (TodosPowerUp[i].Centro.y > -1.4f) {
+					continue;
+				}
+				auto distanciaNavePowerUp = glm::length(TodosPowerUp[i].Centro - nave1.NaveCentro); // Calcula a distância do Alien para a nave
+				if (distanciaNavePowerUp <= 0.3) {
+					PowerUpAtingido = i;
+					gameState.getPowerUp(TodosPowerUp[i].tipo);
+					atingiu = true;
+					break;
+				}
+			}
+
 			if (AlienAtingido != -1) { // Se algum algum Alien foi atingido
 				TodosAliens[AlienAtingido].life -= 1; // Tira 1 de life do Alien
 				TodosAliens[AlienAtingido].intangivel = true;
 				if (rng > 10000 - gameState.ChanceDeDroparPowerUp) {
-					int PowerUpNumber = rng % 4;
+					int PowerUpNumber = rng % 3;
 					TodosPowerUp.push_back(PowerUp(TodosAliens[AlienAtingido].Centro, PowerUpNumber));
 				}
 				if (TodosAliens[AlienAtingido].life <= 0) { // Se a vida do Alien chegar a 0
@@ -786,6 +804,10 @@ int main() {
 
 			if (MissilAtingido != -1) { // Se Algum Missil atingiu algo
 				TodosMisseis.erase(TodosMisseis.begin() + MissilAtingido); // Apaga o Missil
+			}
+
+			if (PowerUpAtingido != -1) { // Se a Nave pegou agum power up
+				TodosPowerUp.erase(TodosPowerUp.begin() + PowerUpAtingido); // Apaga o Power Up
 			}
 
 			if (nave1.life <= 0) {
