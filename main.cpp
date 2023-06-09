@@ -460,6 +460,35 @@ int main() {
 			gameState.SoltaEsc();
 		}
 
+		if (glfwGetKey(Window, GLFW_KEY_F1) == GLFW_PRESS) {
+			gameState.ApertaF1();
+		}
+
+		if (glfwGetKey(Window, GLFW_KEY_F1) == GLFW_RELEASE) {
+			gameState.SoltaF1();
+		}
+
+		// Printa o estado atual do jogo
+		if (gameState.PrintaEstadoDoJogo) {
+			std::cout << "Nave:  x->" << nave1.NaveCentro.x << " y->" << nave1.NaveCentro.y << std::endl;
+			for (auto& alien : TodosAliens) {
+				std::cout << "Alien:  x->" << alien.Centro.x << " y->" << alien.Centro.y << std::endl;
+				if (alien.hasBomb) {
+					std::cout << "Bomba:  x->" << alien.bomba.Centro.x << " y->" << alien.bomba.Centro.y << std::endl;
+				}
+			}
+			for (auto& missil : TodosMisseis) {
+				if (missil.NaveOuAlien) {
+					std::cout << "Missil Aliado:  x->" << missil.Centro.x << " y->" << missil.Centro.y << std::endl;
+				}
+				else {
+					std::cout << "Missil Inimigo:  x->" << missil.Centro.x << " y->" << missil.Centro.y << std::endl;
+				}
+			}
+			gameState.PrintaEstadoDoJogo = false;
+		}
+
+
 		// Se o game estiver pausado, não processa nada para baixo
 		if (gameState.pausedGame) {
 			continue;
@@ -538,13 +567,13 @@ int main() {
 			}
 		}
 
-		glm::vec3 fatorDeTranslacaoEsquadrao{ 0.0f, -1.0f * gameState.velocidalDosAlien * DeltaTime, 0.0f };
+		glm::vec3 fatorDeTranslacaoEsquadrao{ 0.0f, -1.0f * gameState.velocidadeDosAlien * DeltaTime, 0.0f };
 		glm::vec3 fatorDeTranslacaoEsquadraoSobe{ 0.0f, 0.0f, gameState.velocidadeSubidaEDescidaInimigos * DeltaTime };
 
 		// Move os Aliens lateralmente
 		for (auto& Alien : TodosAliens) {
 			// Move o Alien lateralmente
-			Alien.MoveAlienLateralmente(gameState.AlienMoveLeft, gameState.velocidalDosAlien, DeltaTime);
+			Alien.MoveAlienLateralmente(gameState.AlienMoveLeft, gameState.velocidadeDosAlien, DeltaTime);
 
 			// Desce com o Alien se ele estiver atacando
 			if (Alien.ataca) { 

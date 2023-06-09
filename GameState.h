@@ -19,14 +19,17 @@ public:
 	bool rotacionaNaveParaDireita = false;
 	bool rotacionaNaveParaEsquerda = false;
 	bool AlienMoveLeft = true;
+	bool PrintaEstadoDoJogo = false;
 
 	bool pressESC = false;
 	bool releaseESC = false;
+	bool pressF1 = false;
+	bool releaseF1 = false;
 
 	float CadenciaDeTirosNave = 0.3f;
 	float VelocidadeLateralNave = 0.03f;
-	float velocidalDosAlien = 1.15f;
-	float velocidadeSubidaEDescidaInimigos = 2.2f;
+	float velocidadeDosAlien = 0.15f;
+	float velocidadeSubidaEDescidaInimigos = 1.2f;
 	float localDeSobrevooDosAliens = 2.0f - (this->NumeroDeLinhasDeInimigos * 0.3);
 	float alturaDoPlaneta = -1.8f;
 	float velocidadeDePiscadaBombaDropada = 2.5f;
@@ -41,12 +44,12 @@ public:
 	int chanceDeInimigoTentarDroparBomba = 100;
 	int chanceDeFormarEsquadrao = 5000;
 
-	
-
 	GameState();
 
 	void ApertaEsc();
 	void SoltaEsc();
+	void ApertaF1();
+	void SoltaF1();
 	void ApertaW();
 	void SoltaW();
 	void ApertaS();
@@ -55,6 +58,7 @@ public:
 	void SoltaA();
 	void ApertaD();
 	void SoltaD();
+	
 
 	int GeraNumeroAleatorio();
 

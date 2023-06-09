@@ -33,6 +33,28 @@ void GameState::SoltaEsc() {
 	}
 }
 
+void GameState::ApertaF1() {
+	this->releaseF1 = false;
+	this->pressF1 = true;
+}
+
+void GameState::SoltaF1() {
+	this->releaseF1 = true;
+
+	if (this->pressF1 && this->releaseF1) {
+		this->pressF1 = false;
+		this->releaseF1 = false;
+		this->PrintaEstadoDoJogo = true;
+
+		if (this->pausedGame) {
+			this->pausedGame = false;
+		}
+		else {
+			this->pausedGame = true;
+		}
+	}
+}
+
 void GameState::ApertaW() {
 	this->NaveAtira = true;
 }
