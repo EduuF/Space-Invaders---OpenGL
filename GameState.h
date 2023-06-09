@@ -10,7 +10,7 @@ public:
 
 	const GLuint NumeroDeLinhasDeInimigos = 5;
 	const GLuint NumeroDeColunasDeInimigos = 7;
-	GLuint AlienComABomba = -1;
+	int AlienComABomba = -1;
 
 	bool endGame = false;
 	bool pausedGame = false;
@@ -34,7 +34,7 @@ public:
 	float alturaDoPlaneta = -1.8f;
 	float velocidadeDePiscadaBombaDropada = 2.5f;
 	float intensidadePiscadaBombaDropada = 1.3f;
-	float TempoParaBombaExplodirBombaDropada = 10.0f;
+	float TempoParaBombaExplodirBombaDropada = 30.0f;
 	float VelocidadeDoTiroAlien = 1.5f;
 	float tempoDeIntangibilidadeAlien = 2.0f;
 	float tempoDeIntangibilidadeNave = 2.0f;
@@ -61,7 +61,6 @@ public:
 	
 
 	int GeraNumeroAleatorio();
-
 
 	void vitoria();
 	void gameOver();
