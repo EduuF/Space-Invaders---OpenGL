@@ -4,6 +4,7 @@
 #include "Matrices.h"
 #include "Triangle.h"
 #include "Missil.h"
+#include "GameState.h"
 
 #include <iostream>
 #include <fstream>
@@ -20,6 +21,7 @@ const int Width = 1280;
 const int Height = 1280;
 const float Speed = 1.0f;
 const float Sensitivity = 0.1f;
+
 
 std::string ReadFile(const char* FilePath) {
 
@@ -208,17 +210,10 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 	glViewport(0, 0, width, height);
 }
 
-glm::vec3 MoveNave(double MouseXPos, glm::vec4 navePos) {
-	float alfa = 0.015f;
-	MouseXPos = ((MouseXPos / Width) - 0.5f) * 4;
-	float realSpeed = (MouseXPos - navePos.x) * alfa ;
-	glm::vec3 fatorDeTransalacao{ realSpeed , 0.0f, 0.0f};
-
-	return fatorDeTransalacao;
-
-}
-
 int main() {
+
+	// GameState
+	GameState gameState = GameState();
 	 
 	// Inicializa GLFW
 	glfwInit();
@@ -266,18 +261,16 @@ int main() {
 	nave1.transladaANave(fatorDeTranslacaoNave);
 
 	// Cria inimigos
-	const GLuint NumeroDeLinhasDeInimigos = 5;
-	const GLuint NumeroDeColunasDeInimigos = 7;
-	const GLuint NumeroTotalDeInimigos = NumeroDeLinhasDeInimigos * NumeroDeColunasDeInimigos;
+	const GLuint NumeroTotalDeInimigos = gameState.NumeroDeLinhasDeInimigos * gameState.NumeroDeColunasDeInimigos;
 	const float LarguraAlien = 0.15f;
 	const float LarguraIntervalo = 0.1f;
-	const float LarguraJanela = (LarguraAlien * NumeroDeColunasDeInimigos) + (LarguraIntervalo * (NumeroDeColunasDeInimigos - 1));
+	const float LarguraJanela = (LarguraAlien * gameState.NumeroDeColunasDeInimigos) + (LarguraIntervalo * (gameState.NumeroDeColunasDeInimigos - 1));
 	const float WidthGap = ((4 - LarguraJanela) / 2) - 2;
 
 	std::vector<Alien> TodosAliens;
 	for (int i = 0; i < NumeroTotalDeInimigos; i++) {
-		GLuint linha = i / NumeroDeColunasDeInimigos;
-		GLuint coluna = i % NumeroDeColunasDeInimigos;
+		GLuint linha = i / gameState.NumeroDeColunasDeInimigos;
+		GLuint coluna = i % gameState.NumeroDeColunasDeInimigos;
 		TodosAliens.push_back(Alien(glm::vec4{ WidthGap + (coluna *LarguraIntervalo) + (coluna * LarguraAlien), 1.8f - (linha * 0.3),  0.0f, 1.0f }));
 		TodosAliens[i].yOriginal = 1.8f - (linha * 0.3);
 	}
@@ -306,40 +299,18 @@ int main() {
 	glClearColor(0.15f, 0.05f, 0.10f, 1.0f); // Azul escuro
 
 	// Guarda o tempo do frame anterior
-	double PreviousTime = glfwGetTime();
+	double PreviousTime = glfwGetTime();	
 
-	//Delay de tiros
-	double ContadorDeDelayDeTiros = 0;
+	// Contador de delay de tiros
+	float ContadorDeDelayDeTiros = 0.0f;
 
-	// Algum Alien tem a bomba?
-	//int AlienQueCarregaABomba = 0;
 
-	// Pica a bomba quando dropada
-	float velocidadeDePiscada = 2.5f;
-	float intensidadeDePiscada = 1.3f;
 
-	// Velocidade dos inimigos
-	float velocidadeInimigos = 0.15f;
-	float velocidadeSubidaEDescidaInimigos = 1.2f;
-	bool moveLeft = true;
+	// Velocidade da piscada ao ser atigindo
+	float TempoDePiscadaAoSerAtingido = 0.1f;
 
-	// Altura do planeta
-	float alturaDoPlaneta = -1.8f;
-
-	// Chance de o inimigo atirar x em 10000
-	int chanceDeInimigoAtirar = 100;
-
-	// Chance de algum inimigo tentar dropar uma bomba x em 10000
-	int chanceDeInimigoTentarDroparBomba = 100;
-
-	// Cadencia de tiros da nave
-	float CadenciaDeTiros = 0.3f;
-
-	// Tempo de intangibilidade dos Alien
-	float tempoDeIntangibilidadeAlien = 2.0f;
-
-	// Tempo de intangibilidade da nave
-	float tempoDeIntangibilidadeNave = 2.0f;
+	//Tempo para a bomba explodir depois de dropada
+	
 	
 	// Rendeiza apenas a face da frente
 	glEnable(GL_CULL_FACE);
@@ -348,7 +319,7 @@ int main() {
 	// Loop de eventos da aplicação
 	while (!glfwWindowShouldClose(Window)){
 
-		if (TodosAliens.size() == 0 || nave1.life <= 0) {
+		if (gameState.endGame) {
 			break;
 		}
 
@@ -373,7 +344,7 @@ int main() {
 		const int tamanhoDoMissil = 4;
 		const int tamanhoDaBomba = 6;
 
-		GLuint AlienComBomba = -1;
+		gameState.AlienComABomba = -1;
 
 		std::vector<Vertex> bufferData; // Cria um vetor de triangulos
 		for (auto triangulo: nave1.modeloDaNave) {
@@ -385,7 +356,7 @@ int main() {
 				bufferData.insert(bufferData.end(), triangulo.begin(), triangulo.end());
 			}
 			if (TodosAliens[i].hasBomb) {
-				AlienComBomba = i;
+				gameState.AlienComABomba = i;
 			}
 		}
 
@@ -396,8 +367,8 @@ int main() {
 		}
 
 		// Se a bomba estiver em game, desenha ela.
-		if (AlienComBomba != -1) {
-			for (auto triangulo : TodosAliens[AlienComBomba].bomba.Model) {
+		if (gameState.AlienComABomba != -1) {
+			for (auto triangulo : TodosAliens[gameState.AlienComABomba].bomba.Model) {
 				bufferData.insert(bufferData.end(), triangulo.begin(), triangulo.end());
 			}
 		}
@@ -438,8 +409,16 @@ int main() {
 		glVertexAttribPointer(2, 2, GL_FLOAT, GL_TRUE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, UV)));
 
 		// Desenha a nave
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		glDrawArrays(GL_TRIANGLES, 0, (tamanhoDaNave - 2) * 3);
+		if (nave1.intangivel && nave1.piscando) { // Se ela estiver intangível
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			glDrawArrays(GL_TRIANGLES, 0, (tamanhoDaNave - 2) * 3);
+
+		} else { // Se não estiver intangível, desenha normalmente
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			glDrawArrays(GL_TRIANGLES, 0, (tamanhoDaNave - 2) * 3);
+		}
+
+		
 
 		// Desenha a Bouding Box
 		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -447,10 +426,15 @@ int main() {
 
 		// Desenha os inimigos
 		for (int i = 0; i < TodosAliens.size(); i++) {
-			
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-			glDrawArrays(GL_TRIANGLES, ((tamanhoDaNave) * 3) + ((tamanhoDoAlien) * 3 * i) , ((tamanhoDoAlien - 2) * 3));
-
+			// Se o Alien Tiver sido atingido e estar no estado "Apagado" ao piscar, desenha como linhas
+			if (TodosAliens[i].intangivel && TodosAliens[i].piscando) { // Se o inimigo estiver intangível (foi acertado)
+				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+				glDrawArrays(GL_TRIANGLES, ((tamanhoDaNave) * 3) + ((tamanhoDoAlien) * 3 * i), ((tamanhoDoAlien - 2) * 3));
+				continue; 
+			} else {// Se o Alien não estiver intangível ou não estiver em estado apagado, desenha ele normalmente
+				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+				glDrawArrays(GL_TRIANGLES, ((tamanhoDaNave) * 3) + ((tamanhoDoAlien) * 3 * i), ((tamanhoDoAlien - 2) * 3));
+			}
 			// Desenha Bouding Box dos inimigos
 			//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 			//glDrawArrays(GL_TRIANGLES, (tamanhoDaNave + (tamanhoDoAlien * (i+1)) - 2) * 3, 6);
@@ -458,7 +442,6 @@ int main() {
 
 		// Desenha os tiros
 		for (int i = 0; i < TodosMisseis.size(); i++) {
-
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 			glDrawArrays(GL_TRIANGLES, ((tamanhoDaNave + (tamanhoDoAlien * TodosAliens.size())) * 3) + (tamanhoDoMissil * 3 * i), (tamanhoDoMissil - 2) * 3);
 
@@ -468,7 +451,7 @@ int main() {
 		}
 
 		// Desenha a bomba (se houver)
-		if (AlienComBomba != -1) {
+		if (gameState.AlienComABomba != -1) {
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 			glDrawArrays(GL_TRIANGLES, (tamanhoDaNave + (tamanhoDoAlien * TodosAliens.size()) + (tamanhoDoMissil * TodosMisseis.size()))*3, (tamanhoDaBomba - 2) * 3);
 		}
@@ -489,206 +472,171 @@ int main() {
 
 		// Envia o conteúdo do framebuffer da janela para ser desenhado na tela
 		glfwSwapBuffers(Window);
-
-		glm::vec4 naveXPos = nave1.NaveCentro;
-		double X, Y;
-		glfwGetCursorPos(Window, &X, &Y);
-		nave1.transladaANave(MoveNave(X, naveXPos));
 		
 		// Processa os inputs do teclado
 
-		// Nave Atira
+		if (glfwGetKey(Window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+			gameState.ApertaEsc();
+		}
+
+		if (glfwGetKey(Window, GLFW_KEY_ESCAPE) == GLFW_RELEASE) {
+			gameState.SoltaEsc();
+		}
+
+		// Se o game estiver pausado, não processa nada para baixo
+		if (gameState.pausedGame) {
+			continue;
+		}
+
 		if (glfwGetKey(Window, GLFW_KEY_W) == GLFW_PRESS) {
+			gameState.ApertaW();
+		}
+
+		if (glfwGetKey(Window, GLFW_KEY_W) == GLFW_RELEASE) {
+			gameState.SoltaW();
+		}
+
+		if (glfwGetKey(Window, GLFW_KEY_S) == GLFW_PRESS) {
+			gameState.ApertaS();
+		}
+
+		if (glfwGetKey(Window, GLFW_KEY_S) == GLFW_RELEASE) {
+			gameState.SoltaS();
+		}
+
+		if (glfwGetKey(Window, GLFW_KEY_D) == GLFW_PRESS) {
+			gameState.ApertaD();
+		}
+
+		if (glfwGetKey(Window, GLFW_KEY_D) == GLFW_RELEASE) {
+			gameState.SoltaD();
+		}
+
+		if (glfwGetKey(Window, GLFW_KEY_A) == GLFW_PRESS) {
+			gameState.ApertaA();
+		}
+
+		if (glfwGetKey(Window, GLFW_KEY_A) == GLFW_RELEASE) {
+			gameState.SoltaA();
+		}
+
+		// Mexe a nave lateralmente
+		double X, Y;
+		glfwGetCursorPos(Window, &X, &Y);
+		double XNormalizado = ((X / Width) - 0.5f) * 4;
+		nave1.MoveNaveLateralmente(XNormalizado, gameState.VelocidadeLateralNave);
+
+		// Verifica se nave está atirando
+		if (gameState.NaveAtira) {
 			if (ContadorDeDelayDeTiros <= 0.0) {
-				ContadorDeDelayDeTiros = CadenciaDeTiros;
-				double velocidade = 1.0 * DeltaTime;
-				Missil missil = nave1.Atira(velocidade);
+				ContadorDeDelayDeTiros = gameState.CadenciaDeTirosNave;
+				Missil missil = nave1.Atira(1.0f * DeltaTime);
 				TodosMisseis.push_back(missil);
 			}
 			ContadorDeDelayDeTiros -= DeltaTime;
 		}
 
-		// Alien Atira (DEBUG)
-		if (glfwGetKey(Window, GLFW_KEY_S) == GLFW_PRESS) {
-			float velocidade = 1.5f * DeltaTime;
-			Missil missil = TodosAliens[0].Atira(velocidade);
+		// Verifica se Inimigo está atirando (DEBUG)
+		if (gameState.InimigoAtira) {
+			Missil missil = TodosAliens[0].Atira(1.5f * DeltaTime);
 			TodosMisseis.push_back(missil);
 		}
 
-		if (glfwGetKey(Window, GLFW_KEY_D) == GLFW_PRESS) {
+		// Verifica se vamos rotacionar a nave
+		if (gameState.rotacionaNaveParaDireita) {
 			nave1.MoveRight(-150.0f * DeltaTime);
 		}
-
-		if (glfwGetKey(Window, GLFW_KEY_A) == GLFW_PRESS) {
+		if (gameState.rotacionaNaveParaEsquerda) {
 			nave1.MoveRight(150.0f * DeltaTime);
 		}
 
+		// Pisca quando atingido
+		if (nave1.intangivel) {
+			nave1.pisca(TempoDePiscadaAoSerAtingido, DeltaTime);
+		}
+
+		for (auto& Alien : TodosAliens) {
+			if (Alien.intangivel) {
+				Alien.pisca(TempoDePiscadaAoSerAtingido, DeltaTime);
+			}
+		}
+
+		glm::vec3 fatorDeTranslacaoEsquadrao{ 0.0f, -1.0f * gameState.velocidalDosAlien * DeltaTime, 0.0f };
+		glm::vec3 fatorDeTranslacaoEsquadraoSobe{ 0.0f, 0.0f, gameState.velocidadeSubidaEDescidaInimigos * DeltaTime };
+
 		// Move os Aliens lateralmente
 		for (auto& Alien : TodosAliens) {
-			glm::vec3 fatorDeTranslacaoLateral;
-			if (moveLeft) {
-				fatorDeTranslacaoLateral = glm::vec3{ -1.0f * velocidadeInimigos * DeltaTime, 0.0f , 0.0f }; // Move para a esquerda
-			}
-			else {
-				fatorDeTranslacaoLateral = glm::vec3{ 1.0f * velocidadeInimigos * DeltaTime, 0.0f , 0.0f }; // Move para a direita
-			}
+			// Move o Alien lateralmente
+			Alien.MoveAlienLateralmente(gameState.AlienMoveLeft, gameState.velocidalDosAlien, DeltaTime);
 
-			Alien.transladaOAlien(fatorDeTranslacaoLateral); // Translada o Alien
-
-			if (Alien.hasBomb && !Alien.bomba.Dropada) { // Se o Alien tiver bomba e a bomba não estiver dropada
-				Alien.bomba.translada(fatorDeTranslacaoLateral); // Move a bomba
-			}
-			
-			if (Alien.Centro.x < -1.8f) { // Se algum alien alcançar a parede esquerda, move pra direita
-				moveLeft = false;
-			}
-			else if (Alien.Centro.x > 1.8f) {// Se algum alien alcançar a parede direita, move pra esquerda
-				moveLeft = true;
+			// Desce com o Alien se ele estiver atacando
+			if (Alien.ataca) { 
+				Alien.AtacaEmEsquadrao(gameState.localDeSobrevooDosAliens, fatorDeTranslacaoEsquadrao, fatorDeTranslacaoEsquadraoSobe, gameState.alturaDoPlaneta);
 			}
 
-		}
-
-		// Anda com o esquadrão
-		glm::vec3 fatorDeTranslacaoEsquadrão{ 0.0f, -1.0f * velocidadeInimigos * DeltaTime, 0.0f };
-		glm::vec3 fatorDeTranslacaoEsquadraoSobe{ 0.0f, 0.0f, velocidadeSubidaEDescidaInimigos * DeltaTime };
-		glm::vec3 fatorDeTranslacaoEsquadraoDesce{ 0.0f, 0.0f, -1.0f * velocidadeSubidaEDescidaInimigos * DeltaTime };
-
-		for (int i = 0; i < TodosAliens.size(); i++) {
-			if (TodosAliens[i].ataca) { // Move os Aliens do esquadrão que está atacando
-				float localDeSobrevoo = 2.0f - (NumeroDeLinhasDeInimigos * 0.3); // Define a area onde o inimigo deve sobrevoar outros inimigos
-
-				if (TodosAliens[i].Centro.y > localDeSobrevoo && TodosAliens[i].Centro.z < 0.7f) { // Sobe Z
-					TodosAliens[i].transladaOAlien(fatorDeTranslacaoEsquadraoSobe); 
-					if (TodosAliens[i].hasBomb && !TodosAliens[i].bomba.Dropada) { // Se for o alien com bomba
-						TodosAliens[i].bomba.translada(fatorDeTranslacaoEsquadraoSobe); // Sobe a bomba
-					}
-				}
-
-				if (TodosAliens[i].Centro.y < localDeSobrevoo && TodosAliens[i].Centro.z > 0.0f) { // Desce Z
-					TodosAliens[i].transladaOAlien(fatorDeTranslacaoEsquadraoDesce);
-					if (TodosAliens[i].hasBomb && !TodosAliens[i].bomba.Dropada) { // Se for o Alien com bomba
-						TodosAliens[i].bomba.translada(fatorDeTranslacaoEsquadraoDesce); // Desce a bomba
-					}
-				}
-
-				TodosAliens[i].transladaOAlien(fatorDeTranslacaoEsquadrão); // Anda ele rumo ao planeta				
-
-				if (TodosAliens[i].Centro.y < alturaDoPlaneta) { // Se o Alien chegar ao planeta
-					TodosAliens[i].recua = true; // Manda recuar
-					TodosAliens[i].ataca = false;
-					if (TodosAliens[i].hasBomb) { // Se for o Alien que carrega a bomba
-						TodosAliens[i].bomba.Dropada = true; // Dropa a bomba
-					}
-				}
+			// Sobe com o Alien se ele estiver recuando
+			if (Alien.recua) {
+				Alien.RecuaEmEsquadrao(fatorDeTranslacaoEsquadrao, fatorDeTranslacaoEsquadraoSobe);
 			}
 
-			if (TodosAliens[i].recua) {
-				if (TodosAliens[i].Centro.y > 0.5f && TodosAliens[i].Centro.y < TodosAliens[i].yOriginal && TodosAliens[i].Centro.z < 1.0f) { // Sobe Z
-					TodosAliens[i].transladaOAlien(fatorDeTranslacaoEsquadraoSobe);
-				}
-
-				if (TodosAliens[i].Centro.y >= TodosAliens[i].yOriginal && TodosAliens[i].Centro.z > -0.1f) { // Desce Z
-					TodosAliens[i].transladaOAlien(fatorDeTranslacaoEsquadraoDesce);
-				}
-
-				if (TodosAliens[i].Centro.z < 0.0f) { // Se a nave tiver descido demais quando foi retornar
-					TodosAliens[i].transladaOAlien(glm::vec3{ 0.0f, 0.0f, 0.0f - TodosAliens[i].Centro.z }); // conserta sua posição
-				}
-
-				if (TodosAliens[i].Centro.y < TodosAliens[i].yOriginal) {
-					TodosAliens[i].transladaOAlien(-1.0f * fatorDeTranslacaoEsquadrão); // Retorna ele para a posição original
-				}
-
-				if (TodosAliens[i].Centro.y >= TodosAliens[i].yOriginal && TodosAliens[i].Centro.z == 0.0f) {
-					TodosAliens[i].recua = false;
-					TodosAliens[i].transladaOAlien(glm::vec3{ 0.0f, TodosAliens[i].yOriginal - TodosAliens[i].Centro.y, 0.0f - TodosAliens[i].Centro.z });
-				}
+			// Atualiza tempo de intangilibidade
+			if(Alien.intangivel) { 
+				Alien.AtualizaTempoDeTangibilidade(DeltaTime, gameState.tempoDeIntangibilidadeAlien);
 			}
 
-		}
+			// Se o Alien tiver uma bomba
+			if (Alien.hasBomb) {
+				Alien.AtualizaEstadoDaBomba(DeltaTime, fatorDeTranslacaoEsquadrao, gameState.intensidadePiscadaBombaDropada, gameState.velocidadeDePiscadaBombaDropada);
 
-		if (AlienComBomba != -1) {
-			if (!TodosAliens[AlienComBomba].bomba.Dropada) { // Verifica se ela não foi dropada no planeta
-				TodosAliens[AlienComBomba].bomba.translada(fatorDeTranslacaoEsquadrão); // Anda com a bomba
-			}
-			else {
-				if (TodosAliens[AlienComBomba].bomba.Centro.z != 0.0f) {
-					TodosAliens[AlienComBomba].bomba.translada(glm::vec3{ 0.0f, 0.0f, 0.0f - TodosAliens[AlienComBomba].bomba.Centro.z });
-				}
-
-				if (TodosAliens[AlienComBomba].bomba.escala.x >= intensidadeDePiscada) {
-					TodosAliens[AlienComBomba].bomba.Aumentando = false;
-				}
-				if (TodosAliens[AlienComBomba].bomba.escala.x <= 0.9f) {
-					TodosAliens[AlienComBomba].bomba.Aumentando = true;
-				}
-
-				if (TodosAliens[AlienComBomba].bomba.Aumentando) {
-					TodosAliens[AlienComBomba].bomba.ajustaEscala(glm::vec3{ 1 + DeltaTime * velocidadeDePiscada, 1 + DeltaTime * velocidadeDePiscada, 0.0f });
-					//std::cout << glm::to_string(TodosAliens[AlienQueCarregaABomba].bomba.Centro) << std::endl;
-				}
-				else {
-					TodosAliens[AlienComBomba].bomba.ajustaEscala(glm::vec3{ 1 - DeltaTime * velocidadeDePiscada, 1 - DeltaTime * velocidadeDePiscada, 0.0f });
-					//std::cout << glm::to_string(TodosAliens[AlienQueCarregaABomba].bomba.Centro) << std::endl;
+				// Se a bomba tiver explodidado, Game Over
+				if (Alien.bomba.CountDown <= 0.0f) {
+					gameState.gameOver();
 				}
 			}
 		}
 
-		// Verifica se os Aliens atiram mísseis
-		std::random_device AlienAtira;
-		std::uniform_int_distribution<int> dist(1, 10000);
+		int rng = gameState.GeraNumeroAleatorio();
 
-		if (dist(AlienAtira) > 10000 - chanceDeInimigoAtirar) {
-			int AlienQueAtira = dist(AlienAtira) % TodosAliens.size();
-			
-			float velocidade = 1.5f * DeltaTime;
-			Missil missil = TodosAliens[AlienQueAtira].Atira(velocidade);
+		// Verifica se os Aliens atiram mísseis		
+		if (rng > 10000 - gameState.chanceDeInimigoAtirar) {
+			int AlienQueAtira = rng % TodosAliens.size();
+			Missil missil = TodosAliens[AlienQueAtira].Atira(gameState.VelocidadeDoTiroAlien * DeltaTime);
 			TodosMisseis.push_back(missil);
 		}
 
 		// Verifica se algum alien vai carregar a bomba
-		if (AlienComBomba == -1) {
-			std::random_device randomBomb;
-			std::uniform_int_distribution<int> distBombaNormal(1, 10000);
+		if (gameState.AlienComABomba == -1) {
+			if (rng > 10000 - gameState.chanceDeInimigoTentarDroparBomba) {
 
-			int rng = distBombaNormal(randomBomb);
+				// Define qual Alien vai carregar a bomba
+				int AlienQueCarregaABomba = rng % TodosAliens.size();
+				while (TodosAliens[AlienQueCarregaABomba].ataca || TodosAliens[AlienQueCarregaABomba].recua || TodosAliens[AlienQueCarregaABomba].hasBomb) {
+					AlienQueCarregaABomba = rng % TodosAliens.size();
+				}
+				TodosAliens[AlienQueCarregaABomba].CarregaBomba(gameState.TempoParaBombaExplodirBombaDropada);
 
-			if (rng > 10000 - chanceDeInimigoTentarDroparBomba) {
-				int candidatoAAlieQueCarregaABomba = rng % TodosAliens.size();
+				// Chama esquadrão para atacar junto
+				if (rng > 10000 - gameState.chanceDeFormarEsquadrao) {
+					std::vector<int> vizinhos;
+					vizinhos.push_back(AlienQueCarregaABomba - gameState.NumeroDeColunasDeInimigos - 1);
+					vizinhos.push_back(AlienQueCarregaABomba - gameState.NumeroDeColunasDeInimigos);
+					vizinhos.push_back(AlienQueCarregaABomba - gameState.NumeroDeColunasDeInimigos + 1);
+					vizinhos.push_back(AlienQueCarregaABomba - 1);
+					vizinhos.push_back(AlienQueCarregaABomba + 1);
+					vizinhos.push_back(AlienQueCarregaABomba + gameState.NumeroDeColunasDeInimigos - 1);
+					vizinhos.push_back(AlienQueCarregaABomba + gameState.NumeroDeColunasDeInimigos);
+					vizinhos.push_back(AlienQueCarregaABomba + gameState.NumeroDeColunasDeInimigos + 1);
 
-				if (!TodosAliens[candidatoAAlieQueCarregaABomba].ataca && !TodosAliens[candidatoAAlieQueCarregaABomba].recua && !TodosAliens[candidatoAAlieQueCarregaABomba].hasBomb) {
-					GLuint AlienQueCarregaABomba = candidatoAAlieQueCarregaABomba;
-					TodosAliens[AlienQueCarregaABomba].hasBomb = true;
-					TodosAliens[AlienQueCarregaABomba].CarregaBomba();
-					TodosAliens[AlienQueCarregaABomba].ataca = true;
-					// Chama esquadrão para atacar junto
+					// Verifica os membros válidos do esquadrão
+					for (int i = 0; i < vizinhos.size(); i++) {
+						if (vizinhos[i] < 0) 
+							continue;
+						else if (vizinhos[i] >= TodosAliens.size())
+							continue;
+						else if (TodosAliens[vizinhos[i]].recua == true || TodosAliens[vizinhos[i]].ataca == true)
+							continue;
 
-					if (rng > 9000) {
-						std::vector<int> vizinhos;
-
-						vizinhos.push_back(AlienQueCarregaABomba - NumeroDeColunasDeInimigos - 1);
-						vizinhos.push_back(AlienQueCarregaABomba - NumeroDeColunasDeInimigos);
-						vizinhos.push_back(AlienQueCarregaABomba - NumeroDeColunasDeInimigos + 1);
-						vizinhos.push_back(AlienQueCarregaABomba - 1);
-						vizinhos.push_back(AlienQueCarregaABomba + 1);
-						vizinhos.push_back(AlienQueCarregaABomba + NumeroDeColunasDeInimigos - 1);
-						vizinhos.push_back(AlienQueCarregaABomba + NumeroDeColunasDeInimigos);
-						vizinhos.push_back(AlienQueCarregaABomba + NumeroDeColunasDeInimigos + 1);
-
-						// Verifica os membros válidos do esquadrão
-						for (int i = 0; i < 8; i++) {
-							if (vizinhos[i] < 0) {
-								continue;
-							}
-							else if (vizinhos[i] >= TodosAliens.size()) {
-								continue;
-							}
-							else if (TodosAliens[vizinhos[i]].recua == true || TodosAliens[vizinhos[i]].ataca == true) {
-								continue;
-							}
-							// Coloca esquadrão em posição de ataque
-							TodosAliens[vizinhos[i]].ataca = true;
-						}
+						TodosAliens[vizinhos[i]].ataca = true;
 					}
 				}
 			}
@@ -697,25 +645,9 @@ int main() {
 		// Anda com os misseis e Verifica colisão
 
 		// Verifica tangibilidade
-		for (auto& Alien : TodosAliens) {
-			if (Alien.intangivel) { // Se o Alien está intangivel
-				Alien.tempoDeIntangibilidade -= 1.0f * DeltaTime; // DIminui o tempo de intangibilidade restante
-				if (Alien.tempoDeIntangibilidade <= 0.0f) { // Se o tempo de intangibilidade restante é menor ou igual 0
-					Alien.tempoDeIntangibilidade = tempoDeIntangibilidadeNave; // Restaura o tempo de intangibilidade
-					Alien.intangivel = false; // E torna o Alien Tangivel novamente
-				}
-			}
-			
-		}
-
 		if (nave1.intangivel) {
-			nave1.tempoDeIntangibilidade -= 1.0f * DeltaTime; // DIminui o tempo de intangibilidade restante
-			if (nave1.tempoDeIntangibilidade <= 0.0f) { // Se o tempo de intangibilidade restante é menor ou igual 0
-				nave1.tempoDeIntangibilidade = tempoDeIntangibilidadeAlien;// Restaura o tempo de intangibilidade
-				nave1.intangivel = false; // E torna a Nave tangivel de novo
-			}
+			nave1.AtualizaTempoDeTangibilidade(DeltaTime, gameState.tempoDeIntangibilidadeNave);
 		}
-
 
 		GLuint AlienAtingido = -1;
 		GLuint MissilAtingido = -1;
@@ -788,18 +720,23 @@ int main() {
 			}
 		}
 		
-		
-
 		if (AlienAtingido != -1) { // Se algum algum Alien foi atingido
 			TodosAliens[AlienAtingido].life -= 1; // Tira 1 de life do Alien
 			TodosAliens[AlienAtingido].intangivel = true;
 			if (TodosAliens[AlienAtingido].life <= 0) { // Se a vida do Alien chegar a 0
 				TodosAliens.erase(TodosAliens.begin() + AlienAtingido); // Mata o Alien
+				if (TodosAliens.size() <= 0) {
+					gameState.vitoria();
+				}
 			}
 		}
 
 		if (MissilAtingido != -1) { // Se Algum Missil atingiu algo
 			TodosMisseis.erase(TodosMisseis.begin() + MissilAtingido); // Apaga o Missil
+		}
+
+		if (nave1.life <= 0) {
+			gameState.gameOver();
 		}
 	}
 	// Desalocar o VertexBuffer

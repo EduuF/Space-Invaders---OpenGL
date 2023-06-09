@@ -6,7 +6,7 @@ Bomba::Bomba() {};
 
 Bomba::~Bomba() {};
 
-Bomba::Bomba(glm::vec4 Centro) {
+Bomba::Bomba(glm::vec4 Centro, float CountDown) {
     this->Model = this->getModel();
     this->Up = glm::vec4{ 0.0f, 1.0f, 0.0f, 0.0f };
     this->Right = glm::vec4{ 1.0f, 0.0f, 0.0f, 0.0f };
@@ -19,6 +19,7 @@ Bomba::Bomba(glm::vec4 Centro) {
     this->escala = glm::vec3{ 1.0f, 1.0f, 1.0f };
     this->Dropada = false;
     this->Aumentando = true;
+    this->CountDown = CountDown;
 }
 
 
@@ -33,6 +34,26 @@ void Bomba::rotaciona(float graus) {
 void Bomba::ajustaEscala(glm::vec3 FatorDeEscala) {
     ScaleMatrix(this->Model, FatorDeEscala, this->Centro); // Escala o triangulo
     this->escala *= FatorDeEscala;
+}
+
+void Bomba::ajustaEixoZ() {
+    TranslationMatrix(this->Model, this->Centro, this->Up, glm::vec3{ 0.0f, 0.0f, 0.0f - this->Centro.z});
+}
+
+void Bomba::pisca(float DeltaTime, float intensidadeDePiscada, float velocidadeDePiscada) {
+    if (this->escala.x >= intensidadeDePiscada) {
+        this->Aumentando = false;
+    }
+    if (this->escala.x <= 0.9f) {
+        this->Aumentando = true;
+    }
+
+    if (this->Aumentando) {
+        this->ajustaEscala(glm::vec3{ 1 + DeltaTime * velocidadeDePiscada, 1 + DeltaTime * velocidadeDePiscada, 0.0f });
+    }
+    else {
+        this->ajustaEscala(glm::vec3{ 1 - DeltaTime * velocidadeDePiscada, 1 - DeltaTime * velocidadeDePiscada, 0.0f });
+    }
 }
 
 std::vector<std::vector<Vertex>> Bomba::getModel() {

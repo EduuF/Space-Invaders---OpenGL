@@ -22,9 +22,11 @@ Nave::Nave(glm::vec4 NaveCentro) {
 
     this->escala = glm::vec3{ 1.0f, 1.0f, 1.0f };
     this->CanhaoDireitoAtira = false; 
-    this->life = 5000000;
-    this->tempoDeIntangibilidade = 1.0f;
+    this->life = 5;
+    this->tempoDeIntangibilidade = 2.0f;
     this->intangivel = false;
+    this->TempoPiscando = 0.2f;
+    this->piscando = false;
 }
 
 void Nave::ajustaEscalaDaNave(glm::vec3 FatorDeEscala) {
@@ -38,6 +40,40 @@ void Nave::transladaANave(glm::vec3 fatorDeTranslacao) {
 
 void Nave::rotacionaANave(float graus) {
     RotationMatrix(this->modeloDaNave, graus, this->NaveCentro, this->NaveUp, this->naveRight); // Rotaciona o OBJ em relação a seu centro
+}
+
+void Nave::pisca(float tempoDePiscada, float DeltaTime) {
+    // Se ela está no estado apagado durante a piscada
+    if (this->piscando) {
+        this->TempoPiscando -= DeltaTime; // Diminui o tempo de piscada
+    } else {
+        this->TempoPiscando += DeltaTime; // Aumenta o tempo de piscada
+    }
+
+    // Se o tempo de piscada chegar a 0, muda para estado "Aceso"
+    if (this->TempoPiscando <= 0.0f) {
+        this->piscando = false;
+    }
+
+    // Se o tempo de piscada chegar ao máximo, muda para estado "Apagado"
+    if (this->TempoPiscando >= tempoDePiscada) {
+        this->piscando = true;
+    }
+};
+
+void Nave::MoveNaveLateralmente(double MouseXPos, float VelocidadeLateralNave) {
+    float realSpeed = (MouseXPos - this->NaveCentro.x) * VelocidadeLateralNave;
+    glm::vec3 fatorDeTransalacao{ realSpeed , 0.0f, 0.0f };
+    this->transladaANave(fatorDeTransalacao);
+
+}
+
+void Nave::AtualizaTempoDeTangibilidade(float DeltaTime, float tempoDeIntangibilidadeNave) {
+    this->tempoDeIntangibilidade -= 1.0f * DeltaTime;
+    if (this->tempoDeIntangibilidade <= 0.0f) {
+        this->tempoDeIntangibilidade = tempoDeIntangibilidadeNave;
+        this->intangivel = false;
+    }
 }
 
 

@@ -17,6 +17,7 @@ public:
 	bool recua;
 	bool vivo;
 	bool intangivel;
+	bool piscando;
 
 	Bomba bomba;
 	int life;
@@ -24,6 +25,7 @@ public:
 	double yOriginal;
 
 	float tempoDeIntangibilidade;
+	float TempoPiscando;
 
 	Alien();
 
@@ -44,5 +46,11 @@ public:
 	std::vector<std::vector<Vertex>> getAlienModel();
     
 	Missil Atira(float velocidade);
-	void CarregaBomba();
+	void CarregaBomba(float CountDown);
+	void pisca(float tempoDePiscada, float DeltaTime);
+	void MoveAlienLateralmente(bool& AlienMoveLeft, float velocidadeInimigos, float DeltaTime);
+	void AtacaEmEsquadrao(float localDeSobrevooDosAliens, glm::vec3 fatorDeTranslacaoEsquadrao, glm::vec3 fatorDeTranslacaoEsquadraoSobe, float alturaDoPlaneta);
+	void RecuaEmEsquadrao(glm::vec3 fatorDeTranslacaoEsquadrao, glm::vec3 fatorDeTranslacaoEsquadraoSobe);
+	void AtualizaTempoDeTangibilidade(float DeltaTime, float tempoDeIntangibilidadeAlien);
+	void AtualizaEstadoDaBomba(float DeltaTime, glm::vec3 fatorDeTranslacaoEsquadrao, float intensidadePiscadaBombaDropada, float velocidadeDePiscadaBombaDropada);
 };
