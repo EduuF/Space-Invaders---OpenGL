@@ -64,8 +64,18 @@ void Nave::pisca(float tempoDePiscada, float DeltaTime) {
 void Nave::MoveNaveLateralmente(double MouseXPos, float VelocidadeLateralNave) {
     float realSpeed = (MouseXPos - this->NaveCentro.x) * VelocidadeLateralNave;
     glm::vec3 fatorDeTransalacao{ realSpeed , 0.0f, 0.0f };
-    this->transladaANave(fatorDeTransalacao);
 
+    // Não pode passar da barreira direita
+    if (realSpeed + this->NaveCentro.x > 1.9f) {
+        fatorDeTransalacao = glm::vec3{ 1.9f - this->NaveCentro.x , 0.0f, 0.0f };
+    }
+
+    // Não pode passar da barreira esquerda
+    if (realSpeed + this->NaveCentro.x < -1.9f) {
+        fatorDeTransalacao = glm::vec3{ -1.9f - this->NaveCentro.x , 0.0f, 0.0f };
+    }
+
+    this->transladaANave(fatorDeTransalacao);
 }
 
 void Nave::AtualizaTempoDeTangibilidade(float DeltaTime, float tempoDeIntangibilidadeNave) {

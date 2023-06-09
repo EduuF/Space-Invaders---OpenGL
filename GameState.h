@@ -35,6 +35,7 @@ public:
 	float VelocidadeDoTiroAlien = 1.5f;
 	float tempoDeIntangibilidadeAlien = 2.0f;
 	float tempoDeIntangibilidadeNave = 2.0f;
+	float TempoDePiscadaAoSerAtingido = 0.1f;
 
 	int chanceDeInimigoAtirar = 500;
 	int chanceDeInimigoTentarDroparBomba = 100;

@@ -282,35 +282,14 @@ int main() {
 		TodosAliens[i].ajustaEscalaDoAlien(fatorDeEscalaAlien);
 	}
 
-	//TodosAliens[0].transladaOAlien(fatorDeTranslacaoAlien);
-	//TodosAliens[1].transladaOAlien(fatorDeTranslacaoAlien);
-	float angleRotacaoAlien = 45;
-	//TodosAliens[0].rotacionaOAlien(angleRotacaoAlien);
-
 	std::vector<Missil> TodosMisseis;
 
-	// Copiar os vértices do triangulo para a memória da GPU
-	GLuint VertexBuffer;
+	GLuint VertexBuffer;// Copiar os vértices do triangulo para a memória da GPU
+	glGenBuffers(1, &VertexBuffer);// Pedir para o OpenGL gerar o identificador do VertexBuffer
+	glClearColor(0.15f, 0.05f, 0.10f, 1.0f); // Definir cor de fundo da janela
 
-	// Pedir para o OpenGL gerar o identificador do VertexBuffer
-	glGenBuffers(1, &VertexBuffer);
-
-	// Definir cor de fundo da janela
-	glClearColor(0.15f, 0.05f, 0.10f, 1.0f); // Azul escuro
-
-	// Guarda o tempo do frame anterior
-	double PreviousTime = glfwGetTime();	
-
-	// Contador de delay de tiros
-	float ContadorDeDelayDeTiros = 0.0f;
-
-
-
-	// Velocidade da piscada ao ser atigindo
-	float TempoDePiscadaAoSerAtingido = 0.1f;
-
-	//Tempo para a bomba explodir depois de dropada
-	
+	double PreviousTime = glfwGetTime();	// Guarda o tempo do frame anterior
+	float ContadorDeDelayDeTiros = 0.0f;// Contador de delay de tiros
 	
 	// Rendeiza apenas a face da frente
 	glEnable(GL_CULL_FACE);
@@ -330,8 +309,6 @@ int main() {
 		if (DeltaTime > 0.0) {
 			PreviousTime = CurrentTime;
 		}
-		// Model Matrix
-		glm::mat4 ModelMatrix = glm::identity<glm::mat4>();
 
 		// Ativar o VertexBuffer como sendo o Buffer para onde vamos copiar os dados do triangulo
 		glBindBuffer(GL_ARRAY_BUFFER, VertexBuffer);
@@ -386,9 +363,9 @@ int main() {
 		// Ativar o programa de Shader
 		glUseProgram(ProgramId);
 
-
+		// Model Matrix
+		glm::mat4 ModelMatrix = glm::identity<glm::mat4>();
 		glm::mat4 ViewProjectionMatrix = Camera.GetViewProjection();
-
 		glm::mat4 ModelViewProjection = ViewProjectionMatrix * ModelMatrix;
 
 		// Aloca cálculo da ModelViewProjection de cada vértice para a GPU
@@ -552,12 +529,12 @@ int main() {
 
 		// Pisca quando atingido
 		if (nave1.intangivel) {
-			nave1.pisca(TempoDePiscadaAoSerAtingido, DeltaTime);
+			nave1.pisca(gameState.TempoDePiscadaAoSerAtingido, DeltaTime);
 		}
 
 		for (auto& Alien : TodosAliens) {
 			if (Alien.intangivel) {
-				Alien.pisca(TempoDePiscadaAoSerAtingido, DeltaTime);
+				Alien.pisca(gameState.TempoDePiscadaAoSerAtingido, DeltaTime);
 			}
 		}
 
