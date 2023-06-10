@@ -32,15 +32,15 @@ public:
 	bool hasPowerUp2 = false;
 	bool ordemDeRecuada = false;
 
-	float CadenciaDeTirosNave = 0.1f;
+	float CadenciaDeTirosNave = 0.03f;
 	float VelocidadeLateralNave = 0.05f;
-	float velocidadeDosAlien = 0.3f;
+	float velocidadeDosAlien = 0.1f;
 	float velocidadeSubidaEDescidaInimigos = 1.2f;
 	float localDeSobrevooDosAliens = 2.0f - ((this->NumeroDeLinhasDeInimigos+1) * 0.32);
 	float alturaDoPlaneta = -1.8f;
 	float velocidadeDePiscadaBombaDropada = 2.5f;
 	float intensidadePiscadaBombaDropada = 1.3f;
-	float TempoParaBombaExplodirBombaDropada = 250.0f;
+	float TempoParaBombaExplodirBombaDropada = 25.0f;
 	float VelocidadeDoTiroAlien = 0.5f;
 	float tempoDeIntangibilidadeAlien = 2.0f;
 	float tempoDeIntangibilidadeNave = 2.0f;
@@ -49,10 +49,10 @@ public:
 	float tempoDePowerUp0 = 10.0f;
 	float tempoDePowerUp1 = 10.0f;
 	float tempoDePowerUp2 = 10.0f;
-	float VelocidadeDoTiroNave = 1.5f;
+	float VelocidadeDoTiroNave = 2.0f;
 	
-	int ChanceDeDroparPowerUp = 700;
-	int chanceDeInimigoAtirar = 250;
+	int ChanceDeDroparPowerUp = 200;
+	int chanceDeInimigoAtirar = 150;
 	int chanceDeInimigoTentarDroparBomba = 20;
 	int chanceDeFormarEsquadrao = 5000;
 
