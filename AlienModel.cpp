@@ -1,6 +1,7 @@
 #include "Alien.h"
+#include "GameState.h"
 
-std::vector<std::vector<Vertex>> getAlienModelEstado1() {
+std::vector<std::vector<Vertex>> getAlienModelEstado1(bool hasPowerUp1, bool hasPowerUp2) {
 
     // Bouding Box
     glm::vec4 BoundingBoxA{ -0.11f,  -0.05f,  0.0f, 1.0f };
@@ -9,23 +10,15 @@ std::vector<std::vector<Vertex>> getAlienModelEstado1() {
     glm::vec4 BoundingBoxD{ 0.11f,  -0.05f,  0.0f, 1.0f };
 
     //Cores
-    glm::vec4 Vermelho{ 1.0f, 0.0f, 0.0f, 1.0f };
-    glm::vec4 Verde{ 0.0f, 1.0f, 0.0f, 1.0f };
-    glm::vec4 Azul{ 0.0f, 0.0f, 1.0f, 1.0f };
-    glm::vec4 AntiVermelho{ 0.0f, 1.0f, 1.0f, 1.0f };
-    glm::vec4 AntiVerde{ 1.0f, 0.0f, 1.0f, 1.0f };
-    glm::vec4 AntiAzul{ 1.0f, 1.0f, 0.0f, 1.0f };
-
-    glm::vec4 CorCorpo{ 0.73f, 0.54f, 0.75f, 1.0f };
-    glm::vec4 CorBracoEsquerdo{ 0.42f, 0.20f, 0.58f, 1.0f };
-    glm::vec4 CorMaoEsquerda{ 0.41f, 0.05f, 0.69f, 1.0f };
-    glm::vec4 CorCanhaoEsquerdo{ 1.0f, 0.0f, 0.0f, 1.0f };
-    glm::vec4 CorBracoDireito{ 0.42f, 0.20f, 0.58f, 1.0f };
-    glm::vec4 CorMaoDireita{ 0.41f, 0.05f, 0.69f, 1.0f };
-    glm::vec4 CorCanhaoDireito{ 1.0f, 0.0f, 0.0f, 1.0f };
-    glm::vec4 CorMotorEsquerdo{ 1.0f, 0.0f, 0.0f, 1.0f };
-    glm::vec4 CorMotorDireito{ 1.0f, 0.0f, 0.0f, 1.0f };
-    glm::vec4 CorBoundingBox{ 0.0f, 0.0f, 0.0f, 1.0f };
+    glm::vec4 Cor{ 0.10f, 0.60f, 0.05f, 1.0f };
+    if (hasPowerUp1) {
+        Cor = glm::vec4{ 0.8f, 0.35f, 0.1f, 1.0f };
+    }
+    if (hasPowerUp2) {
+        
+        Cor = glm::vec4{ 0.35f, 0.35f, 0.8f, 1.0f };
+    }
+    
 
     //Modela o Alien
     glm::vec4 L = glm::vec4{ -1.2f, -0.4f,  +0.0f, 1.0f };
@@ -109,231 +102,231 @@ std::vector<std::vector<Vertex>> getAlienModelEstado1() {
     glm::vec4 E1Inverso = glm::vec4{ 0.0f, -0.2f,  +0.0f, 1.0f };
 
     std::vector<Vertex> Inverso1 = {
-        Vertex{D1Inverso, CorCorpo},
-        Vertex{A1Inverso, CorCorpo},
-        Vertex{B1Inverso, CorCorpo}
+        Vertex{D1Inverso, Cor},
+        Vertex{A1Inverso, Cor},
+        Vertex{B1Inverso, Cor}
     };
 
     std::vector<Vertex> Inverso2 = {
-        Vertex{D1Inverso, CorCorpo},
-        Vertex{B1Inverso, CorCorpo},
-        Vertex{E1Inverso, CorCorpo}
+        Vertex{D1Inverso, Cor},
+        Vertex{B1Inverso, Cor},
+        Vertex{E1Inverso, Cor}
     };
 
     std::vector<Vertex> Inverso3 = {
-        Vertex{RInverso, CorCorpo},
-        Vertex{SInverso, CorCorpo},
-        Vertex{TInverso, CorCorpo}
+        Vertex{RInverso, Cor},
+        Vertex{SInverso, Cor},
+        Vertex{TInverso, Cor}
     };
 
     std::vector<Vertex> Inverso4 = {
-        Vertex{RInverso, CorCorpo},
-        Vertex{TInverso, CorCorpo},
-        Vertex{UInverso, CorCorpo}
+        Vertex{RInverso, Cor},
+        Vertex{TInverso, Cor},
+        Vertex{UInverso, Cor}
     };
 
     std::vector<Vertex> Inverso5 = {
-        Vertex{H1Inverso, CorCorpo},
-        Vertex{F1Inverso, CorCorpo},
-        Vertex{G1Inverso, CorCorpo}
+        Vertex{H1Inverso, Cor},
+        Vertex{F1Inverso, Cor},
+        Vertex{G1Inverso, Cor}
     };
 
     std::vector<Vertex> Inverso6 = {
-        Vertex{H1Inverso, CorCorpo},
-        Vertex{G1Inverso, CorCorpo},
-        Vertex{D1Inverso, CorCorpo}
+        Vertex{H1Inverso, Cor},
+        Vertex{G1Inverso, Cor},
+        Vertex{D1Inverso, Cor}
     };
 
     std::vector<Vertex> Inverso7 = {
-        Vertex{BInverso, CorCorpo},
-        Vertex{DInverso, CorCorpo},
-        Vertex{CInverso, CorCorpo}
+        Vertex{BInverso, Cor},
+        Vertex{DInverso, Cor},
+        Vertex{CInverso, Cor}
     };
 
     std::vector<Vertex> Inverso8 = {
-        Vertex{BInverso, CorCorpo},
-        Vertex{CInverso, CorCorpo},
-        Vertex{AInverso, CorCorpo}
+        Vertex{BInverso, Cor},
+        Vertex{CInverso, Cor},
+        Vertex{AInverso, Cor}
     };
 
     std::vector<Vertex> Inverso9 = {
-        Vertex{VInverso, CorCorpo},
-        Vertex{ZInverso, CorCorpo},
-        Vertex{WInverso, CorCorpo}
+        Vertex{VInverso, Cor},
+        Vertex{ZInverso, Cor},
+        Vertex{WInverso, Cor}
     };
 
     std::vector<Vertex> Inverso10 = {
-        Vertex{VInverso, CorCorpo},
-        Vertex{WInverso, CorCorpo},
-        Vertex{SInverso, CorCorpo}
+        Vertex{VInverso, Cor},
+        Vertex{WInverso, Cor},
+        Vertex{SInverso, Cor}
     };
 
     std::vector<Vertex> Inverso11 = {
-        Vertex{EInverso, CorCorpo},
-        Vertex{FInverso, CorCorpo},
-        Vertex{DInverso, CorCorpo}
+        Vertex{EInverso, Cor},
+        Vertex{FInverso, Cor},
+        Vertex{DInverso, Cor}
     };
 
     std::vector<Vertex> Inverso12 = {
-        Vertex{DInverso, CorCorpo},
-        Vertex{FInverso, CorCorpo},
-        Vertex{GInverso, CorCorpo}
+        Vertex{DInverso, Cor},
+        Vertex{FInverso, Cor},
+        Vertex{GInverso, Cor}
     };
 
     std::vector<Vertex> Inverso13 = {
-        Vertex{OInverso, CorCorpo},
-        Vertex{QInverso, CorCorpo},
-        Vertex{KInverso, CorCorpo}
+        Vertex{OInverso, Cor},
+        Vertex{QInverso, Cor},
+        Vertex{KInverso, Cor}
     };
 
     std::vector<Vertex> Inverso14 = {
-        Vertex{OInverso, CorCorpo},
-        Vertex{PInverso, CorCorpo},
-        Vertex{QInverso, CorCorpo}
+        Vertex{OInverso, Cor},
+        Vertex{PInverso, Cor},
+        Vertex{QInverso, Cor}
     };
 
     std::vector<Vertex> Inverso15 = {
-        Vertex{IInverso, CorCorpo},
-        Vertex{JInverso, CorCorpo},
-        Vertex{HInverso, CorCorpo}
+        Vertex{IInverso, Cor},
+        Vertex{JInverso, Cor},
+        Vertex{HInverso, Cor}
     };
 
     std::vector<Vertex> Inverso16 = {
-        Vertex{HInverso, CorCorpo},
-        Vertex{JInverso, CorCorpo},
-        Vertex{KInverso, CorCorpo}
+        Vertex{HInverso, Cor},
+        Vertex{JInverso, Cor},
+        Vertex{KInverso, Cor}
     };
 
     std::vector<Vertex> Inverso17 = {
-        Vertex{LInverso, CorCorpo},
-        Vertex{IInverso, CorCorpo},
-        Vertex{MInverso, CorCorpo}
+        Vertex{LInverso, Cor},
+        Vertex{IInverso, Cor},
+        Vertex{MInverso, Cor}
     };
 
     std::vector<Vertex> Inverso18 = {
-        Vertex{LInverso, CorCorpo},
-        Vertex{MInverso, CorCorpo},
-        Vertex{NInverso, CorCorpo}
+        Vertex{LInverso, Cor},
+        Vertex{MInverso, Cor},
+        Vertex{NInverso, Cor}
     };
 
     std::vector<Vertex> Corpo1 = {
-        Vertex{D1, CorCorpo},
-        Vertex{B1, CorCorpo},
-        Vertex{A1, CorCorpo}
+        Vertex{D1, Cor},
+        Vertex{B1, Cor},
+        Vertex{A1, Cor}
     };
 
     std::vector<Vertex> Corpo2 = {
-        Vertex{D1, CorCorpo},
-        Vertex{E1, CorCorpo},
-        Vertex{B1, CorCorpo}
+        Vertex{D1, Cor},
+        Vertex{E1, Cor},
+        Vertex{B1, Cor}
     };
 
     std::vector<Vertex> Corpo3 = {
-        Vertex{R, CorCorpo},
-        Vertex{T, CorCorpo},
-        Vertex{S, CorCorpo}
+        Vertex{R, Cor},
+        Vertex{T, Cor},
+        Vertex{S, Cor}
     };
 
     std::vector<Vertex> Corpo4 = {
-        Vertex{R, CorCorpo},
-        Vertex{U, CorCorpo},
-        Vertex{T, CorCorpo}
+        Vertex{R, Cor},
+        Vertex{U, Cor},
+        Vertex{T, Cor}
     };
 
     std::vector<Vertex> Corpo5 = {
-        Vertex{H1, CorCorpo},
-        Vertex{G1, CorCorpo},
-        Vertex{F1, CorCorpo}
+        Vertex{H1, Cor},
+        Vertex{G1, Cor},
+        Vertex{F1, Cor}
     };
 
     std::vector<Vertex> Corpo6 = {
-        Vertex{H1, CorCorpo},
-        Vertex{D1, CorCorpo},
-        Vertex{G1, CorCorpo}
+        Vertex{H1, Cor},
+        Vertex{D1, Cor},
+        Vertex{G1, Cor}
     };
 
     std::vector<Vertex> Corpo7 = {
-        Vertex{B, CorCorpo},
-        Vertex{C, CorCorpo},
-        Vertex{D, CorCorpo}
+        Vertex{B, Cor},
+        Vertex{C, Cor},
+        Vertex{D, Cor}
     };
 
     std::vector<Vertex> Corpo8 = {
-        Vertex{B, CorCorpo},
-        Vertex{A, CorCorpo},
-        Vertex{C, CorCorpo}
+        Vertex{B, Cor},
+        Vertex{A, Cor},
+        Vertex{C, Cor}
     };
 
     std::vector<Vertex> Corpo9 = {
-        Vertex{V, CorCorpo},
-        Vertex{W, CorCorpo},
-        Vertex{Z, CorCorpo}
+        Vertex{V, Cor},
+        Vertex{W, Cor},
+        Vertex{Z, Cor}
     };
 
     std::vector<Vertex> Corpo10 = {
-        Vertex{V, CorCorpo},
-        Vertex{S, CorCorpo},
-        Vertex{W, CorCorpo}
+        Vertex{V, Cor},
+        Vertex{S, Cor},
+        Vertex{W, Cor}
     };
 
     std::vector<Vertex> Corpo11 = {
-        Vertex{E, CorCorpo},
-        Vertex{D, CorCorpo},
-        Vertex{F, CorCorpo}
+        Vertex{E, Cor},
+        Vertex{D, Cor},
+        Vertex{F, Cor}
     };
 
     std::vector<Vertex> Corpo12 = {
-        Vertex{D, CorCorpo},
-        Vertex{G, CorCorpo},
-        Vertex{F, CorCorpo}
+        Vertex{D, Cor},
+        Vertex{G, Cor},
+        Vertex{F, Cor}
     };
 
     std::vector<Vertex> Corpo13 = {
-        Vertex{O, CorCorpo},
-        Vertex{K, CorCorpo},
-        Vertex{Q, CorCorpo}
+        Vertex{O, Cor},
+        Vertex{K, Cor},
+        Vertex{Q, Cor}
     };
 
     std::vector<Vertex> Corpo14 = {
-        Vertex{O, CorCorpo},
-        Vertex{Q, CorCorpo},
-        Vertex{P, CorCorpo}
+        Vertex{O, Cor},
+        Vertex{Q, Cor},
+        Vertex{P, Cor}
     };
 
     std::vector<Vertex> Corpo15 = {
-        Vertex{I, CorCorpo},
-        Vertex{H, CorCorpo},
-        Vertex{J, CorCorpo}
+        Vertex{I, Cor},
+        Vertex{H, Cor},
+        Vertex{J, Cor}
     };
 
     std::vector<Vertex> Corpo16 = {
-        Vertex{H, CorCorpo},
-        Vertex{K, CorCorpo},
-        Vertex{J, CorCorpo}
+        Vertex{H, Cor},
+        Vertex{K, Cor},
+        Vertex{J, Cor}
     };
 
     std::vector<Vertex> Corpo17 = {
-        Vertex{L, CorCorpo},
-        Vertex{M, CorCorpo},
-        Vertex{I, CorCorpo}
+        Vertex{L, Cor},
+        Vertex{M, Cor},
+        Vertex{I, Cor}
     };
 
     std::vector<Vertex> Corpo18 = {
-        Vertex{L, CorCorpo},
-        Vertex{N, CorCorpo},
-        Vertex{M, CorCorpo}
+        Vertex{L, Cor},
+        Vertex{N, Cor},
+        Vertex{M, Cor}
     };
 
     std::vector<Vertex> BoudingBox1 = {
-        Vertex{BoundingBoxA, CorCorpo},
-        Vertex{BoundingBoxB, CorCorpo},
-        Vertex{BoundingBoxC, CorCorpo}
+        Vertex{BoundingBoxA, Cor},
+        Vertex{BoundingBoxB, Cor},
+        Vertex{BoundingBoxC, Cor}
     };
 
     std::vector<Vertex> BoudingBox2 = {
-        Vertex{BoundingBoxA, CorCorpo},
-        Vertex{BoundingBoxC, CorCorpo},
-        Vertex{BoundingBoxD, CorCorpo}
+        Vertex{BoundingBoxA, Cor},
+        Vertex{BoundingBoxC, Cor},
+        Vertex{BoundingBoxD, Cor}
     };
 
 
@@ -349,7 +342,7 @@ std::vector<std::vector<Vertex>> getAlienModelEstado1() {
     return alienVertices;
 }
 
-std::vector<std::vector<Vertex>> getAlienModelEstado2() {
+std::vector<std::vector<Vertex>> getAlienModelEstado2(bool hasPowerUp1, bool hasPowerUp2){
 
     // Bouding Box
     glm::vec4 BoundingBoxA{ -0.11f,  -0.05f,  0.0f, 1.0f };
@@ -358,23 +351,14 @@ std::vector<std::vector<Vertex>> getAlienModelEstado2() {
     glm::vec4 BoundingBoxD{ 0.11f,  -0.05f,  0.0f, 1.0f };
 
     //Cores
-    glm::vec4 Vermelho{ 1.0f, 0.0f, 0.0f, 1.0f };
-    glm::vec4 Verde{ 0.0f, 1.0f, 0.0f, 1.0f };
-    glm::vec4 Azul{ 0.0f, 0.0f, 1.0f, 1.0f };
-    glm::vec4 AntiVermelho{ 0.0f, 1.0f, 1.0f, 1.0f };
-    glm::vec4 AntiVerde{ 1.0f, 0.0f, 1.0f, 1.0f };
-    glm::vec4 AntiAzul{ 1.0f, 1.0f, 0.0f, 1.0f };
-
-    glm::vec4 CorCorpo{ 0.73f, 0.54f, 0.75f, 1.0f };
-    glm::vec4 CorBracoEsquerdo{ 0.42f, 0.20f, 0.58f, 1.0f };
-    glm::vec4 CorMaoEsquerda{ 0.41f, 0.05f, 0.69f, 1.0f };
-    glm::vec4 CorCanhaoEsquerdo{ 1.0f, 0.0f, 0.0f, 1.0f };
-    glm::vec4 CorBracoDireito{ 0.42f, 0.20f, 0.58f, 1.0f };
-    glm::vec4 CorMaoDireita{ 0.41f, 0.05f, 0.69f, 1.0f };
-    glm::vec4 CorCanhaoDireito{ 1.0f, 0.0f, 0.0f, 1.0f };
-    glm::vec4 CorMotorEsquerdo{ 1.0f, 0.0f, 0.0f, 1.0f };
-    glm::vec4 CorMotorDireito{ 1.0f, 0.0f, 0.0f, 1.0f };
-    glm::vec4 CorBoundingBox{ 0.0f, 0.0f, 0.0f, 1.0f };
+    glm::vec4 CorCorpo{ 0.10f, 0.60f, 0.05f, 1.0f };
+    if (hasPowerUp1) {
+        CorCorpo = glm::vec4{ 0.8f, 0.35f, 0.1f, 1.0f };
+    }
+    if (hasPowerUp2) {
+        
+        CorCorpo = glm::vec4{ 0.35f, 0.35f, 0.8f, 1.0f };
+    }
 
     //Modela o Alien
     glm::vec4 L = glm::vec4{ -1.6f, 0.2f,  +0.0f, 1.0f };
@@ -698,7 +682,7 @@ std::vector<std::vector<Vertex>> getAlienModelEstado2() {
     return alienVertices;
 }
 
-std::vector<std::vector<Vertex>> getAlienModelEstado3() {
+std::vector<std::vector<Vertex>> getAlienModelEstado3(bool hasPowerUp1, bool hasPowerUp2) {
 
     // Bouding Box
     glm::vec4 BoundingBoxA{ -0.11f,  -0.05f,  0.0f, 1.0f };
@@ -707,23 +691,14 @@ std::vector<std::vector<Vertex>> getAlienModelEstado3() {
     glm::vec4 BoundingBoxD{ 0.11f,  -0.05f,  0.0f, 1.0f };
 
     //Cores
-    glm::vec4 Vermelho{ 1.0f, 0.0f, 0.0f, 1.0f };
-    glm::vec4 Verde{ 0.0f, 1.0f, 0.0f, 1.0f };
-    glm::vec4 Azul{ 0.0f, 0.0f, 1.0f, 1.0f };
-    glm::vec4 AntiVermelho{ 0.0f, 1.0f, 1.0f, 1.0f };
-    glm::vec4 AntiVerde{ 1.0f, 0.0f, 1.0f, 1.0f };
-    glm::vec4 AntiAzul{ 1.0f, 1.0f, 0.0f, 1.0f };
-
-    glm::vec4 CorCorpo{ 0.73f, 0.54f, 0.75f, 1.0f };
-    glm::vec4 CorBracoEsquerdo{ 0.42f, 0.20f, 0.58f, 1.0f };
-    glm::vec4 CorMaoEsquerda{ 0.41f, 0.05f, 0.69f, 1.0f };
-    glm::vec4 CorCanhaoEsquerdo{ 1.0f, 0.0f, 0.0f, 1.0f };
-    glm::vec4 CorBracoDireito{ 0.42f, 0.20f, 0.58f, 1.0f };
-    glm::vec4 CorMaoDireita{ 0.41f, 0.05f, 0.69f, 1.0f };
-    glm::vec4 CorCanhaoDireito{ 1.0f, 0.0f, 0.0f, 1.0f };
-    glm::vec4 CorMotorEsquerdo{ 1.0f, 0.0f, 0.0f, 1.0f };
-    glm::vec4 CorMotorDireito{ 1.0f, 0.0f, 0.0f, 1.0f };
-    glm::vec4 CorBoundingBox{ 0.0f, 0.0f, 0.0f, 1.0f };
+    glm::vec4 CorCorpo{ 0.10f, 0.60f, 0.05f, 1.0f };
+    if (hasPowerUp1) {
+        CorCorpo = glm::vec4{ 0.8f, 0.35f, 0.1f, 1.0f };
+    }
+    if (hasPowerUp2) {
+        
+        CorCorpo = glm::vec4{ 0.35f, 0.35f, 0.8f, 1.0f };
+    }
 
     //Modela o Alien
     glm::vec4 L = glm::vec4{ -1.0f, 0.6f,  +0.0f, 1.0f };

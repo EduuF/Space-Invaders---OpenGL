@@ -7,7 +7,7 @@ Alien::Alien() {}
 
 Alien::Alien(glm::vec4 Centro) {
     this->Centro = Centro;
-    std::vector<std::vector<Vertex>> inimigoModel = getAlienModelEstado1(); // Modelo Base
+    std::vector<std::vector<Vertex>> inimigoModel = getAlienModelEstado1(false, false); // Modelo Base
 
     this->modeloDoInimigo = inimigoModel; // Acopla modelo base
 
@@ -118,8 +118,8 @@ void Alien::AtacaEmEsquadrao(float localDeSobrevooDosAliens, glm::vec3 fatorDeTr
     }
 }
 
-void Alien::RecuaEmEsquadrao(glm::vec3 fatorDeTranslacaoEsquadrao, glm::vec3 fatorDeTranslacaoEsquadraoSobe) {
-    if (this->Centro.y > 0.5f && this->Centro.y < this->yOriginal && this->Centro.z < 1.0f) { // Sobe Z
+void Alien::RecuaEmEsquadrao(glm::vec3 fatorDeTranslacaoEsquadrao, glm::vec3 fatorDeTranslacaoEsquadraoSobe, float localDeSobrevooDosAliens) {
+    if (this->Centro.y > localDeSobrevooDosAliens && this->Centro.y < this->yOriginal && this->Centro.z < 1.0f) { // Sobe Z
         this->transladaOAlien(fatorDeTranslacaoEsquadraoSobe);
     }
 
@@ -189,7 +189,7 @@ void Alien::CarregaBomba(float CountDown) {
     this->bomba = Bomba(this->Centro, CountDown);
 }
 
-void Alien::TrocaSkin(float DeltaTime) {
+void Alien::TrocaSkin(float DeltaTime, bool hasPowerUp1, bool hasPowerUp2) {
     this->TempoParaTrocarSkin -= DeltaTime;
 
     if (this->TempoParaTrocarSkin <= 0) {
@@ -197,12 +197,22 @@ void Alien::TrocaSkin(float DeltaTime) {
         glm::vec3 fatorDeEscalaTrocaSkin = this->escala;
 
         if (sobeAsa) {
-            glm::vec3 centerTrocaSKin{ this->Centro.x, this->Centro.y - 0.01f, this->Centro.z };
+            glm::vec3 centerTrocaSKin{ this->Centro.x, this->Centro.y - 0.015f, this->Centro.z };
             this->skin++;
 
             this->Centro = glm::vec4{ 0.0f, 0.0f, 0.0f, 1.0f };
             this->escala = glm::vec3{ 1.0f, 1.0f, 1.0f };
-            this->modeloDoInimigo = modelos[this->skin];
+
+            if (this->skin == 0) {
+                this->modeloDoInimigo = getAlienModelEstado1(hasPowerUp1, hasPowerUp2);
+            }
+            if (this->skin == 1) {
+                this->modeloDoInimigo = getAlienModelEstado2(hasPowerUp1, hasPowerUp2);
+            }
+            if (this->skin == 2) {
+                this->modeloDoInimigo = getAlienModelEstado3(hasPowerUp1, hasPowerUp2);
+            }
+
             this->ajustaEscalaDoAlien(fatorDeEscalaTrocaSkin);
             this->transladaOAlien(centerTrocaSKin);
 
@@ -211,12 +221,21 @@ void Alien::TrocaSkin(float DeltaTime) {
             }
         }
         else {
-            glm::vec4 centerTrocaSKin{ this->Centro.x, this->Centro.y + 0.01f, this->Centro.z, this->Centro.w };
+            glm::vec4 centerTrocaSKin{ this->Centro.x, this->Centro.y + 0.015f, this->Centro.z, this->Centro.w };
             this->skin--;
+
+            if (this->skin == 0) {
+                this->modeloDoInimigo = getAlienModelEstado1(hasPowerUp1, hasPowerUp2);
+            }
+            if (this->skin == 1) {
+                this->modeloDoInimigo = getAlienModelEstado2(hasPowerUp1, hasPowerUp2);
+            }
+            if (this->skin == 2) {
+                this->modeloDoInimigo = getAlienModelEstado3(hasPowerUp1, hasPowerUp2);
+            }
 
             this->Centro = glm::vec4{ 0.0f, 0.0f, 0.0f, 1.0f };
             this->escala = glm::vec3{ 1.0f, 1.0f, 1.0f };
-            this->modeloDoInimigo = modelos[skin];
             this->ajustaEscalaDoAlien(fatorDeEscalaTrocaSkin);
             this->transladaOAlien(centerTrocaSKin);
 

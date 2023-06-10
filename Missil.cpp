@@ -105,7 +105,7 @@ std::vector<std::vector<Vertex>> Missil::getModel(bool NaveOuAlien) {
         D = glm::vec4{  0.00f, -0.03f,  0.0f, 1.0f };
 
         // Cores
-        CorMissil = glm::vec4 {0.63f, 0.0f, 0.9f, 1.0f };
+        CorMissil = glm::vec4 {0.35f, 0.90f, 0.20f, 1.0f };
         CorBoudingBox = glm::vec4{ 0.0f, 0.0f, 0.0f, 1.0f };
 
         // Texturas

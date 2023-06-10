@@ -21,7 +21,7 @@ void GameState::getPowerUp(int tipo) {
 		this->velocidadeDosAlien /= 3;
 	}else if (tipo == 2 && !this->hasPowerUp2) {
 		this->hasPowerUp2 = true;
-		this->chanceDeInimigoAtirar /= 3;
+		this->chanceDeInimigoAtirar /= 20;
 	}
 }
 
@@ -47,7 +47,7 @@ void GameState::AplicaPowerUps(float DeltaTime) {
 		if (this->tempoDePowerUp2 <= 0.0f) {
 			this->tempoDePowerUp2 = 10.0f;
 			this->hasPowerUp2 = false;
-			this->chanceDeInimigoAtirar *= 3;
+			this->chanceDeInimigoAtirar *= 20;
 		}
 	}
 }

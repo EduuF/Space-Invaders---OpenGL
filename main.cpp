@@ -597,7 +597,7 @@ int main() {
 			if (gameState.NaveAtira) {
 				if (ContadorDeDelayDeTiros <= 0.0) {
 					ContadorDeDelayDeTiros = gameState.CadenciaDeTirosNave;
-					Missil missil = nave1.Atira(1.0f * DeltaTime);
+					Missil missil = nave1.Atira(gameState.VelocidadeDoTiroNave * DeltaTime);
 					TodosMisseis.push_back(missil);
 				}
 				ContadorDeDelayDeTiros -= DeltaTime;
@@ -631,7 +631,7 @@ int main() {
 			glm::vec3 fatorDeTranslacaoEsquadrao{ 0.0f, -1.0f * gameState.velocidadeDosAlien * DeltaTime, 0.0f };
 			glm::vec3 fatorDeTranslacaoEsquadraoSobe{ 0.0f, 0.0f, gameState.velocidadeSubidaEDescidaInimigos * DeltaTime };
 
-			// Move os Aliens lateralmente
+			// Operacoes com Alien
 			for (auto& Alien : TodosAliens) {
 				// Move o Alien lateralmente
 				Alien.MoveAlienLateralmente(gameState.AlienMoveLeft, gameState.velocidadeDosAlien, DeltaTime);
@@ -643,7 +643,7 @@ int main() {
 
 				// Sobe com o Alien se ele estiver recuando
 				if (Alien.recua) {
-					Alien.RecuaEmEsquadrao(fatorDeTranslacaoEsquadrao, fatorDeTranslacaoEsquadraoSobe);
+					Alien.RecuaEmEsquadrao(fatorDeTranslacaoEsquadrao, fatorDeTranslacaoEsquadraoSobe, gameState.localDeSobrevooDosAliens);
 				}
 
 				// Atualiza tempo de intangilibidade
@@ -662,16 +662,26 @@ int main() {
 				}
 
 				// Troca skin dos aliens
-				Alien.TrocaSkin(DeltaTime);
+				Alien.TrocaSkin(DeltaTime, gameState.hasPowerUp1, gameState.hasPowerUp2);
 
 				// Desce um pouquinho com cada Alien
-				Alien.transladaOAlien(glm::vec3{ 0.0f, -0.0001f, 0.0f });
+				float fatorDeDescida = -0.001f * DeltaTime;
+				Alien.transladaOAlien(glm::vec3{ 0.0f, fatorDeDescida, 0.0f });
+				Alien.yOriginal += fatorDeDescida;
+				
+				// Verifica se os Alien Chegaram ao planeta durante a descida
+				if (Alien.Centro.y <= -2.1) {
+					gameState.gameOver = true;
+				}
 			}
+
+			gameState.localDeSobrevooDosAliens = std::min(gameState.localDeSobrevooDosAliens, TodosAliens[TodosAliens.size()-1].yOriginal - 0.2f);
+
 
 			// Verifica se os Aliens atiram mísseis		
 			if (rng > 10000 - gameState.chanceDeInimigoAtirar) {
 				int AlienQueAtira = rng % TodosAliens.size();
-				Missil missil = TodosAliens[AlienQueAtira].Atira(gameState.VelocidadeDoTiroAlien * DeltaTime);
+				Missil missil = TodosAliens[AlienQueAtira].Atira(gameState.VelocidadeDoTiroAlien * DeltaTime*2);
 				TodosMisseis.push_back(missil);
 			}
 
@@ -717,10 +727,10 @@ int main() {
 			}
 
 			// Cria Esrelas
-			if(TodasStars.size() <= 100 ){//< gameState.QuantidadeDeEstrelas) {
-				float EixoXDaEstrelha = (static_cast<float>(rng % 800) / 100.0f) - 4.0f;
-				float BrilhoEstrela = (static_cast<float>(rng % 100) / 100.0f);
-				float Profundidade =  -1.0f * (static_cast<float>(rng % 1000) / 100.0f);
+			if(TodasStars.size() == 0 || TodasStars[TodasStars.size()-1].Centro.y <= 3.90f ){//< gameState.QuantidadeDeEstrelas) {
+				float Profundidade = -1.0f * (static_cast<float>(rng % 1000) / 100.0f) - 2.0f;
+				float EixoXDaEstrelha = ((static_cast<float>(rng % 400) / 100.0f) - 2.0f) * (-1.0f * Profundidade);
+				float BrilhoEstrela = (static_cast<float>(rng % 100) / 50.0f);				
 				//std::cout << "rng: " << rng << " EixoXDaEstrelha: " << EixoXDaEstrelha << " BrilhoEstrela: " << BrilhoEstrela << " Profundidade: " << Profundidade << std::endl;
 				Stars estrela(EixoXDaEstrelha, BrilhoEstrela, Profundidade);
 				TodasStars.push_back(estrela);
@@ -729,7 +739,7 @@ int main() {
 			// Anda com as Estrelas
 			for (int i = 0; i < TodasStars.size(); i++) {
 				TodasStars[i].moveFoward(DeltaTime, gameState.velocidadeDeDescidaDoPowerUp);
-				if (TodasStars[i].Centro.y < -2.5f || TodasStars[i].Centro.y > 3.0f) {
+				if (TodasStars[i].Centro.y < -4.5f || TodasStars[i].Centro.y > 4.0f) {
 					TodasStars.erase(TodasStars.begin() + i);
 				}
 			}

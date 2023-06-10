@@ -11,8 +11,6 @@ public:
 
 	glm::vec3 escala{ 1.0f, 1.0f, 1.0f };
 
-	std::vector<std::vector<std::vector<Vertex>>> modelos{ getAlienModelEstado1() , getAlienModelEstado2() , getAlienModelEstado3() };
-
 	int ID;
 	bool disponível;
 	bool hasBomb;
@@ -27,7 +25,7 @@ public:
 	int life;
 	int skin;
 
-	double yOriginal;
+	float yOriginal;
 
 	float tempoDeIntangibilidade;
 	float TempoPiscando;
@@ -56,8 +54,8 @@ public:
 	void pisca(float tempoDePiscada, float DeltaTime);
 	void MoveAlienLateralmente(bool& AlienMoveLeft, float velocidadeInimigos, float DeltaTime);
 	void AtacaEmEsquadrao(float localDeSobrevooDosAliens, glm::vec3 fatorDeTranslacaoEsquadrao, glm::vec3 fatorDeTranslacaoEsquadraoSobe, float alturaDoPlaneta);
-	void RecuaEmEsquadrao(glm::vec3 fatorDeTranslacaoEsquadrao, glm::vec3 fatorDeTranslacaoEsquadraoSobe);
+	void RecuaEmEsquadrao(glm::vec3 fatorDeTranslacaoEsquadrao, glm::vec3 fatorDeTranslacaoEsquadraoSobe, float localDeSobrevooDosAliens);
 	void AtualizaTempoDeTangibilidade(float DeltaTime, float tempoDeIntangibilidadeAlien);
 	void AtualizaEstadoDaBomba(float DeltaTime, glm::vec3 fatorDeTranslacaoEsquadrao, float intensidadePiscadaBombaDropada, float velocidadeDePiscadaBombaDropada);
-	void TrocaSkin(float DeltaTime);
+	void TrocaSkin(float DeltaTime, bool hasPowerUp1, bool hasPowerUp2);
 };

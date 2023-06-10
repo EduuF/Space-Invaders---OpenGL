@@ -3,14 +3,14 @@
 Stars::Stars(float eixoX, float Brilho, float Profundidade) {
     this->Up = glm::vec4{ 0.0f, 1.0f, 0.0f, 0.0f };
     this->Right = glm::vec4{ 1.0f, 0.0f, 0.0f, 0.0f };
-    this->Centro = glm::vec4{eixoX, 2.99f, Profundidade, 1.0f};
+    this->Centro = glm::vec4{eixoX, 4.0f, Profundidade, 1.0f};
 
     this->Model = this->getModel(this->Brilho);
 
     // Altera os vértices da nave
     glm::vec4 Origem = { 0.0f, 0.0f, 0.0f, 1.0f };
     TranslationMatrix(this->Model, Origem, this->Up, this->Centro);
-    this->ajustaEscala(glm::vec3{ 0.4f, 0.4f, 0.0f });
+    this->ajustaEscala(glm::vec3{ 0.6f, 0.6f, 0.0f });
 
     this->escala = glm::vec3{ 1.0f, 1.0f, 1.0f };
     //std::cout << " EixoXDaEstrelha: " << eixoX << " BrilhoEstrela: " << Brilho << " Profundidade: " << Profundidade << std::endl;
@@ -27,7 +27,7 @@ void Stars::ajustaEscala(glm::vec3 FatorDeEscala) {
 }
 
 void Stars::moveFoward(float DeltaTime, float velocidadeDeDescidaDoPowerUp) {
-    glm::vec3 fatorDeTranslacao{ 0.0f, -1.0f * DeltaTime * velocidadeDeDescidaDoPowerUp*3 , 0.0f };
+    glm::vec3 fatorDeTranslacao{ 0.0f, -1.0f * DeltaTime * velocidadeDeDescidaDoPowerUp*2 , 0.0f };
     this->translada(fatorDeTranslacao);
 }
 
