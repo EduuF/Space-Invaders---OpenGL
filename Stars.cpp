@@ -3,7 +3,7 @@
 Stars::Stars(int eixoX, int Brilho, int Profundidade) {
     this->Up = glm::vec4{ 0.0f, 1.0f, 0.0f, 0.0f };
     this->Right = glm::vec4{ 1.0f, 0.0f, 0.0f, 0.0f };
-    this->Centro = glm::vec4{eixoX, -2.5f, 0.0f, Profundidade};
+    this->Centro = glm::vec4{eixoX, 2.5f, 0.0f, Profundidade};
 
     this->Model = this->getModel(this->Brilho);
 
@@ -25,7 +25,7 @@ void Stars::ajustaEscala(glm::vec3 FatorDeEscala) {
 }
 
 void Stars::moveFoward(float DeltaTime, float velocidadeDeDescidaDoPowerUp) {
-    glm::vec3 fatorDeTranslacao{ 0.0f, 1.0f * DeltaTime * velocidadeDeDescidaDoPowerUp , 0.0f };
+    glm::vec3 fatorDeTranslacao{ 0.0f, -1.0f * DeltaTime * velocidadeDeDescidaDoPowerUp*3 , 0.0f };
     this->translada(fatorDeTranslacao);
 }
 

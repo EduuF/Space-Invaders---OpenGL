@@ -300,7 +300,7 @@ int main() {
 
 		GLuint VertexBuffer;// Copiar os vértices do triangulo para a memória da GPU
 		glGenBuffers(1, &VertexBuffer);// Pedir para o OpenGL gerar o identificador do VertexBuffer
-		glClearColor(0.15f, 0.05f, 0.10f, 1.0f); // Definir cor de fundo da janela
+		glClearColor(0.05f, 0.00f, 0.10f, 1.0f); // Definir cor de fundo da janela
 
 		double PreviousTime = glfwGetTime();	// Guarda o tempo do frame anterior
 		float ContadorDeDelayDeTiros = 0.0f;// Contador de delay de tiros
@@ -717,18 +717,19 @@ int main() {
 			}
 
 			// Cria Esrelas
-			if (TodasStars.size()  == 0 ){//< gameState.QuantidadeDeEstrelas) {
-				float EixoXDaEstrelha = ((rng % 400) / 100) - 2.0f;
-				float BrilhoEstrela = ((rng % 100) / 100);
-				float Profundidade = -1.0f * ((rng % 800) / 100);
-				std::cout << EixoXDaEstrelha << " | " << BrilhoEstrela << " | " << Profundidade << std::endl;  //FAZER ISSO SER FLOAT E CRIAR ESTRELAS
+			while(TodasStars.size() <= 40 ){//< gameState.QuantidadeDeEstrelas) {
+				float EixoXDaEstrelha = (static_cast<float>(rng % 400) / 100.0f) - 2.0f;
+				float BrilhoEstrela = (static_cast<float>(rng % 100) / 100.0f);
+				float Profundidade =  (static_cast<float>(rng % 200) / 100.0f);
+				Stars estrela(EixoXDaEstrelha, BrilhoEstrela, Profundidade);
+				TodasStars.push_back(estrela);
 
 			}
 
 			// Anda com as Estrelas
 			for (int i = 0; i < TodasStars.size(); i++) {
 				TodasStars[i].moveFoward(DeltaTime, gameState.velocidadeDeDescidaDoPowerUp);
-				if (TodasStars[i].Centro.y > 2.5f || TodasStars[i].Centro.y < -2.6f) {
+				if (TodasStars[i].Centro.y < -2.5f || TodasStars[i].Centro.y > 2.6f) {
 					TodasStars.erase(TodasStars.begin() + i);
 				}
 			}
