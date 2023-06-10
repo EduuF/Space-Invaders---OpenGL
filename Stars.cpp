@@ -1,9 +1,9 @@
 #include "Stars.h"
-
-Stars::Stars(int eixoX, int Brilho, int Profundidade) {
+#include <iostream>
+Stars::Stars(float eixoX, float Brilho, float Profundidade) {
     this->Up = glm::vec4{ 0.0f, 1.0f, 0.0f, 0.0f };
     this->Right = glm::vec4{ 1.0f, 0.0f, 0.0f, 0.0f };
-    this->Centro = glm::vec4{eixoX, 2.5f, 0.0f, Profundidade};
+    this->Centro = glm::vec4{eixoX, 2.99f, Profundidade, 1.0f};
 
     this->Model = this->getModel(this->Brilho);
 
@@ -13,6 +13,8 @@ Stars::Stars(int eixoX, int Brilho, int Profundidade) {
     this->ajustaEscala(glm::vec3{ 0.4f, 0.4f, 0.0f });
 
     this->escala = glm::vec3{ 1.0f, 1.0f, 1.0f };
+    //std::cout << " EixoXDaEstrelha: " << eixoX << " BrilhoEstrela: " << Brilho << " Profundidade: " << Profundidade << std::endl;
+    //std::cout << glm::to_string(this->Centro) << std::endl;
 }
 
 void Stars::translada(glm::vec3 fatorDeTranslacao) {

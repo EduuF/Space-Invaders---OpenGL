@@ -717,19 +717,19 @@ int main() {
 			}
 
 			// Cria Esrelas
-			while(TodasStars.size() <= 40 ){//< gameState.QuantidadeDeEstrelas) {
-				float EixoXDaEstrelha = (static_cast<float>(rng % 400) / 100.0f) - 2.0f;
+			if(TodasStars.size() <= 100 ){//< gameState.QuantidadeDeEstrelas) {
+				float EixoXDaEstrelha = (static_cast<float>(rng % 800) / 100.0f) - 4.0f;
 				float BrilhoEstrela = (static_cast<float>(rng % 100) / 100.0f);
-				float Profundidade =  (static_cast<float>(rng % 200) / 100.0f);
+				float Profundidade =  -1.0f * (static_cast<float>(rng % 1000) / 100.0f);
+				//std::cout << "rng: " << rng << " EixoXDaEstrelha: " << EixoXDaEstrelha << " BrilhoEstrela: " << BrilhoEstrela << " Profundidade: " << Profundidade << std::endl;
 				Stars estrela(EixoXDaEstrelha, BrilhoEstrela, Profundidade);
 				TodasStars.push_back(estrela);
-
 			}
 
 			// Anda com as Estrelas
 			for (int i = 0; i < TodasStars.size(); i++) {
 				TodasStars[i].moveFoward(DeltaTime, gameState.velocidadeDeDescidaDoPowerUp);
-				if (TodasStars[i].Centro.y < -2.5f || TodasStars[i].Centro.y > 2.6f) {
+				if (TodasStars[i].Centro.y < -2.5f || TodasStars[i].Centro.y > 3.0f) {
 					TodasStars.erase(TodasStars.begin() + i);
 				}
 			}

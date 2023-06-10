@@ -21,7 +21,7 @@ public:
 
     float velocidade;
 
-    Stars(int eixoX, int Brilho, int Profundidade);
+    Stars(float eixoX, float Brilho, float Profundidade);
 
     void translada(glm::vec3 fatorDeTranslacao);
     void ajustaEscala(glm::vec3 FatorDeEscala);
