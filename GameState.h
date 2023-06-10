@@ -22,6 +22,7 @@ public:
 	bool rotacionaNaveParaEsquerda = false;
 	bool AlienMoveLeft = true;
 	bool PrintaEstadoDoJogo = false;
+	bool congela = false;
 
 	bool pressESC = false;
 	bool releaseESC = false;
@@ -32,7 +33,7 @@ public:
 	bool hasPowerUp2 = false;
 	bool ordemDeRecuada = false;
 
-	float CadenciaDeTirosNave = 0.03f;
+	float CadenciaDeTirosNave = 0.5f;
 	float VelocidadeLateralNave = 0.05f;
 	float velocidadeDosAlien = 0.1f;
 	float velocidadeSubidaEDescidaInimigos = 1.2f;
@@ -51,10 +52,10 @@ public:
 	float tempoDePowerUp2 = 10.0f;
 	float VelocidadeDoTiroNave = 2.0f;
 	
-	int ChanceDeDroparPowerUp = 200;
+	int ChanceDeDroparPowerUp = 1000;
 	int chanceDeInimigoAtirar = 150;
 	int chanceDeInimigoTentarDroparBomba = 20;
-	int chanceDeFormarEsquadrao = 5000;
+	int chanceDeFormarEsquadrao = 4000;
 
 	GameState();
 

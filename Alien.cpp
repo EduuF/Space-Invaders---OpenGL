@@ -189,8 +189,11 @@ void Alien::CarregaBomba(float CountDown) {
     this->bomba = Bomba(this->Centro, CountDown);
 }
 
-void Alien::TrocaSkin(float DeltaTime, bool hasPowerUp1, bool hasPowerUp2) {
-    this->TempoParaTrocarSkin -= DeltaTime;
+void Alien::TrocaSkin(float DeltaTime, float velocidadeDoAlien, bool hasPowerUp1, bool hasPowerUp2, bool congela) {
+    if (congela) {
+        this->TempoParaTrocarSkin = 0.0f;
+    }
+    this->TempoParaTrocarSkin -= DeltaTime * velocidadeDoAlien * 5;
 
     if (this->TempoParaTrocarSkin <= 0) {
         this->TempoParaTrocarSkin = 0.3f;

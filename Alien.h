@@ -57,5 +57,5 @@ public:
 	void RecuaEmEsquadrao(glm::vec3 fatorDeTranslacaoEsquadrao, glm::vec3 fatorDeTranslacaoEsquadraoSobe, float localDeSobrevooDosAliens);
 	void AtualizaTempoDeTangibilidade(float DeltaTime, float tempoDeIntangibilidadeAlien);
 	void AtualizaEstadoDaBomba(float DeltaTime, glm::vec3 fatorDeTranslacaoEsquadrao, float intensidadePiscadaBombaDropada, float velocidadeDePiscadaBombaDropada);
-	void TrocaSkin(float DeltaTime, bool hasPowerUp1, bool hasPowerUp2);
+	void TrocaSkin(float DeltaTime, float velocidadeDoAlien, bool hasPowerUp1, bool hasPowerUp2, bool congela);
 };

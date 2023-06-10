@@ -12,11 +12,12 @@ std::vector<std::vector<Vertex>> getAlienModelEstado1(bool hasPowerUp1, bool has
     //Cores
     glm::vec4 Cor{ 0.10f, 0.60f, 0.05f, 1.0f };
     if (hasPowerUp1) {
-        Cor = glm::vec4{ 0.8f, 0.35f, 0.1f, 1.0f };
+        Cor = glm::vec4{ 1.0f, 0.0f, 1.0f, 1.0f };
+        
     }
     if (hasPowerUp2) {
-        
         Cor = glm::vec4{ 0.35f, 0.35f, 0.8f, 1.0f };
+        
     }
     
 
@@ -353,11 +354,12 @@ std::vector<std::vector<Vertex>> getAlienModelEstado2(bool hasPowerUp1, bool has
     //Cores
     glm::vec4 CorCorpo{ 0.10f, 0.60f, 0.05f, 1.0f };
     if (hasPowerUp1) {
-        CorCorpo = glm::vec4{ 0.8f, 0.35f, 0.1f, 1.0f };
+        CorCorpo = glm::vec4{ 1.0f, 0.0f, 1.0f, 1.0f };
+        
     }
     if (hasPowerUp2) {
-        
         CorCorpo = glm::vec4{ 0.35f, 0.35f, 0.8f, 1.0f };
+        
     }
 
     //Modela o Alien
@@ -693,11 +695,12 @@ std::vector<std::vector<Vertex>> getAlienModelEstado3(bool hasPowerUp1, bool has
     //Cores
     glm::vec4 CorCorpo{ 0.10f, 0.60f, 0.05f, 1.0f };
     if (hasPowerUp1) {
-        CorCorpo = glm::vec4{ 0.8f, 0.35f, 0.1f, 1.0f };
+        CorCorpo = glm::vec4{ 1.0f, 0.0f, 1.0f, 1.0f };
+        
     }
     if (hasPowerUp2) {
-        
         CorCorpo = glm::vec4{ 0.35f, 0.35f, 0.8f, 1.0f };
+        
     }
 
     //Modela o Alien

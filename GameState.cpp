@@ -13,15 +13,27 @@ int GameState::GeraNumeroAleatorio() {
 }
 
 void GameState::getPowerUp(int tipo) {
-	if (tipo == 0 && !this->hasPowerUp0) {
-		this->hasPowerUp0 = true;
-		this->CadenciaDeTirosNave /= 3;
-	}else if (tipo == 1 && !this->hasPowerUp1) {
-		this->hasPowerUp1 = true;
-		this->velocidadeDosAlien /= 3;
-	}else if (tipo == 2 && !this->hasPowerUp2) {
-		this->hasPowerUp2 = true;
-		this->chanceDeInimigoAtirar /= 20;
+	if (tipo == 0) {
+		this->tempoDePowerUp0 = 10.0f;
+		if (!this->hasPowerUp0) {
+			this->hasPowerUp0 = true;
+			this->CadenciaDeTirosNave /= 3;
+		}
+		
+	}else if (tipo == 1) {
+		this->tempoDePowerUp1 = 10.0f;
+		if (!this->hasPowerUp1) {
+			this->hasPowerUp1 = true;
+			this->chanceDeInimigoAtirar /= 5;
+		}		
+
+	}else if (tipo == 2) {
+		this->tempoDePowerUp2 = 5.0f;
+		this->congela = true;
+		if (!this->hasPowerUp2) {
+			this->hasPowerUp2 = true;
+			this->velocidadeDosAlien /= 50;
+		}		
 	}
 }
 
@@ -39,15 +51,16 @@ void GameState::AplicaPowerUps(float DeltaTime) {
 		if (this->tempoDePowerUp1 <= 0.0f) {
 			this->tempoDePowerUp1 = 10.0f;
 			this->hasPowerUp1 = false;
-			this->velocidadeDosAlien *= 3;
+			this->chanceDeInimigoAtirar *= 5;
+			
 		}
 	}
 	if (hasPowerUp2) {
 		this->tempoDePowerUp2 -= DeltaTime;
 		if (this->tempoDePowerUp2 <= 0.0f) {
-			this->tempoDePowerUp2 = 10.0f;
+			this->tempoDePowerUp2 = 5.0f;
 			this->hasPowerUp2 = false;
-			this->chanceDeInimigoAtirar *= 20;
+			this->velocidadeDosAlien *= 50;
 		}
 	}
 }

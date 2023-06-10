@@ -662,10 +662,13 @@ int main() {
 				}
 
 				// Troca skin dos aliens
-				Alien.TrocaSkin(DeltaTime, gameState.hasPowerUp1, gameState.hasPowerUp2);
+				Alien.TrocaSkin(DeltaTime, gameState.velocidadeDosAlien, gameState.hasPowerUp1, gameState.hasPowerUp2, gameState.congela);
+
+				std::cout << "gameState.hasPowerUp0: " << gameState.hasPowerUp0 << " | gameState.hasPowerUp1: " << gameState.hasPowerUp1 << " | gameState.hasPowerUp2: " << gameState.hasPowerUp2 << std::endl;
+		
 
 				// Desce um pouquinho com cada Alien
-				float fatorDeDescida = -0.001f * DeltaTime;
+				float fatorDeDescida = -0.01f * DeltaTime;
 				Alien.transladaOAlien(glm::vec3{ 0.0f, fatorDeDescida, 0.0f });
 				Alien.yOriginal += fatorDeDescida;
 				
@@ -675,8 +678,10 @@ int main() {
 				}
 			}
 
-			gameState.localDeSobrevooDosAliens = std::min(gameState.localDeSobrevooDosAliens, TodosAliens[TodosAliens.size()-1].yOriginal - 0.2f);
+			// Tira o cogelamento causado pelo powerUp2
+			gameState.congela = false;
 
+			gameState.localDeSobrevooDosAliens = std::min(gameState.localDeSobrevooDosAliens, TodosAliens[TodosAliens.size()-1].yOriginal - 0.2f);
 
 			// Verifica se os Aliens atiram mísseis		
 			if (rng > 10000 - gameState.chanceDeInimigoAtirar) {
@@ -827,7 +832,7 @@ int main() {
 
 			// Verifica se a nave pegou algum PowerUp
 			for (int i = 0; i < TodosPowerUp.size(); i++) {
-				if (TodosPowerUp[i].Centro.y > -1.4f) {
+				if (TodosPowerUp[i].Centro.y > -1.3f) {
 					continue;
 				}
 				auto distanciaNavePowerUp = glm::length(TodosPowerUp[i].Centro - nave1.NaveCentro); // Calcula a distância do Alien para a nave
@@ -846,6 +851,8 @@ int main() {
 				if (rng > 10000 - gameState.ChanceDeDroparPowerUp) {
 					int PowerUpNumber = rng % 3;
 					TodosPowerUp.push_back(PowerUp(TodosAliens[AlienAtingido].Centro, PowerUpNumber));
+					std::cout << "TodosAliens[AlienAtingido].Centro: " << glm::to_string(TodosAliens[AlienAtingido].Centro) << std::endl;
+					std::cout << "Nave Centro: " << glm::to_string(nave1.NaveCentro) << std::endl;
 				}
 				if (TodosAliens[AlienAtingido].life <= 0) { // Se a vida do Alien chegar a 0
 					TodosAliens.erase(TodosAliens.begin() + AlienAtingido); // Mata o Alien
