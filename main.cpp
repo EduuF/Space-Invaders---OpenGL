@@ -309,7 +309,7 @@ int main() {
 
 		GLuint VertexBuffer;// Copiar os vértices do triangulo para a memória da GPU
 		glGenBuffers(1, &VertexBuffer);// Pedir para o OpenGL gerar o identificador do VertexBuffer
-		glClearColor(1.00f, 1.00f, 1.00f, 1.0f); // Definir cor de fundo da janela
+		glClearColor(0.07f, 0.03f, 0.10f, 1.0f); // Definir cor de fundo da janela
 
 		double PreviousTime = glfwGetTime();	// Guarda o tempo do frame anterior
 		float ContadorDeDelayDeTiros = 0.0f;// Contador de delay de tiros
