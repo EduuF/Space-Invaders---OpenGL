@@ -11,6 +11,7 @@ public:
     glm::vec4 Centro;
     glm::vec4 Up;
     glm::vec4 Right;
+    glm::vec3 escala;
 
     bool NaveOuAlien;
 
@@ -22,6 +23,7 @@ public:
 
     std::vector<std::vector<Vertex>> modelo;
 
+    void ajustaEscala(glm::vec3 FatorDeEscala);
     void translada(glm::vec3 fatorDeTranslacao);
     void rotaciona(float graus);
 

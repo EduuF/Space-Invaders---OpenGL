@@ -223,7 +223,6 @@ int main() {
 		GameState gameState = GameState();
 		gameState.CadenciaDeTirosNave += 0.1f * fase;
 		gameState.NumeroDeLinhasDeInimigos += 1 * fase;
-		gameState.NumeroDeColunasDeInimigos += 1 * fase;
 		gameState.velocidadeDosAlien += 0.01f * fase;
 		gameState.TempoParaBombaExplodirBombaDropada -= 1 * fase;
 		gameState.VelocidadeDoTiroAlien += 0.2f * fase;
@@ -275,8 +274,8 @@ int main() {
 
 		// Cria inimigos
 		const GLuint NumeroTotalDeInimigos = gameState.NumeroDeLinhasDeInimigos * gameState.NumeroDeColunasDeInimigos;
-		const float LarguraAlien = 0.15f;
-		const float LarguraIntervalo = 0.1f;
+		const float LarguraAlien = 0.20f;
+		const float LarguraIntervalo = 0.15f;
 		const float LarguraJanela = (LarguraAlien * gameState.NumeroDeColunasDeInimigos) + (LarguraIntervalo * (gameState.NumeroDeColunasDeInimigos - 1));
 		const float WidthGap = ((4 - LarguraJanela) / 2) - 2;
 
@@ -689,7 +688,7 @@ int main() {
 		
 
 				// Desce um pouquinho com cada Alien
-				float fatorDeDescida = -0.01f * DeltaTime;
+				float fatorDeDescida = -0.02f * DeltaTime;
 				Alien.transladaOAlien(glm::vec3{ 0.0f, fatorDeDescida, 0.0f });
 				Alien.yOriginal += fatorDeDescida;
 				
@@ -754,7 +753,7 @@ int main() {
 
 			// Cria Esrelas
 			if(TodasStars.size() == 0 || TodasStars[TodasStars.size()-1].Centro.y <= 3.90f ){//< gameState.QuantidadeDeEstrelas) {
-				float Profundidade = -1.0f * (static_cast<float>(rng % 1000) / 100.0f) - 2.0f;
+				float Profundidade = -1.0f * (static_cast<float>(rng % 1500) / 100.0f) - 2.0f;
 				float EixoXDaEstrelha = ((static_cast<float>(rng % 400) / 100.0f) - 2.0f) * (-1.0f * Profundidade);
 				float BrilhoEstrela = (static_cast<float>(rng % 100) / 50.0f);				
 				Stars estrela(EixoXDaEstrelha, BrilhoEstrela, Profundidade);
@@ -800,7 +799,7 @@ int main() {
 						}
 						auto distanciaTiroNave = glm::length(nave1.NaveCentro - TodosMisseis[i].Centro); // Calcula a distância do tiro para o centro da nave
 
-						if (distanciaTiroNave <= 0.2f) { // Se a distância for menor que x
+						if (distanciaTiroNave <= 0.3f) { // Se a distância for menor que x
 							nave1.life -= 1; // Tira 1 de life da nave
 							TodasLifes.erase(TodasLifes.begin() + TodasLifes.size() - 1); // Tira um coração
 							nave1.intangivel = true;
@@ -816,7 +815,7 @@ int main() {
 							}
 							auto distanciaTiroAlien = glm::length(TodosAliens[j].Centro - TodosMisseis[i].Centro); // Calcula a distância do tiro para o centro do alien
 
-							if (distanciaTiroAlien <= 0.1f) { // Se a distância for menor que x
+							if (distanciaTiroAlien <= 0.20f) { // Se a distância for menor que x
 								AlienAtingido = j; // Salva qual Alien foi atingido
 								MissilAtingido = i; // Salva qual tiro que atingiu
 								atingiu = true;
@@ -839,7 +838,7 @@ int main() {
 					break;
 				}
 				auto distanciaNaveAlien = glm::length(TodosAliens[i].Centro - nave1.NaveCentro); // Calcula a distância do Alien para a nave
-				if (distanciaNaveAlien <= 0.2) {
+				if (distanciaNaveAlien <= 0.3) {
 					AlienAtingido = i;
 					nave1.life -= 1; // Tira 1 de life da nave
 					TodasLifes.erase(TodasLifes.begin() + TodasLifes.size() - 1); // Tira um coração

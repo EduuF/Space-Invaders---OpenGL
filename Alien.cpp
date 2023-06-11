@@ -35,7 +35,7 @@ Alien::Alien(glm::vec4 Centro) {
     // Altera os vértices da nave
     glm::vec4 Origem = { 0.0f, 0.0f, 0.0f, 1.0f };
     TranslationMatrix(this->modeloDoInimigo, Origem, this->Up ,this->Centro);
-    this->ajustaEscalaDoAlien(glm::vec3{ 0.1f, 0.1f, 0.0f });
+    this->ajustaEscalaDoAlien(glm::vec3{ 0.13f, 0.13f, 0.0f });
 
     
 }

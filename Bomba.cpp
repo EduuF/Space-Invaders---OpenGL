@@ -10,7 +10,7 @@ Bomba::Bomba(glm::vec4 Centro, float CountDown) {
     this->Model = this->getModel();
     this->Up = glm::vec4{ 0.0f, 1.0f, 0.0f, 0.0f };
     this->Right = glm::vec4{ 1.0f, 0.0f, 0.0f, 0.0f };
-    this->Centro = Centro;
+    this->Centro = glm::vec4{ Centro.x, Centro.y - 0.12f, Centro.z, 1.0f };
 
     // Altera os vértices da nave
     glm::vec4 Origem = { 0.0f, 0.0f, 0.0f, 1.0f };

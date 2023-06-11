@@ -36,9 +36,18 @@ Missil::Missil(bool NaveOuAlien, glm::vec4 Centro, glm::vec4 direcao, float velo
     }
 
     this->rotaciona(graus);
+
+    this->ajustaEscala(glm::vec3{ 1.3f, 1.3f, 0.0f });
+
+    this->escala = glm::vec3{ 1.0f, 1.0f, 1.0f };
 }
 
 Missil::~Missil() {};
+
+void Missil::ajustaEscala(glm::vec3 FatorDeEscala) {
+    ScaleMatrix(this->modelo, FatorDeEscala, this->Centro); // Escala o triangulo
+    this->escala *= FatorDeEscala;
+}
 
 void Missil::translada(glm::vec3 fatorDeTranslacao) {
     TranslationMatrix(this->modelo, this->Centro, this->Up, fatorDeTranslacao);

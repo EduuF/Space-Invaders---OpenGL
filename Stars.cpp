@@ -10,7 +10,7 @@ Stars::Stars(float eixoX, float Brilho, float Profundidade) {
     // Altera os vértices da nave
     glm::vec4 Origem = { 0.0f, 0.0f, 0.0f, 1.0f };
     TranslationMatrix(this->Model, Origem, this->Up, this->Centro);
-    this->ajustaEscala(glm::vec3{ 0.6f, 0.6f, 0.0f });
+    this->ajustaEscala(glm::vec3{ 0.7f, 0.7f, 0.0f });
 
     this->escala = glm::vec3{ 1.0f, 1.0f, 1.0f };
     //std::cout << " EixoXDaEstrelha: " << eixoX << " BrilhoEstrela: " << Brilho << " Profundidade: " << Profundidade << std::endl;
