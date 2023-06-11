@@ -7,6 +7,7 @@
 #include "GameState.h"
 #include "PowerUp.h"
 #include "Stars.h"
+#include "Life.h"
 
 #include <iostream>
 #include <fstream>
@@ -297,6 +298,15 @@ int main() {
 		std::vector<Missil> TodosMisseis;
 		std::vector<PowerUp> TodosPowerUp;
 		std::vector<Stars> TodasStars;
+		std::vector<Life> TodasLifes;
+
+		// Cria as lifes
+		// Verifica o Life para desenhar os corações
+		for (int i = 0; i < nave1.life; i++) {
+			glm::vec4 PosicaoDaLife{ -1.9f + (i * 0.2f), -1.9f, 0.0f, 1.0f };
+			Life life(PosicaoDaLife);
+			TodasLifes.push_back(life);
+		}
 
 		GLuint VertexBuffer;// Copiar os vértices do triangulo para a memória da GPU
 		glGenBuffers(1, &VertexBuffer);// Pedir para o OpenGL gerar o identificador do VertexBuffer
@@ -344,6 +354,7 @@ int main() {
 			const int tamanhoDaBomba = 6;
 			const int tamanhoDoPowerUp = 4;
 			const int tamanhoDaEstrela = 2;
+			const int tamanhoDaLife = 6;
 
 			gameState.AlienComABomba = -1;
 
@@ -375,6 +386,12 @@ int main() {
 
 			for (auto& estrela : TodasStars) {
 				for (auto triangulo : estrela.Model) {
+					bufferData.insert(bufferData.end(), triangulo.begin(), triangulo.end());
+				}
+			}
+
+			for (auto& life : TodasLifes) {
+				for (auto triangulo : life.Model) {
 					bufferData.insert(bufferData.end(), triangulo.begin(), triangulo.end());
 				}
 			}
@@ -474,10 +491,16 @@ int main() {
 				glDrawArrays(GL_TRIANGLES, ((tamanhoDaNave + (tamanhoDoAlien * TodosAliens.size()) + (tamanhoDoMissil * TodosMisseis.size())) * 3) + (tamanhoDoPowerUp * TodosPowerUp.size() * 3) + (tamanhoDaEstrela * i * 3), (tamanhoDaEstrela * 3));
 			}
 
+			// Desenha as Lifes
+			for (int i = 0; i < TodasLifes.size(); i++) {
+				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+				glDrawArrays(GL_TRIANGLES, (tamanhoDaNave + (tamanhoDoAlien * TodosAliens.size()) + (tamanhoDoMissil * TodosMisseis.size()) + (tamanhoDoPowerUp * TodosPowerUp.size()) + (tamanhoDaEstrela * TodasStars.size()) + (tamanhoDaLife * i)) * 3, (tamanhoDaLife * 3));
+			}
+
 			// Desenha a bomba (se houver)
 			if (gameState.AlienComABomba != -1) {
 				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-				glDrawArrays(GL_TRIANGLES, (tamanhoDaNave + (tamanhoDoAlien * TodosAliens.size()) + (tamanhoDoMissil * TodosMisseis.size()) + (tamanhoDoPowerUp * TodosPowerUp.size()) + (tamanhoDaEstrela * TodasStars.size())) * 3, (tamanhoDaBomba - 2) * 3);
+				glDrawArrays(GL_TRIANGLES, (tamanhoDaNave + (tamanhoDoAlien * TodosAliens.size()) + (tamanhoDoMissil * TodosMisseis.size()) + (tamanhoDoPowerUp * TodosPowerUp.size()) + (tamanhoDaEstrela * TodasStars.size()) + (tamanhoDaLife * TodasLifes.size())) * 3, (tamanhoDaBomba - 2) * 3);
 			}
 
 
@@ -663,8 +686,6 @@ int main() {
 
 				// Troca skin dos aliens
 				Alien.TrocaSkin(DeltaTime, gameState.velocidadeDosAlien, gameState.hasPowerUp1, gameState.hasPowerUp2, gameState.congela);
-
-				std::cout << "gameState.hasPowerUp0: " << gameState.hasPowerUp0 << " | gameState.hasPowerUp1: " << gameState.hasPowerUp1 << " | gameState.hasPowerUp2: " << gameState.hasPowerUp2 << std::endl;
 		
 
 				// Desce um pouquinho com cada Alien
@@ -736,7 +757,6 @@ int main() {
 				float Profundidade = -1.0f * (static_cast<float>(rng % 1000) / 100.0f) - 2.0f;
 				float EixoXDaEstrelha = ((static_cast<float>(rng % 400) / 100.0f) - 2.0f) * (-1.0f * Profundidade);
 				float BrilhoEstrela = (static_cast<float>(rng % 100) / 50.0f);				
-				//std::cout << "rng: " << rng << " EixoXDaEstrelha: " << EixoXDaEstrelha << " BrilhoEstrela: " << BrilhoEstrela << " Profundidade: " << Profundidade << std::endl;
 				Stars estrela(EixoXDaEstrelha, BrilhoEstrela, Profundidade);
 				TodasStars.push_back(estrela);
 			}
@@ -782,8 +802,8 @@ int main() {
 
 						if (distanciaTiroNave <= 0.2f) { // Se a distância for menor que x
 							nave1.life -= 1; // Tira 1 de life da nave
+							TodasLifes.erase(TodasLifes.begin() + TodasLifes.size() - 1); // Tira um coração
 							nave1.intangivel = true;
-							std::cout << "nave1.life: " << nave1.life << std::endl;
 							MissilAtingido = i; // Salve o valor do missil que atingiu a nave
 							atingiu = true;
 							continue;
@@ -821,14 +841,13 @@ int main() {
 				auto distanciaNaveAlien = glm::length(TodosAliens[i].Centro - nave1.NaveCentro); // Calcula a distância do Alien para a nave
 				if (distanciaNaveAlien <= 0.2) {
 					AlienAtingido = i;
-					std::cout << "nave1.life: " << nave1.life << std::endl;
 					nave1.life -= 1; // Tira 1 de life da nave
+					TodasLifes.erase(TodasLifes.begin() + TodasLifes.size() - 1); // Tira um coração
 					nave1.intangivel = true;
 					atingiu = true;
 					break;
 				}
 			}
-
 
 			// Verifica se a nave pegou algum PowerUp
 			for (int i = 0; i < TodosPowerUp.size(); i++) {
@@ -851,8 +870,6 @@ int main() {
 				if (rng > 10000 - gameState.ChanceDeDroparPowerUp) {
 					int PowerUpNumber = rng % 3;
 					TodosPowerUp.push_back(PowerUp(TodosAliens[AlienAtingido].Centro, PowerUpNumber));
-					std::cout << "TodosAliens[AlienAtingido].Centro: " << glm::to_string(TodosAliens[AlienAtingido].Centro) << std::endl;
-					std::cout << "Nave Centro: " << glm::to_string(nave1.NaveCentro) << std::endl;
 				}
 				if (TodosAliens[AlienAtingido].life <= 0) { // Se a vida do Alien chegar a 0
 					TodosAliens.erase(TodosAliens.begin() + AlienAtingido); // Mata o Alien

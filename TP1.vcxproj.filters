@@ -66,6 +66,9 @@
     <ClCompile Include="Stars.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
+    <ClCompile Include="Life.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Vectors.h">
@@ -111,6 +114,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Stars.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Life.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

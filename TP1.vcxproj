@@ -153,6 +153,7 @@
     <ClCompile Include="Buffer.cpp" />
     <ClCompile Include="EBO.cpp" />
     <ClCompile Include="glad.c" />
+    <ClCompile Include="Life.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Matrices.cpp" />
     <ClCompile Include="Missil.cpp" />
@@ -170,6 +171,7 @@
     <ClInclude Include="Bomba.h" />
     <ClInclude Include="Buffer.h" />
     <ClInclude Include="EBO.h" />
+    <ClInclude Include="Life.h" />
     <ClInclude Include="Matrices.h" />
     <ClInclude Include="Missil.h" />
     <ClInclude Include="Nave.h" />
