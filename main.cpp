@@ -689,8 +689,12 @@ int main() {
 
 				// Desce um pouquinho com cada Alien
 				float fatorDeDescida = -0.02f * DeltaTime;
-				Alien.transladaOAlien(glm::vec3{ 0.0f, fatorDeDescida, 0.0f });
+				glm::vec3 vetorDeDescida{ 0.0f, fatorDeDescida, 0.0f };
+				Alien.transladaOAlien(vetorDeDescida);
 				Alien.yOriginal += fatorDeDescida;
+				if (Alien.hasBomb) {
+					Alien.bomba.translada(vetorDeDescida);
+				}
 				
 				// Verifica se os Alien Chegaram ao planeta durante a descida
 				if (Alien.Centro.y <= -2.1) {

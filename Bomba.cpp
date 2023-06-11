@@ -10,7 +10,7 @@ Bomba::Bomba(glm::vec4 Centro, float CountDown) {
     this->Model = this->getModel();
     this->Up = glm::vec4{ 0.0f, 1.0f, 0.0f, 0.0f };
     this->Right = glm::vec4{ 1.0f, 0.0f, 0.0f, 0.0f };
-    this->Centro = glm::vec4{ Centro.x, Centro.y - 0.12f, Centro.z, 1.0f };
+    this->Centro = glm::vec4{ Centro.x, Centro.y - 0.12f, 0.0f, 1.0f };
 
     // Altera os vértices da nave
     glm::vec4 Origem = { 0.0f, 0.0f, 0.0f, 1.0f };
@@ -20,6 +20,9 @@ Bomba::Bomba(glm::vec4 Centro, float CountDown) {
     this->Dropada = false;
     this->Aumentando = true;
     this->CountDown = CountDown;
+
+    this->ajustaEscala(glm::vec3{ 1.5f, 1.5f, 0.0f });
+    this->escala = glm::vec3{ 1.0f, 1.0f, 1.0f };
 }
 
 
@@ -85,8 +88,9 @@ std::vector<std::vector<Vertex>> Bomba::getModel() {
     glm::vec4 AntiVerde{ 1.0f, 0.0f, 1.0f, 1.0f };
     glm::vec4 AntiAzul{ 1.0f, 1.0f, 0.0f, 1.0f };
 
-    glm::vec4 CorCorpo{ 0.80f, 0.30f, 0.67f, 1.0f };
-    glm::vec4 CorCorpo2{ 0.90f, 0.40f, 0.77f, 1.0f };
+    glm::vec4 CorAleta{ 0.65f, 0.18f, 0.18f, 1.0f };
+    glm::vec4 CorCorpo{ 0.65f, 0.20f, 0.50f, 1.0f };
+    glm::vec4 CorCorpo2{ 0.75f, 0.25f, 0.60f, 1.0f };
     glm::vec4 CorBoudingBox{ 0.0f, 0.0f, 0.0f, 1.0f };
 
     // Texturas
@@ -94,14 +98,14 @@ std::vector<std::vector<Vertex>> Bomba::getModel() {
     glm::vec2 TexturaBoudingBox{ 1.0f, 1.0f };
 
     std::vector<Vertex> AletaEsquerda = {
-        Vertex{A, Vermelho, {0.0f, 0.0f}},
-        Vertex{C, Vermelho, {1.0f, 0.0f}},
-        Vertex{B, Vermelho, {1.0f, 1.0f}} };
+        Vertex{A, CorAleta, {0.0f, 0.0f}},
+        Vertex{C, CorAleta, {1.0f, 0.0f}},
+        Vertex{B, CorAleta, {1.0f, 1.0f}} };
 
     std::vector<Vertex> AletaDireita = {
-        Vertex{D, Vermelho},
-        Vertex{F, Vermelho},
-        Vertex{E, Vermelho} };
+        Vertex{D, CorAleta},
+        Vertex{F, CorAleta},
+        Vertex{E, CorAleta} };
 
     std::vector<Vertex> Corpo1 = {
         Vertex{G, CorCorpo},
