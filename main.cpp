@@ -309,7 +309,7 @@ int main() {
 
 		GLuint VertexBuffer;// Copiar os vértices do triangulo para a memória da GPU
 		glGenBuffers(1, &VertexBuffer);// Pedir para o OpenGL gerar o identificador do VertexBuffer
-		glClearColor(0.05f, 0.00f, 0.10f, 1.0f); // Definir cor de fundo da janela
+		glClearColor(1.00f, 1.00f, 1.00f, 1.0f); // Definir cor de fundo da janela
 
 		double PreviousTime = glfwGetTime();	// Guarda o tempo do frame anterior
 		float ContadorDeDelayDeTiros = 0.0f;// Contador de delay de tiros
@@ -347,7 +347,7 @@ int main() {
 			// Copiar os dados dos triangulos para a memória de vídeo
 			// Carregue os dados de todos os triângulos no buffer da GPU.
 			// (Buffer ativado, quantos bytes serão copiados, ponteiro para os dados, tipo de uso do buffer)
-			const int tamanhoDaNave = 7; // A quantidade de triangulos na nave
+			const int tamanhoDaNave = 32; // A quantidade de triangulos na nave
 			const int tamanhoDoAlien = 38; // A quantidade de triangulos do Alien
 			const int tamanhoDoMissil = 4;
 			const int tamanhoDaBomba = 6;

@@ -20,13 +20,15 @@ Nave::Nave(glm::vec4 NaveCentro) {
     glm::vec4 Origem = { 0.0f, 0.0f, 0.0f, 1.0f };
     TranslationMatrix(this->modeloDaNave, Origem, this->NaveUp , this->NaveCentro);
 
-    this->escala = glm::vec3{ 1.0f, 1.0f, 1.0f };
+    
     this->CanhaoDireitoAtira = false; 
     this->life = 500;
     this->tempoDeIntangibilidade = 2.0f;
     this->intangivel = false;
     this->TempoPiscando = 0.2f;
     this->piscando = false;
+    this->ajustaEscalaDaNave(glm::vec3{ 0.2f, 0.2f, 0.2f });
+    this->escala = glm::vec3{ 1.0f, 1.0f, 1.0f };
 }
 
 void Nave::ajustaEscalaDaNave(glm::vec3 FatorDeEscala) {
@@ -90,17 +92,56 @@ void Nave::AtualizaTempoDeTangibilidade(float DeltaTime, float tempoDeIntangibil
 std::vector<std::vector<Vertex>> Nave::getNaveModel() {
 
     // Modela a nave
-    glm::vec4 A{ -0.04f, -0.03f,  0.0f, 1.0f };
-    glm::vec4 B{  0.0f,   0.05f,  0.0f, 1.0f };
-    glm::vec4 C{  0.04f, -0.03f,  0.0f, 1.0f };
-    glm::vec4 D{ -0.08f, -0.03f,  0.0f, 1.0f };
-    glm::vec4 E{ -0.06f,  0.0f,   0.0f, 1.0f };
-    glm::vec4 F{  0.06f,  0.0f,   0.0f, 1.0f };
-    glm::vec4 G{  0.08f, -0.03f,  0.0f, 1.0f };
-    glm::vec4 H{ -0.03f, -0.05f,  0.0f, 1.0f };
-    glm::vec4 I{ -0.05f, -0.05f,  0.0f, 1.0f };
-    glm::vec4 J{  0.05f, -0.05f,  0.0f, 1.0f };
-    glm::vec4 K{  0.03f, -0.05f,  0.0f, 1.0f };
+    glm::vec4 A{  0.0f,  0.70f,  0.0f, 1.0f };
+    glm::vec4 B{ -0.05f, 0.65f,  0.0f, 1.0f };
+    glm::vec4 C{  0.0f,  0.65f,  0.0f, 1.0f };
+    glm::vec4 D{ -0.06f, 0.56f,  0.0f, 1.0f };
+    glm::vec4 E{  0.0f,  0.60f,   0.0f, 1.0f };
+    glm::vec4 F{ -0.07f,  0.56f,   0.0f, 1.0f };
+    glm::vec4 G{ -0.1f, -0.2f,  0.0f, 1.0f };
+    glm::vec4 H{  0.0f, -0.2f,  0.0f, 1.0f };
+    glm::vec4 I{ -0.12f, 0.38f,  0.0f, 1.0f };
+    glm::vec4 J{ -0.15f,-0.2f,  0.0f, 1.0f };
+    glm::vec4 K{ -0.06f,  0.46f,  0.0f, 1.0f };
+    glm::vec4 L{ -0.127f, 0.24f,  0.0f, 1.0f };
+    glm::vec4 M{ -1.1f, 0.0f,  0.0f, 1.0f };
+    glm::vec4 N{ -0.138f, 0.0f,  0.0f, 1.0f };
+    glm::vec4 O{ -0.018f,-0.15f,  0.0f, 1.0f };
+    glm::vec4 P{ -0.06f, -0.32f,   0.0f, 1.0f };
+    glm::vec4 Q{ -0.25f, -0.32f,   0.0f, 1.0f };
+    glm::vec4 R{ -1.13f, 0.16f,  0.0f, 1.0f };
+    glm::vec4 S{ -1.14f, 0.0f,  0.0f, 1.0f };
+    glm::vec4 T{ -1.1f, 0.16f,  0.0f, 1.0f };
+    glm::vec4 U{ -0.489f, 0.1885f,  0.0f, 1.0f };
+    glm::vec4 V{ -1.1f, 0.1f,  0.0f, 1.0f };
+    glm::vec4 W{ -0.46f,  0.24f,  0.0f, 1.0f };
+    glm::vec4 Z{ -0.442f,  0.198f,  0.0f, 1.0f };
+    glm::vec4 A1{ -0.43f, 0.24f,  0.0f, 1.0f };
+    glm::vec4 AntiA{ 0.0f, 0.70f,  0.0f, 1.0f };
+    glm::vec4 AntiB{ 0.05f,   0.65f,  0.0f, 1.0f };
+    glm::vec4 AntiC{ 0.0f, 0.65f,  0.0f, 1.0f };
+    glm::vec4 AntiD{ 0.05f, 0.60f,  0.0f, 1.0f };
+    glm::vec4 AntiE{ 0.0f,  0.60f,   0.0f, 1.0f };
+    glm::vec4 AntiF{ 0.1f,  0.60f,   0.0f, 1.0f };
+    glm::vec4 AntiG{ 0.1f, -0.2f,  0.0f, 1.0f };
+    glm::vec4 AntiH{ 0.0f, -0.2f,  0.0f, 1.0f };
+    glm::vec4 AntiI{ 0.15f, 0.45f,  0.0f, 1.0f };
+    glm::vec4 AntiJ{ 0.15f, -0.2f,  0.0f, 1.0f };
+    glm::vec4 AntiK{ 0.1f, 0.45f,  0.0f, 1.0f };
+    glm::vec4 AntiL{ 0.15f, 0.25f,  0.0f, 1.0f };
+    glm::vec4 AntiM{ 1.1f, 0.0f,  0.0f, 1.0f };
+    glm::vec4 AntiN{ 0.15f, 0.0f,  0.0f, 1.0f };
+    glm::vec4 AntiO{ 0.018f,-0.15f,  0.0f, 1.0f };
+    glm::vec4 AntiP{ 0.06f, -0.32f,   0.0f, 1.0f };
+    glm::vec4 AntiQ{ 0.25f, -0.32f,   0.0f, 1.0f };
+    glm::vec4 AntiR{ 1.13f, 0.16f,  0.0f, 1.0f };
+    glm::vec4 AntiS{ 1.14f, 0.0f,  0.0f, 1.0f };
+    glm::vec4 AntiT{ 1.1f, 0.16f,  0.0f, 1.0f };
+    glm::vec4 AntiU{ 0.5f, 0.195f,  0.0f, 1.0f };
+    glm::vec4 AntiV{ 1.1f, 0.1f,  0.0f, 1.0f };
+    glm::vec4 AntiW{ 0.49f,  0.25f,  0.0f, 1.0f };
+    glm::vec4 AntiZ{ 0.45f,  0.202f,  0.0f, 1.0f };
+    glm::vec4 AntiA1{0.46f, 0.25f,  0.0f, 1.0f };
 
     // Bouding Box 
 
@@ -132,31 +173,6 @@ std::vector<std::vector<Vertex>> Nave::getNaveModel() {
     glm::vec2 TexturaMotorEsquerdo{ 1.0f, 1.0f };
     glm::vec2 TexturaBoudingBox{ 1.0f, 1.0f };
 
-    std::vector<Vertex> Corpo = { 
-        Vertex{A, CorCorpo, {0.0f, 0.0f}},
-        Vertex{C, AntiVerde, {1.0f, 0.0f}},
-        Vertex{B, CorCorpo, {1.0f, 1.0f}} };
-
-    std::vector<Vertex> CanhaoEsquerdo = { 
-        Vertex{A, AntiVermelho}, 
-        Vertex{E, AntiVerde}, 
-        Vertex{D, AntiAzul} };
-
-    std::vector<Vertex> CanhaoDireito = { 
-        Vertex{C, AntiAzul}, 
-        Vertex{G, AntiVermelho}, 
-        Vertex{F, AntiVerde} };
-
-    std::vector<Vertex> MotorEsquerdo = { 
-        Vertex{A, CorMotorEsquerdo}, 
-        Vertex{I, CorMotorEsquerdo}, 
-        Vertex{H, CorMotorEsquerdo} };
-
-    std::vector<Vertex> MotorDireito = { 
-        Vertex{C, CorMotorDireito}, 
-        Vertex{K, CorMotorDireito}, 
-        Vertex{J, CorMotorDireito} };
-
     std::vector<Vertex> BoudingBox1 = { 
         Vertex{BoundingBoxA, CorBoudingBox}, 
         Vertex{BoundingBoxC, CorBoudingBox}, 
@@ -167,19 +183,173 @@ std::vector<std::vector<Vertex>> Nave::getNaveModel() {
         Vertex{BoundingBoxD, CorBoudingBox}, 
         Vertex{BoundingBoxC, CorBoudingBox} };
 
+    std::vector<Vertex> Cabine = {
+        Vertex{A},
+        Vertex{B},
+        Vertex{C} };
+
+    std::vector<Vertex> Corpo1 = {
+        Vertex{C},
+        Vertex{B},
+        Vertex{E} };
+
+    std::vector<Vertex> Corpo2 = {
+        Vertex{B},
+        Vertex{D},
+        Vertex{E} };
+
+    std::vector<Vertex> Corpo3 = {
+        Vertex{E},
+        Vertex{F},
+        Vertex{H} };
+
+    std::vector<Vertex> Corpo4 = {
+        Vertex{F},
+        Vertex{G},
+        Vertex{H} };
+
+    std::vector<Vertex> Corpo5 = {
+        Vertex{I},
+        Vertex{G},
+        Vertex{K} };
+
+    std::vector<Vertex> Corpo6 = {
+        Vertex{I},
+        Vertex{J},
+        Vertex{G} };
+
+    std::vector<Vertex> Turbina1 = {
+        Vertex{O},
+        Vertex{Q},
+        Vertex{P} };
+
+    std::vector<Vertex> Turbina2 = {
+        Vertex{O},
+        Vertex{J},
+        Vertex{Q} };
+
+    std::vector<Vertex> Asa1 = {
+        Vertex{L},
+        Vertex{V},
+        Vertex{M} };
+
+    std::vector<Vertex> Asa2 = {
+        Vertex{L},
+        Vertex{M},
+        Vertex{N} };
+
+    std::vector<Vertex> Arma1 = {
+        Vertex{A1},
+        Vertex{W},
+        Vertex{Z} };
+
+    std::vector<Vertex> Arma2 = {
+        Vertex{W},
+        Vertex{U},
+        Vertex{Z} };
+
+    std::vector<Vertex> Winglet1 = {
+        Vertex{R},
+        Vertex{M},
+        Vertex{T} };
+
+    std::vector<Vertex> Winglet2 = {
+        Vertex{R},
+        Vertex{S},
+        Vertex{M} };
+
+    // Anti
+    std::vector<Vertex> AntiCabine = {
+        Vertex{AntiA},
+        Vertex{AntiC},
+        Vertex{AntiB} };
+
+    std::vector<Vertex> AntiCorpo1 = {
+        Vertex{AntiC},
+        Vertex{AntiE},
+        Vertex{AntiB} };
+
+    std::vector<Vertex> AntiCorpo2 = {
+        Vertex{AntiB},
+        Vertex{AntiE},
+        Vertex{AntiD} };
+
+
+    std::vector<Vertex> AntiCorpo3 = {
+        Vertex{AntiE},
+        Vertex{AntiH},
+        Vertex{AntiF} };
+
+    std::vector<Vertex> AntiCorpo4 = {
+        Vertex{AntiF},
+        Vertex{AntiH},
+        Vertex{AntiG} };
+
+    std::vector<Vertex> AntiCorpo5 = {
+        Vertex{AntiI},
+        Vertex{AntiK},
+        Vertex{AntiG} };
+
+    std::vector<Vertex> AntiCorpo6 = {
+        Vertex{AntiI},
+        Vertex{AntiG},
+        Vertex{AntiJ} };
+
+    std::vector<Vertex> AntiTurbina1 = {
+        Vertex{AntiO},
+        Vertex{AntiP},
+        Vertex{AntiQ} };
+
+    std::vector<Vertex> AntiTurbina2 = {
+        Vertex{AntiO},
+        Vertex{AntiQ},
+        Vertex{AntiJ} };
+
+    std::vector<Vertex> AntiAsa1 = {
+        Vertex{AntiL},
+        Vertex{AntiN},
+        Vertex{AntiM} };
+
+    std::vector<Vertex> AntiAsa2 = {
+        Vertex{AntiL},
+        Vertex{AntiM},
+        Vertex{AntiV} };
+
+    std::vector<Vertex> AntiArma1 = {
+        Vertex{AntiA1},
+        Vertex{AntiZ},
+        Vertex{AntiW} };
+
+    std::vector<Vertex> AntiArma2 = {
+        Vertex{AntiW},
+        Vertex{AntiZ},
+        Vertex{AntiU} };
+
+    std::vector<Vertex> AntiWinglet1 = {
+        Vertex{AntiR},
+        Vertex{AntiT},
+        Vertex{AntiM} };
+
+    std::vector<Vertex> AntiWinglet2 = {
+        Vertex{AntiR},
+        Vertex{AntiM},
+        Vertex{AntiS} };
+
 
     std::vector<std::vector<Vertex>> NaveVertices = {
 
-        // Corpo
-        Corpo,
-        // Asa esquerda
-        CanhaoEsquerdo,
-        // Asa direita
-        CanhaoDireito,
-        // Entrada de ar
-        MotorEsquerdo,
-        // FarolEsqcuerdo
-        MotorDireito,
+        Cabine,
+        Corpo1, Corpo2, Corpo3, Corpo4, Corpo5, Corpo6,
+        Turbina1, Turbina2,
+        Asa1, Asa2,
+        Arma1, Arma2,
+        Winglet1, Winglet2,
+        AntiCabine,
+        AntiCorpo1, AntiCorpo2, AntiCorpo3, AntiCorpo4, AntiCorpo5, AntiCorpo6,
+        AntiTurbina1, AntiTurbina2,
+        AntiAsa1, AntiAsa2,
+        AntiArma1, AntiArma2,
+        AntiWinglet1, AntiWinglet2,
 
         // Bouding Box
         BoudingBox1,
