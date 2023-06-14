@@ -35,7 +35,7 @@ Smoke::Smoke(glm::vec4 Centro, glm::vec4 direcao) {
     }
 
     this->rotaciona(graus + angleRandomness);
-    this->ajustaEscala(glm::vec3{ 4.5f, 4.5f, 4.5f });
+    this->ajustaEscala(glm::vec3{ 3.5f, 3.5f, 3.5f });
     this->escala = glm::vec3{ 1.0f, 1.0f, 1.0f };
 
     std::uniform_int_distribution<int> distrotacionaCimaBaixo(0, 1);
@@ -80,7 +80,7 @@ void Smoke::moveFoward(float DeltaTime) {
     RotacionaEmRelacaoAOrigem(this->Model, graus, this->Centro, this->Up, this->Right);
 
     // Faz a particula desaparecer aos poucos
-    glm::vec4 Cor{ 0.9f  , 0.9f, 0.9f , this->tempoDeVida };
+    glm::vec4 Cor{ 1.0f - this->tempoDeVida / 5.0f  , 1.0f - this->tempoDeVida / 5.0f, 1.0f - this->tempoDeVida / 5.0f , this->tempoDeVida };
     for (auto& triangle : this->Model) {
         for (auto& vertice : triangle) {
             vertice.Color = Cor;

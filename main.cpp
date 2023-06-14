@@ -830,7 +830,7 @@ int main() {
 				TodosMisseis[i].moveFoward();
 
 				for (int j = 0; j < 2; j++) {
-					Smoke fumaca(glm::vec4{ TodosMisseis[i].Centro.x, TodosMisseis[i].Centro.y ,TodosMisseis[i].Centro.z , 1.0f }, TodosMisseis[i].Up);
+					Smoke fumaca(glm::vec4{ TodosMisseis[i].Centro.x, TodosMisseis[i].Centro.y + 0.12f ,TodosMisseis[i].Centro.z , 1.0f }, TodosMisseis[i].Up);
 					fumaca.tempoDeVida = 0.8f;
 					TodasSmokes.push_back(fumaca);
 				}
