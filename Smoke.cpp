@@ -95,9 +95,9 @@ void Smoke::moveFoward(float DeltaTime) {
 
     // Rotaciona um pouco com o tempo
     if (this->rotacionaCimaBaixo == 0) {
-        this->rotaciona((30.0f * DeltaTime));
+        this->rotaciona((45.0f * DeltaTime));
     } else {
-        this->rotaciona((-30.0f * DeltaTime));
+        this->rotaciona((-45.0f * DeltaTime));
     }
 }
 

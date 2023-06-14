@@ -829,11 +829,12 @@ int main() {
 				}
 				TodosMisseis[i].moveFoward();
 
-				for (int j = 0; j < 2; j++) {
-					Smoke fumaca(glm::vec4{ TodosMisseis[i].Centro.x, TodosMisseis[i].Centro.y + 0.12f ,TodosMisseis[i].Centro.z , 1.0f }, TodosMisseis[i].Up);
-					fumaca.tempoDeVida = 0.8f;
-					TodasSmokes.push_back(fumaca);
-				}
+				// Adiciona fumaça no rastro de cada tiro
+				//for (int j = 0; j < 2; j++) {
+				//	Smoke fumaca(glm::vec4{ TodosMisseis[i].Centro.x, TodosMisseis[i].Centro.y + 0.12f ,TodosMisseis[i].Centro.z , 1.0f }, TodosMisseis[i].Up);
+				//	fumaca.tempoDeVida = 0.4f;
+				//	TodasSmokes.push_back(fumaca);
+				//}
 				
 
 
@@ -916,6 +917,14 @@ int main() {
 					TodosPowerUp.push_back(PowerUp(TodosAliens[AlienAtingido].Centro, PowerUpNumber));
 				}
 				if (TodosAliens[AlienAtingido].life <= 0) { // Se a vida do Alien chegar a 0
+
+					// Gera explosão ao alien morrer
+					for (int j = 0; j < 20; j++) {
+						Smoke fumaca(glm::vec4{ TodosAliens[AlienAtingido].Centro.x, TodosAliens[AlienAtingido].Centro.y + 0.12f ,TodosAliens[AlienAtingido].Centro.z , 1.0f }, TodosAliens[AlienAtingido].Up);
+						fumaca.tempoDeVida = 2.0f;
+						TodasSmokes.push_back(fumaca);
+					}
+
 					TodosAliens.erase(TodosAliens.begin() + AlienAtingido); // Mata o Alien
 					if (TodosAliens.size() <= 0) {
 						gameState.vitoria = true;
