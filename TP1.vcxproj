@@ -160,6 +160,7 @@
     <ClCompile Include="Nave.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="PowerUp.cpp" />
+    <ClCompile Include="Smoke.cpp" />
     <ClCompile Include="Stars.cpp" />
     <ClCompile Include="VAO.cpp" />
     <ClCompile Include="VBO.cpp" />
@@ -176,6 +177,7 @@
     <ClInclude Include="Missil.h" />
     <ClInclude Include="Nave.h" />
     <ClInclude Include="PowerUp.h" />
+    <ClInclude Include="Smoke.h" />
     <ClInclude Include="Stars.h" />
     <ClInclude Include="Triangle.h" />
     <ClInclude Include="GameState.h" />

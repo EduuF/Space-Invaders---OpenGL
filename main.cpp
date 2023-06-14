@@ -8,6 +8,7 @@
 #include "PowerUp.h"
 #include "Stars.h"
 #include "Life.h"
+#include "Smoke.h"
 
 #include <iostream>
 #include <fstream>
@@ -138,7 +139,6 @@ public:
 		glm::vec3 Right = glm::normalize(glm::cross(Direction, Up));
 		Location += Right * Amount * Speed;
 	}
-
 
 	glm::mat4 GetViewProjection() const {
 		glm::mat4 View = glm::lookAt(Location, Location + Direction, Up);
@@ -298,6 +298,7 @@ int main() {
 		std::vector<PowerUp> TodosPowerUp;
 		std::vector<Stars> TodasStars;
 		std::vector<Life> TodasLifes;
+		std::vector<Smoke> TodasSmokes;
 
 		// Cria as lifes
 		// Verifica o Life para desenhar os corações
@@ -315,12 +316,11 @@ int main() {
 		float ContadorDeDelayDeTiros = 0.0f;// Contador de delay de tiros
 
 		// Rendeiza apenas a face da frente
-		glEnable(GL_CULL_FACE);
-		glCullFace(GL_BACK);
+		//glEnable(GL_CULL_FACE);
+		//glCullFace(GL_BACK);
 
 		// Loop de eventos da aplicação
 		while (!glfwWindowShouldClose(Window)) {
-
 
 			if (gameState.vitoria) {
 				break;
@@ -329,6 +329,11 @@ int main() {
 				fase--;
 				break;
 			}
+
+			// Habilita objetos transparentes
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 
 			// Calcula o tempo dos frames
 			double CurrentTime = glfwGetTime();
@@ -354,6 +359,7 @@ int main() {
 			const int tamanhoDoPowerUp = 4;
 			const int tamanhoDaEstrela = 2;
 			const int tamanhoDaLife = 6;
+			const int tamanhoDaSmoke = 2;
 
 			gameState.AlienComABomba = -1;
 
@@ -391,6 +397,12 @@ int main() {
 
 			for (auto& life : TodasLifes) {
 				for (auto triangulo : life.Model) {
+					bufferData.insert(bufferData.end(), triangulo.begin(), triangulo.end());
+				}
+			}
+
+			for (auto& smoke : TodasSmokes) {
+				for (auto triangulo : smoke.Model) {
 					bufferData.insert(bufferData.end(), triangulo.begin(), triangulo.end());
 				}
 			}
@@ -496,10 +508,16 @@ int main() {
 				glDrawArrays(GL_TRIANGLES, (tamanhoDaNave + (tamanhoDoAlien * TodosAliens.size()) + (tamanhoDoMissil * TodosMisseis.size()) + (tamanhoDoPowerUp * TodosPowerUp.size()) + (tamanhoDaEstrela * TodasStars.size()) + (tamanhoDaLife * i)) * 3, (tamanhoDaLife * 3));
 			}
 
+			// Desenha as Lifes
+			for (int i = 0; i < TodasSmokes.size(); i++) {
+				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+				glDrawArrays(GL_TRIANGLES, (tamanhoDaNave + (tamanhoDoAlien * TodosAliens.size()) + (tamanhoDoMissil * TodosMisseis.size()) + (tamanhoDoPowerUp * TodosPowerUp.size()) + (tamanhoDaEstrela * TodasStars.size()) + (tamanhoDaLife * TodasLifes.size()) + (tamanhoDaSmoke * i)) * 3, (tamanhoDaSmoke * 3));
+			}
+
 			// Desenha a bomba (se houver)
 			if (gameState.AlienComABomba != -1) {
 				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-				glDrawArrays(GL_TRIANGLES, (tamanhoDaNave + (tamanhoDoAlien * TodosAliens.size()) + (tamanhoDoMissil * TodosMisseis.size()) + (tamanhoDoPowerUp * TodosPowerUp.size()) + (tamanhoDaEstrela * TodasStars.size()) + (tamanhoDaLife * TodasLifes.size())) * 3, (tamanhoDaBomba - 2) * 3);
+				glDrawArrays(GL_TRIANGLES, (tamanhoDaNave + (tamanhoDoAlien * TodosAliens.size()) + (tamanhoDoMissil * TodosMisseis.size()) + (tamanhoDoPowerUp * TodosPowerUp.size()) + (tamanhoDaEstrela * TodasStars.size()) + (tamanhoDaLife * TodasLifes.size()) + (tamanhoDaSmoke * TodasSmokes.size())) * 3, (tamanhoDaBomba - 2) * 3);
 			}
 
 
@@ -621,8 +639,23 @@ int main() {
 					ContadorDeDelayDeTiros = gameState.CadenciaDeTirosNave;
 					Missil missil = nave1.Atira(gameState.VelocidadeDoTiroNave * DeltaTime);
 					TodosMisseis.push_back(missil);
+					for (int i = 0; i < 10; i++) {
+						Smoke fumaca(glm::vec4{ missil.Centro.x, missil.Centro.y + 0.1f ,missil.Centro.z , 1.0f}, missil.Up);
+						TodasSmokes.push_back(fumaca);
+					}
 				}
 				ContadorDeDelayDeTiros -= DeltaTime;
+			}
+
+			// Atualiza as fumacas
+			for (auto& fumaca : TodasSmokes) {
+				fumaca.moveFoward(DeltaTime);
+			}
+
+			for (int i = 0; i < TodasSmokes.size(); i++) {
+				if (TodasSmokes[i].tempoDeVida <= 0.0f) {
+					TodasSmokes.erase(TodasSmokes.begin() + i);
+				}
 			}
 
 			// Verifica se Inimigo está atirando (DEBUG)
@@ -795,6 +828,14 @@ int main() {
 					continue;
 				}
 				TodosMisseis[i].moveFoward();
+
+				for (int j = 0; j < 2; j++) {
+					Smoke fumaca(glm::vec4{ TodosMisseis[i].Centro.x, TodosMisseis[i].Centro.y ,TodosMisseis[i].Centro.z , 1.0f }, TodosMisseis[i].Up);
+					fumaca.tempoDeVida = 0.8f;
+					TodasSmokes.push_back(fumaca);
+				}
+				
+
 
 				if (!atingiu) { // Se nenhum missil atingiu ninguém neste frame
 					if (TodosMisseis[i].NaveOuAlien == false) { // Se for um missil de Alien

@@ -22,7 +22,7 @@ Nave::Nave(glm::vec4 NaveCentro) {
 
     
     this->CanhaoDireitoAtira = false; 
-    this->life = 500;
+    this->life = 5;
     this->tempoDeIntangibilidade = 2.0f;
     this->intangivel = false;
     this->TempoPiscando = 0.2f;

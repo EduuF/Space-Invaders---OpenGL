@@ -42,7 +42,7 @@ public:
 	float velocidadeDePiscadaBombaDropada = 2.5f;
 	float intensidadePiscadaBombaDropada = 1.3f;
 	float TempoParaBombaExplodirBombaDropada = 20.0f;
-	float VelocidadeDoTiroAlien = 0.5f;
+	float VelocidadeDoTiroAlien = 1.2f;
 	float tempoDeIntangibilidadeAlien = 2.0f;
 	float tempoDeIntangibilidadeNave = 2.0f;
 	float TempoDePiscadaAoSerAtingido = 0.1f;
@@ -53,7 +53,7 @@ public:
 	float VelocidadeDoTiroNave = 2.0f;
 	
 	int ChanceDeDroparPowerUp = 250;
-	int chanceDeInimigoAtirar = 400;
+	int chanceDeInimigoAtirar = 50;
 	int chanceDeInimigoTentarDroparBomba = 15;
 	int chanceDeFormarEsquadrao = 4000;
 
