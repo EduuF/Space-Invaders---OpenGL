@@ -1,13 +1,7 @@
 #include "Alien.h"
 #include "GameState.h"
 
-std::vector<std::vector<Vertex>> getAlienModelEstado1(bool hasPowerUp1, bool hasPowerUp2) {
-
-    // Bouding Box
-    glm::vec4 BoundingBoxA{ -0.11f,  -0.05f,  0.0f, 1.0f };
-    glm::vec4 BoundingBoxB{ -0.11f,    0.06f,  0.0f, 1.0f };
-    glm::vec4 BoundingBoxC{ 0.11f,    0.06f,  0.0f, 1.0f };
-    glm::vec4 BoundingBoxD{ 0.11f,  -0.05f,  0.0f, 1.0f };
+std::vector<Vertex> getAlienVertices(bool hasPowerUp1, bool hasPowerUp2) {
 
     //Cores
     glm::vec4 Cor{ 0.10f, 0.60f, 0.05f, 1.0f };
@@ -20,1007 +14,210 @@ std::vector<std::vector<Vertex>> getAlienModelEstado1(bool hasPowerUp1, bool has
         
     }
     
-
     //Modela o Alien
-    glm::vec4 L = glm::vec4{ -1.2f, -0.4f,  +0.0f, 1.0f };
-    glm::vec4 I = glm::vec4{ -1.2f, 0.0f, +0.0f, 1.0f };
-    glm::vec4 M = glm::vec4{ -1.0f, 0.0f,  +0.0f, 1.0f };
-    glm::vec4 N = glm::vec4{ -1.00f, -0.4f,  +0.0f, 1.0f };
+    std::vector<Vertex> VerticesNave{
+        Vertex{ glm::vec4{ -0.2f, -0.6f,  +0.0f, 1.0f }, Cor }, // A 0
+        Vertex{ glm::vec4{ -0.6f, -0.6f,  +0.0f, 1.0f }, Cor }, // B 1
+        Vertex{ glm::vec4{ -0.2f, -0.4f,  +0.0f, 1.0f }, Cor }, // C 2 
+        Vertex{ glm::vec4{ -0.6f, -0.4f,  +0.0f, 1.0f }, Cor }, // D 3 
+        Vertex{ glm::vec4{ -0.8f, -0.4f,  +0.0f, 1.0f }, Cor }, // E 4 
+        Vertex{ glm::vec4{ -0.8f, 0.6f, +0.0f, 1.0f }, Cor }, // F 5
+        Vertex{ glm::vec4{ -0.6f, 0.6f,  +0.0f, 1.0f }, Cor }, // G 6
+        Vertex{ glm::vec4{ -0.8f, 0.0f,  +0.0f, 1.0f }, Cor }, // H 7
+        Vertex{ glm::vec4{ -1.2f, 0.0f, +0.0f, 1.0f }, Cor }, // I 8
+        Vertex{ glm::vec4{ -1.2f, 0.2f, +0.0f, 1.0f }, Cor }, // J 9
+        Vertex{ glm::vec4{ -0.8f, 0.2f,  +0.0f, 1.0f }, Cor }, // K 10
+        Vertex{ glm::vec4{ -1.2f, -0.4f,  +0.0f, 1.0f }, Cor }, // L 11
+        Vertex{ glm::vec4{ -1.0f, 0.0f,  +0.0f, 1.0f }, Cor }, // M 12
+        Vertex{ glm::vec4{ -1.00f, -0.4f,  +0.0f, 1.0f }, Cor }, // N 13
+        Vertex{ glm::vec4{ -1.0f, 0.2f, +0.0f, 1.0f }, Cor }, // O 14
+        Vertex{ glm::vec4{ -1.0f, 0.4f,  +0.0f, 1.0f }, Cor }, // P 15
+        Vertex{ glm::vec4{ -0.8f, 0.4f,  +0.0f, 1.0f }, Cor }, // Q 16 
+        Vertex{ glm::vec4{ -0.6f, 0.4f, +0.0f, 1.0f }, Cor }, // R 17
+        Vertex{ glm::vec4{ -0.6f, 0.8f,  +0.0f, 1.0f }, Cor }, // S 18
+        Vertex{ glm::vec4{ -0.4f, 0.8f,  +0.0f, 1.0f }, Cor }, // T 19
+        Vertex{ glm::vec4{ -0.4f, 0.4f,  +0.0f, 1.0f }, Cor }, // U 20
+        Vertex{ glm::vec4{ -0.8f, 0.8f,  +0.0f, 1.0f }, Cor }, // V 21
+        Vertex{ glm::vec4{ -0.6f, 1.0f,  +0.0f, 1.0f }, Cor }, // W 22
+        Vertex{ glm::vec4{ -0.8f, 1.0f, +0.0f, 1.0f }, Cor }, // Z 23
+        Vertex{ glm::vec4{ -0.6f, -0.2f,  +0.0f, 1.0f }, Cor }, // H1 24
+        Vertex{ glm::vec4{ -0.6f, 0.2f, +0.0f, 1.0f }, Cor }, // F1 25
+        Vertex{ glm::vec4{ -0.4f, 0.2f,  +0.0f, 1.0f }, Cor }, // G1 26
+        Vertex{ glm::vec4{ -0.4f, -0.2f,  +0.0f, 1.0f }, Cor }, // D1 27
+        Vertex{ glm::vec4{ -0.4f, 0.6f,  +0.0f, 1.0f }, Cor }, // A1 28
+        Vertex{ glm::vec4{ 0.0f, 0.6f,  +0.0f, 1.0f }, Cor }, // B1 29
+        Vertex{ glm::vec4{ 0.0f, -0.2f,  +0.0f, 1.0f }, Cor }, // E1 30
+        Vertex{ glm::vec4{ 0.2f, -0.6f,  +0.0f, 1.0f }, Cor }, // AntiA 31
+        Vertex{ glm::vec4{ 0.6f, -0.6f,  +0.0f, 1.0f }, Cor }, // AntiB 32
+        Vertex{ glm::vec4{ 0.2f, -0.4f,  +0.0f, 1.0f }, Cor }, // AntiC 33 
+        Vertex{ glm::vec4{ 0.6f, -0.4f,  +0.0f, 1.0f }, Cor }, // AntiD 34
+        Vertex{ glm::vec4{ 0.8f, -0.4f,  +0.0f, 1.0f }, Cor }, // AntiE 35
+        Vertex{ glm::vec4{ 0.8f, 0.6f, +0.0f, 1.0f }, Cor }, // AntiF 36
+        Vertex{ glm::vec4{ 0.6f, 0.6f,  +0.0f, 1.0f }, Cor }, // AntiG 37
+        Vertex{ glm::vec4{ 0.8f, 0.0f,  +0.0f, 1.0f }, Cor }, // AntiH 38
+        Vertex{ glm::vec4{ 1.2f, 0.0f, +0.0f, 1.0f }, Cor }, // AntiI 39
+        Vertex{ glm::vec4{ 1.2f, 0.2f, +0.0f, 1.0f }, Cor }, // AntiJ 40
+        Vertex{ glm::vec4{ 0.8f, 0.2f,  +0.0f, 1.0f }, Cor }, // AntiK 41
+        Vertex{ glm::vec4{ 1.2f, -0.4f,  +0.0f, 1.0f }, Cor }, // AntiL 42
+        Vertex{ glm::vec4{ 1.0f, 0.0f,  +0.0f, 1.0f }, Cor }, // AntiM 43
+        Vertex{ glm::vec4{ 1.00f, -0.4f,  +0.0f, 1.0f }, Cor }, // AntiN 44
+        Vertex{ glm::vec4{ 1.0f, 0.2f, +0.0f, 1.0f }, Cor }, // AntiO 45
+        Vertex{ glm::vec4{ 1.0f, 0.4f,  +0.0f, 1.0f }, Cor }, // AntiP 46
+        Vertex{ glm::vec4{ 0.8f, 0.4f,  +0.0f, 1.0f }, Cor }, // AntiQ 47
+        Vertex{ glm::vec4{ 0.6f, 0.4f, +0.0f, 1.0f }, Cor }, // AntiR 48
+        Vertex{ glm::vec4{ 0.6f, 0.8f,  +0.0f, 1.0f }, Cor }, // AntiS 49
+        Vertex{ glm::vec4{ 0.4f, 0.8f,  +0.0f, 1.0f }, Cor }, // AntiT 50
+        Vertex{ glm::vec4{ 0.4f, 0.4f,  +0.0f, 1.0f }, Cor }, // AntiU 51
+        Vertex{ glm::vec4{ 0.8f, 0.8f,  +0.0f, 1.0f }, Cor }, // AntiV 52
+        Vertex{ glm::vec4{ 0.6f, 1.0f,  +0.0f, 1.0f }, Cor }, // AntiW 53
+        Vertex{ glm::vec4{ 0.8f, 1.0f, +0.0f, 1.0f }, Cor }, // AntiZ 54
+        Vertex{ glm::vec4{ 0.6f, -0.2f,  +0.0f, 1.0f }, Cor }, // AntiH1 55 
+        Vertex{ glm::vec4{ 0.6f, 0.2f, +0.0f, 1.0f }, Cor }, // AntiF1 56
+        Vertex{ glm::vec4{ 0.4f, 0.2f,  +0.0f, 1.0f }, Cor }, // AntiG1 57
+        Vertex{ glm::vec4{ 0.4f, -0.2f,  +0.0f, 1.0f }, Cor }, // AntiD1 58
+        Vertex{ glm::vec4{ 0.4f, 0.6f,  +0.0f, 1.0f }, Cor }, // AntiA1 59
+        Vertex{ glm::vec4{ 0.0f, 0.6f,  +0.0f, 1.0f }, Cor }, // AntiB1 60
+        Vertex{ glm::vec4{ 0.0f, -0.2f,  +0.0f, 1.0f }, Cor }, // AntiE1 61
 
-    glm::vec4 J = glm::vec4{ -1.2f, 0.2f, +0.0f, 1.0f };
-    glm::vec4 H = glm::vec4{ -0.8f, 0.0f,  +0.0f, 1.0f };
-    glm::vec4 K = glm::vec4{ -0.8f, 0.2f,  +0.0f, 1.0f };
+        // Pose 2
+        Vertex{ glm::vec4{ -1.6f, 0.2f,  +0.0f, 1.0f }, Cor }, // L Pose2 62
+        Vertex{ glm::vec4{ -1.6f, 0.0f,  +0.0f, 1.0f }, Cor }, // N Pose2 63
+        Vertex{ glm::vec4{ 1.6f, 0.2f,  +0.0f, 1.0f }, Cor }, // AntiL Pose2 64
+        Vertex{ glm::vec4{ 1.6f, 0.0f,  +0.0f, 1.0f }, Cor }, // AntiN Pose2 65
 
-    glm::vec4 O = glm::vec4{ -1.0f, 0.2f, +0.0f, 1.0f };
-    glm::vec4 Q = glm::vec4{ -0.8f, 0.4f,  +0.0f, 1.0f };
-    glm::vec4 P = glm::vec4{ -1.0f, 0.4f,  +0.0f, 1.0f };
-
-    glm::vec4 E = glm::vec4{ -0.8f, -0.4f,  +0.0f, 1.0f };
-    glm::vec4 F = glm::vec4{ -0.8f, 0.6f, +0.0f, 1.0f };
-    glm::vec4 D = glm::vec4{ -0.6f, -0.4f,  +0.0f, 1.0f };
-    glm::vec4 G = glm::vec4{ -0.6f, 0.6f,  +0.0f, 1.0f };
-
-    glm::vec4 V = glm::vec4{ -0.8f, 0.8f,  +0.0f, 1.0f };
-    glm::vec4 Z = glm::vec4{ -0.8f, 1.0f, +0.0f, 1.0f };
-    glm::vec4 W = glm::vec4{ -0.6f, 1.0f,  +0.0f, 1.0f };
-    glm::vec4 S = glm::vec4{ -0.6f, 0.8f,  +0.0f, 1.0f };
-
-    glm::vec4 B = glm::vec4{ -0.6f, -0.6f,  +0.0f, 1.0f };
-    glm::vec4 C = glm::vec4{ -0.2f, -0.4f,  +0.0f, 1.0f };
-    glm::vec4 A = glm::vec4{ -0.2f, -0.6f,  +0.0f, 1.0f };
-
-    glm::vec4 H1 = glm::vec4{ -0.6f, -0.2f,  +0.0f, 1.0f };
-    glm::vec4 F1 = glm::vec4{ -0.6f, 0.2f, +0.0f, 1.0f };
-    glm::vec4 G1 = glm::vec4{ -0.4f, 0.2f,  +0.0f, 1.0f };
-    glm::vec4 D1 = glm::vec4{ -0.4f, -0.2f,  +0.0f, 1.0f };
-
-    glm::vec4 R = glm::vec4{ -0.6f, 0.4f, +0.0f, 1.0f };
-    glm::vec4 T = glm::vec4{ -0.4f, 0.8f,  +0.0f, 1.0f };
-    glm::vec4 U = glm::vec4{ -0.4f, 0.4f,  +0.0f, 1.0f };
-
-    glm::vec4 A1 = glm::vec4{ -0.4f, 0.6f,  +0.0f, 1.0f };
-    glm::vec4 B1 = glm::vec4{ 0.0f, 0.6f,  +0.0f, 1.0f };
-    glm::vec4 E1 = glm::vec4{ 0.0f, -0.2f,  +0.0f, 1.0f };
-
-    glm::vec4 LInverso = glm::vec4{ 1.2f, -0.4f,  +0.0f, 1.0f };
-    glm::vec4 IInverso = glm::vec4{ 1.2f, 0.0f, +0.0f, 1.0f };
-    glm::vec4 MInverso = glm::vec4{ 1.0f, 0.0f,  +0.0f, 1.0f };
-    glm::vec4 NInverso = glm::vec4{ 1.00f, -0.4f,  +0.0f, 1.0f };
-
-    glm::vec4 JInverso = glm::vec4{ 1.2f, 0.2f, +0.0f, 1.0f };
-    glm::vec4 HInverso = glm::vec4{ 0.8f, 0.0f,  +0.0f, 1.0f };
-    glm::vec4 KInverso = glm::vec4{ 0.8f, 0.2f,  +0.0f, 1.0f };
-
-    glm::vec4 OInverso = glm::vec4{ 1.0f, 0.2f, +0.0f, 1.0f };
-    glm::vec4 QInverso = glm::vec4{ 0.8f, 0.4f,  +0.0f, 1.0f };
-    glm::vec4 PInverso = glm::vec4{ 1.0f, 0.4f,  +0.0f, 1.0f };
-
-    glm::vec4 EInverso = glm::vec4{ 0.8f, -0.4f,  +0.0f, 1.0f };
-    glm::vec4 FInverso = glm::vec4{ 0.8f, 0.6f, +0.0f, 1.0f };
-    glm::vec4 DInverso = glm::vec4{ 0.6f, -0.4f,  +0.0f, 1.0f };
-    glm::vec4 GInverso = glm::vec4{ 0.6f, 0.6f,  +0.0f, 1.0f };
-
-    glm::vec4 VInverso = glm::vec4{ 0.8f, 0.8f,  +0.0f, 1.0f };
-    glm::vec4 ZInverso = glm::vec4{ 0.8f, 1.0f, +0.0f, 1.0f };
-    glm::vec4 WInverso = glm::vec4{ 0.6f, 1.0f,  +0.0f, 1.0f };
-    glm::vec4 SInverso = glm::vec4{ 0.6f, 0.8f,  +0.0f, 1.0f };
-
-    glm::vec4 BInverso = glm::vec4{ 0.6f, -0.6f,  +0.0f, 1.0f };
-    glm::vec4 CInverso = glm::vec4{ 0.2f, -0.4f,  +0.0f, 1.0f };
-    glm::vec4 AInverso = glm::vec4{ 0.2f, -0.6f,  +0.0f, 1.0f };
-
-    glm::vec4 H1Inverso = glm::vec4{ 0.6f, -0.2f,  +0.0f, 1.0f };
-    glm::vec4 F1Inverso = glm::vec4{ 0.6f, 0.2f, +0.0f, 1.0f };
-    glm::vec4 G1Inverso = glm::vec4{ 0.4f, 0.2f,  +0.0f, 1.0f };
-    glm::vec4 D1Inverso = glm::vec4{ 0.4f, -0.2f,  +0.0f, 1.0f };
-
-    glm::vec4 RInverso = glm::vec4{ 0.6f, 0.4f, +0.0f, 1.0f };
-    glm::vec4 TInverso = glm::vec4{ 0.4f, 0.8f,  +0.0f, 1.0f };
-    glm::vec4 UInverso = glm::vec4{ 0.4f, 0.4f,  +0.0f, 1.0f };
-
-    glm::vec4 A1Inverso = glm::vec4{ 0.4f, 0.6f,  +0.0f, 1.0f };
-    glm::vec4 B1Inverso = glm::vec4{ 0.0f, 0.6f,  +0.0f, 1.0f };
-    glm::vec4 E1Inverso = glm::vec4{ 0.0f, -0.2f,  +0.0f, 1.0f };
-
-    std::vector<Vertex> Inverso1 = {
-        Vertex{D1Inverso, Cor},
-        Vertex{A1Inverso, Cor},
-        Vertex{B1Inverso, Cor}
+        // Pose 3
+        Vertex{ glm::vec4{ -1.0f, 0.6f,  +0.0f, 1.0f }, Cor }, // L Pose3 66
+        Vertex{ glm::vec4{ -1.2f, 0.6f,  +0.0f, 1.0f }, Cor }, // N Pose3 67
+        Vertex{ glm::vec4{ 1.0f, 0.6f,  +0.0f, 1.0f }, Cor }, // AntiL Pose3 68
+        Vertex{ glm::vec4{ 1.2f, 0.6f,  +0.0f, 1.0f }, Cor }, // AntiN Pose3 69
     };
-
-    std::vector<Vertex> Inverso2 = {
-        Vertex{D1Inverso, Cor},
-        Vertex{B1Inverso, Cor},
-        Vertex{E1Inverso, Cor}
-    };
-
-    std::vector<Vertex> Inverso3 = {
-        Vertex{RInverso, Cor},
-        Vertex{SInverso, Cor},
-        Vertex{TInverso, Cor}
-    };
-
-    std::vector<Vertex> Inverso4 = {
-        Vertex{RInverso, Cor},
-        Vertex{TInverso, Cor},
-        Vertex{UInverso, Cor}
-    };
-
-    std::vector<Vertex> Inverso5 = {
-        Vertex{H1Inverso, Cor},
-        Vertex{F1Inverso, Cor},
-        Vertex{G1Inverso, Cor}
-    };
-
-    std::vector<Vertex> Inverso6 = {
-        Vertex{H1Inverso, Cor},
-        Vertex{G1Inverso, Cor},
-        Vertex{D1Inverso, Cor}
-    };
-
-    std::vector<Vertex> Inverso7 = {
-        Vertex{BInverso, Cor},
-        Vertex{DInverso, Cor},
-        Vertex{CInverso, Cor}
-    };
-
-    std::vector<Vertex> Inverso8 = {
-        Vertex{BInverso, Cor},
-        Vertex{CInverso, Cor},
-        Vertex{AInverso, Cor}
-    };
-
-    std::vector<Vertex> Inverso9 = {
-        Vertex{VInverso, Cor},
-        Vertex{ZInverso, Cor},
-        Vertex{WInverso, Cor}
-    };
-
-    std::vector<Vertex> Inverso10 = {
-        Vertex{VInverso, Cor},
-        Vertex{WInverso, Cor},
-        Vertex{SInverso, Cor}
-    };
-
-    std::vector<Vertex> Inverso11 = {
-        Vertex{EInverso, Cor},
-        Vertex{FInverso, Cor},
-        Vertex{DInverso, Cor}
-    };
-
-    std::vector<Vertex> Inverso12 = {
-        Vertex{DInverso, Cor},
-        Vertex{FInverso, Cor},
-        Vertex{GInverso, Cor}
-    };
-
-    std::vector<Vertex> Inverso13 = {
-        Vertex{OInverso, Cor},
-        Vertex{QInverso, Cor},
-        Vertex{KInverso, Cor}
-    };
-
-    std::vector<Vertex> Inverso14 = {
-        Vertex{OInverso, Cor},
-        Vertex{PInverso, Cor},
-        Vertex{QInverso, Cor}
-    };
-
-    std::vector<Vertex> Inverso15 = {
-        Vertex{IInverso, Cor},
-        Vertex{JInverso, Cor},
-        Vertex{HInverso, Cor}
-    };
-
-    std::vector<Vertex> Inverso16 = {
-        Vertex{HInverso, Cor},
-        Vertex{JInverso, Cor},
-        Vertex{KInverso, Cor}
-    };
-
-    std::vector<Vertex> Inverso17 = {
-        Vertex{LInverso, Cor},
-        Vertex{IInverso, Cor},
-        Vertex{MInverso, Cor}
-    };
-
-    std::vector<Vertex> Inverso18 = {
-        Vertex{LInverso, Cor},
-        Vertex{MInverso, Cor},
-        Vertex{NInverso, Cor}
-    };
-
-    std::vector<Vertex> Corpo1 = {
-        Vertex{D1, Cor},
-        Vertex{B1, Cor},
-        Vertex{A1, Cor}
-    };
-
-    std::vector<Vertex> Corpo2 = {
-        Vertex{D1, Cor},
-        Vertex{E1, Cor},
-        Vertex{B1, Cor}
-    };
-
-    std::vector<Vertex> Corpo3 = {
-        Vertex{R, Cor},
-        Vertex{T, Cor},
-        Vertex{S, Cor}
-    };
-
-    std::vector<Vertex> Corpo4 = {
-        Vertex{R, Cor},
-        Vertex{U, Cor},
-        Vertex{T, Cor}
-    };
-
-    std::vector<Vertex> Corpo5 = {
-        Vertex{H1, Cor},
-        Vertex{G1, Cor},
-        Vertex{F1, Cor}
-    };
-
-    std::vector<Vertex> Corpo6 = {
-        Vertex{H1, Cor},
-        Vertex{D1, Cor},
-        Vertex{G1, Cor}
-    };
-
-    std::vector<Vertex> Corpo7 = {
-        Vertex{B, Cor},
-        Vertex{C, Cor},
-        Vertex{D, Cor}
-    };
-
-    std::vector<Vertex> Corpo8 = {
-        Vertex{B, Cor},
-        Vertex{A, Cor},
-        Vertex{C, Cor}
-    };
-
-    std::vector<Vertex> Corpo9 = {
-        Vertex{V, Cor},
-        Vertex{W, Cor},
-        Vertex{Z, Cor}
-    };
-
-    std::vector<Vertex> Corpo10 = {
-        Vertex{V, Cor},
-        Vertex{S, Cor},
-        Vertex{W, Cor}
-    };
-
-    std::vector<Vertex> Corpo11 = {
-        Vertex{E, Cor},
-        Vertex{D, Cor},
-        Vertex{F, Cor}
-    };
-
-    std::vector<Vertex> Corpo12 = {
-        Vertex{D, Cor},
-        Vertex{G, Cor},
-        Vertex{F, Cor}
-    };
-
-    std::vector<Vertex> Corpo13 = {
-        Vertex{O, Cor},
-        Vertex{K, Cor},
-        Vertex{Q, Cor}
-    };
-
-    std::vector<Vertex> Corpo14 = {
-        Vertex{O, Cor},
-        Vertex{Q, Cor},
-        Vertex{P, Cor}
-    };
-
-    std::vector<Vertex> Corpo15 = {
-        Vertex{I, Cor},
-        Vertex{H, Cor},
-        Vertex{J, Cor}
-    };
-
-    std::vector<Vertex> Corpo16 = {
-        Vertex{H, Cor},
-        Vertex{K, Cor},
-        Vertex{J, Cor}
-    };
-
-    std::vector<Vertex> Corpo17 = {
-        Vertex{L, Cor},
-        Vertex{M, Cor},
-        Vertex{I, Cor}
-    };
-
-    std::vector<Vertex> Corpo18 = {
-        Vertex{L, Cor},
-        Vertex{N, Cor},
-        Vertex{M, Cor}
-    };
-
-    std::vector<Vertex> BoudingBox1 = {
-        Vertex{BoundingBoxA, Cor},
-        Vertex{BoundingBoxB, Cor},
-        Vertex{BoundingBoxC, Cor}
-    };
-
-    std::vector<Vertex> BoudingBox2 = {
-        Vertex{BoundingBoxA, Cor},
-        Vertex{BoundingBoxC, Cor},
-        Vertex{BoundingBoxD, Cor}
-    };
-
-
-    std::vector<std::vector<Vertex>> alienVertices = {
-        Inverso1,Inverso2,Inverso3,Inverso4,Inverso5,Inverso6,Inverso7,Inverso8,Inverso9,Inverso10,Inverso11,Inverso12,Inverso13,Inverso14,Inverso15,Inverso16,Inverso17,Inverso18,
-        Corpo1,Corpo2,Corpo3,Corpo4,Corpo5,Corpo6,Corpo7,Corpo8,Corpo9,Corpo10,Corpo11,Corpo12,Corpo13,Corpo14,Corpo15,Corpo16,Corpo17,Corpo18,
-
-        // Bouding Box
-        BoudingBox1,
-        // Bouding Box
-        BoudingBox2
-    };
-    return alienVertices;
+    return VerticesNave;
+        
 }
 
-std::vector<std::vector<Vertex>> getAlienModelEstado2(bool hasPowerUp1, bool hasPowerUp2){
+std::vector<glm::ivec3> getAlienIndices(int pose) {
 
-    // Bouding Box
-    glm::vec4 BoundingBoxA{ -0.11f,  -0.05f,  0.0f, 1.0f };
-    glm::vec4 BoundingBoxB{ -0.11f,    0.06f,  0.0f, 1.0f };
-    glm::vec4 BoundingBoxC{ 0.11f,    0.06f,  0.0f, 1.0f };
-    glm::vec4 BoundingBoxD{ 0.11f,  -0.05f,  0.0f, 1.0f };
+    std::vector<glm::ivec3> ElementsIndexesAlienPose1 = {
+        glm::ivec3{27, 29, 28}, //Corpo1
+        glm::ivec3{27, 30, 29}, //Corpo2
+        glm::ivec3{17, 19, 18}, //Corpo3
+        glm::ivec3{17, 20, 19}, //Corpo4
+        glm::ivec3{24, 26, 25}, //Corpo5
+        glm::ivec3{24, 27, 26}, //Corpo6
+        glm::ivec3{1, 2, 3}, //Corpo7
+        glm::ivec3{1, 0, 2}, //Corpo8
+        glm::ivec3{21, 22, 23}, //Corpo9
+        glm::ivec3{21, 18, 22}, //Corpo10
+        glm::ivec3{4, 3, 5}, //Corpo11
+        glm::ivec3{3, 6, 5}, //Corpo12
+        glm::ivec3{14, 10, 16}, //Corpo13
+        glm::ivec3{14, 16, 15}, //Corpo14
+        glm::ivec3{8, 7, 9}, //Corpo15
+        glm::ivec3{7, 10, 9}, //Corpo16
+        glm::ivec3{11, 12, 8}, //Corpo17
+        glm::ivec3{11, 12, 13}, //Corpo18
+        glm::ivec3{58, 59, 60}, //AntiCorpo1
+        glm::ivec3{58, 60, 61}, //AntiCorpo2
+        glm::ivec3{48, 49, 50}, //AntiCorpo3
+        glm::ivec3{48, 50, 51}, //AntiCorpo4
+        glm::ivec3{55, 56, 57}, //AntiCorpo5
+        glm::ivec3{55, 57, 58}, //AntiCorpo6
+        glm::ivec3{32, 34, 33}, //AntiCorpo7
+        glm::ivec3{32, 33, 31}, //AntiCorpo8
+        glm::ivec3{52, 54, 53}, //AntiCorpo9
+        glm::ivec3{52, 53, 49}, //AntiCorpo10
+        glm::ivec3{35, 36, 34}, //AntiCorpo11
+        glm::ivec3{34, 36, 37}, //AntiCorpo12
+        glm::ivec3{45, 47, 41}, //AntiCorpo13
+        glm::ivec3{45, 46, 47}, //AntiCorpo14
+        glm::ivec3{39, 40, 38}, //AntiCorpo15
+        glm::ivec3{38, 40, 41}, //AntiCorpo16
+        glm::ivec3{42, 39, 43}, //AntiCorpo17
+        glm::ivec3{42, 44, 43}, //AntiCorpo18
+    };
 
-    //Cores
-    glm::vec4 CorCorpo{ 0.10f, 0.60f, 0.05f, 1.0f };
-    if (hasPowerUp1) {
-        CorCorpo = glm::vec4{ 1.0f, 0.0f, 1.0f, 1.0f };
-        
+    std::vector<glm::ivec3> ElementsIndexesAlienPose2 = {
+        glm::ivec3{27, 29, 28}, //Corpo1
+        glm::ivec3{27, 30, 29}, //Corpo2
+        glm::ivec3{17, 19, 18}, //Corpo3
+        glm::ivec3{17, 20, 19}, //Corpo4
+        glm::ivec3{24, 26, 25}, //Corpo5
+        glm::ivec3{24, 27, 26}, //Corpo6
+        glm::ivec3{1, 2, 3}, //Corpo7
+        glm::ivec3{1, 0, 2}, //Corpo8
+        glm::ivec3{21, 22, 23}, //Corpo9
+        glm::ivec3{21, 18, 22}, //Corpo10
+        glm::ivec3{4, 3, 5}, //Corpo11
+        glm::ivec3{3, 6, 5}, //Corpo12
+        glm::ivec3{14, 10, 16}, //Corpo13
+        glm::ivec3{14, 16, 15}, //Corpo14
+        glm::ivec3{8, 7, 9}, //Corpo15
+        glm::ivec3{7, 10, 9}, //Corpo16
+        glm::ivec3{62, 12, 8}, //Corpo17
+        glm::ivec3{62, 12, 63}, //Corpo18
+        glm::ivec3{58, 59, 60}, //AntiCorpo1
+        glm::ivec3{58, 60, 61}, //AntiCorpo2
+        glm::ivec3{48, 49, 50}, //AntiCorpo3
+        glm::ivec3{48, 50, 51}, //AntiCorpo4
+        glm::ivec3{55, 56, 57}, //AntiCorpo5
+        glm::ivec3{55, 57, 58}, //AntiCorpo6
+        glm::ivec3{32, 34, 33}, //AntiCorpo7
+        glm::ivec3{32, 33, 31}, //AntiCorpo8
+        glm::ivec3{52, 54, 53}, //AntiCorpo9
+        glm::ivec3{52, 53, 49}, //AntiCorpo10
+        glm::ivec3{35, 36, 34}, //AntiCorpo11
+        glm::ivec3{34, 36, 37}, //AntiCorpo12
+        glm::ivec3{45, 47, 41}, //AntiCorpo13
+        glm::ivec3{45, 46, 47}, //AntiCorpo14
+        glm::ivec3{39, 40, 38}, //AntiCorpo15
+        glm::ivec3{38, 40, 41}, //AntiCorpo16
+        glm::ivec3{64, 39, 43}, //AntiCorpo17
+        glm::ivec3{64, 65, 43}, //AntiCorpo18
+    };
+
+    std::vector<glm::ivec3> ElementsIndexesAlienPose3 = {
+        glm::ivec3{27, 29, 28}, //Corpo1
+        glm::ivec3{27, 30, 29}, //Corpo2
+        glm::ivec3{17, 19, 18}, //Corpo3
+        glm::ivec3{17, 20, 19}, //Corpo4
+        glm::ivec3{24, 26, 25}, //Corpo5
+        glm::ivec3{24, 27, 26}, //Corpo6
+        glm::ivec3{1, 2, 3}, //Corpo7
+        glm::ivec3{1, 0, 2}, //Corpo8
+        glm::ivec3{21, 22, 23}, //Corpo9
+        glm::ivec3{21, 18, 22}, //Corpo10
+        glm::ivec3{4, 3, 5}, //Corpo11
+        glm::ivec3{3, 6, 5}, //Corpo12
+        glm::ivec3{14, 10, 16}, //Corpo13
+        glm::ivec3{14, 16, 15}, //Corpo14
+        glm::ivec3{8, 7, 9}, //Corpo15
+        glm::ivec3{7, 10, 9}, //Corpo16
+        glm::ivec3{66, 12, 8}, //Corpo17
+        glm::ivec3{66, 12, 67}, //Corpo18
+        glm::ivec3{58, 59, 60}, //AntiCorpo1
+        glm::ivec3{58, 60, 61}, //AntiCorpo2
+        glm::ivec3{48, 49, 50}, //AntiCorpo3
+        glm::ivec3{48, 50, 51}, //AntiCorpo4
+        glm::ivec3{55, 56, 57}, //AntiCorpo5
+        glm::ivec3{55, 57, 58}, //AntiCorpo6
+        glm::ivec3{32, 34, 33}, //AntiCorpo7
+        glm::ivec3{32, 33, 31}, //AntiCorpo8
+        glm::ivec3{52, 54, 53}, //AntiCorpo9
+        glm::ivec3{52, 53, 49}, //AntiCorpo10
+        glm::ivec3{35, 36, 34}, //AntiCorpo11
+        glm::ivec3{34, 36, 37}, //AntiCorpo12
+        glm::ivec3{45, 47, 41}, //AntiCorpo13
+        glm::ivec3{45, 46, 47}, //AntiCorpo14
+        glm::ivec3{39, 40, 38}, //AntiCorpo15
+        glm::ivec3{38, 40, 41}, //AntiCorpo16
+        glm::ivec3{68, 39, 43}, //AntiCorpo17
+        glm::ivec3{68, 69, 43}, //AntiCorpo18
+    };
+
+    if (pose == 1) {
+        return ElementsIndexesAlienPose1;
+    } else if (pose == 2) {
+        return ElementsIndexesAlienPose2;
     }
-    if (hasPowerUp2) {
-        CorCorpo = glm::vec4{ 0.35f, 0.35f, 0.8f, 1.0f };
-        
-    }
-
-    //Modela o Alien
-    glm::vec4 L = glm::vec4{ -1.6f, 0.2f,  +0.0f, 1.0f };
-    glm::vec4 I = glm::vec4{ -1.2f, 0.0f, +0.0f, 1.0f };
-    glm::vec4 M = glm::vec4{ -1.0f, 0.0f,  +0.0f, 1.0f };
-    glm::vec4 N = glm::vec4{ -1.6f, 0.0f,  +0.0f, 1.0f };
-
-    glm::vec4 J = glm::vec4{ -1.2f, 0.2f, +0.0f, 1.0f };
-    glm::vec4 H = glm::vec4{ -0.8f, 0.0f,  +0.0f, 1.0f };
-    glm::vec4 K = glm::vec4{ -0.8f, 0.2f,  +0.0f, 1.0f };
-
-    glm::vec4 O = glm::vec4{ -1.0f, 0.2f, +0.0f, 1.0f };
-    glm::vec4 Q = glm::vec4{ -0.8f, 0.4f,  +0.0f, 1.0f };
-    glm::vec4 P = glm::vec4{ -1.0f, 0.4f,  +0.0f, 1.0f };
-
-    glm::vec4 E = glm::vec4{ -0.8f, -0.4f,  +0.0f, 1.0f };
-    glm::vec4 F = glm::vec4{ -0.8f, 0.6f, +0.0f, 1.0f };
-    glm::vec4 D = glm::vec4{ -0.6f, -0.4f,  +0.0f, 1.0f };
-    glm::vec4 G = glm::vec4{ -0.6f, 0.6f,  +0.0f, 1.0f };
-
-    glm::vec4 V = glm::vec4{ -0.8f, 0.8f,  +0.0f, 1.0f };
-    glm::vec4 Z = glm::vec4{ -0.8f, 1.0f, +0.0f, 1.0f };
-    glm::vec4 W = glm::vec4{ -0.6f, 1.0f,  +0.0f, 1.0f };
-    glm::vec4 S = glm::vec4{ -0.6f, 0.8f,  +0.0f, 1.0f };
-
-    glm::vec4 B = glm::vec4{ -0.6f, -0.6f,  +0.0f, 1.0f };
-    glm::vec4 C = glm::vec4{ -0.2f, -0.4f,  +0.0f, 1.0f };
-    glm::vec4 A = glm::vec4{ -0.2f, -0.6f,  +0.0f, 1.0f };
-
-    glm::vec4 H1 = glm::vec4{ -0.6f, -0.2f,  +0.0f, 1.0f };
-    glm::vec4 F1 = glm::vec4{ -0.6f, 0.2f, +0.0f, 1.0f };
-    glm::vec4 G1 = glm::vec4{ -0.4f, 0.2f,  +0.0f, 1.0f };
-    glm::vec4 D1 = glm::vec4{ -0.4f, -0.2f,  +0.0f, 1.0f };
-
-    glm::vec4 R = glm::vec4{ -0.6f, 0.4f, +0.0f, 1.0f };
-    glm::vec4 T = glm::vec4{ -0.4f, 0.8f,  +0.0f, 1.0f };
-    glm::vec4 U = glm::vec4{ -0.4f, 0.4f,  +0.0f, 1.0f };
-
-    glm::vec4 A1 = glm::vec4{ -0.4f, 0.6f,  +0.0f, 1.0f };
-    glm::vec4 B1 = glm::vec4{ 0.0f, 0.6f,  +0.0f, 1.0f };
-    glm::vec4 E1 = glm::vec4{ 0.0f, -0.2f,  +0.0f, 1.0f };
-
-    glm::vec4 LInverso = glm::vec4{ 1.6f, 0.2f,  +0.0f, 1.0f };
-    glm::vec4 IInverso = glm::vec4{ 1.2f, 0.0f, +0.0f, 1.0f };
-    glm::vec4 MInverso = glm::vec4{ 1.0f, 0.0f,  +0.0f, 1.0f };
-    glm::vec4 NInverso = glm::vec4{ 1.6f, 0.0f,  +0.0f, 1.0f };
-
-    glm::vec4 JInverso = glm::vec4{ 1.2f, 0.2f, +0.0f, 1.0f };
-    glm::vec4 HInverso = glm::vec4{ 0.8f, 0.0f,  +0.0f, 1.0f };
-    glm::vec4 KInverso = glm::vec4{ 0.8f, 0.2f,  +0.0f, 1.0f };
-
-    glm::vec4 OInverso = glm::vec4{ 1.0f, 0.2f, +0.0f, 1.0f };
-    glm::vec4 QInverso = glm::vec4{ 0.8f, 0.4f,  +0.0f, 1.0f };
-    glm::vec4 PInverso = glm::vec4{ 1.0f, 0.4f,  +0.0f, 1.0f };
-
-    glm::vec4 EInverso = glm::vec4{ 0.8f, -0.4f,  +0.0f, 1.0f };
-    glm::vec4 FInverso = glm::vec4{ 0.8f, 0.6f, +0.0f, 1.0f };
-    glm::vec4 DInverso = glm::vec4{ 0.6f, -0.4f,  +0.0f, 1.0f };
-    glm::vec4 GInverso = glm::vec4{ 0.6f, 0.6f,  +0.0f, 1.0f };
-
-    glm::vec4 VInverso = glm::vec4{ 0.8f, 0.8f,  +0.0f, 1.0f };
-    glm::vec4 ZInverso = glm::vec4{ 0.8f, 1.0f, +0.0f, 1.0f };
-    glm::vec4 WInverso = glm::vec4{ 0.6f, 1.0f,  +0.0f, 1.0f };
-    glm::vec4 SInverso = glm::vec4{ 0.6f, 0.8f,  +0.0f, 1.0f };
-
-    glm::vec4 BInverso = glm::vec4{ 0.6f, -0.6f,  +0.0f, 1.0f };
-    glm::vec4 CInverso = glm::vec4{ 0.2f, -0.4f,  +0.0f, 1.0f };
-    glm::vec4 AInverso = glm::vec4{ 0.2f, -0.6f,  +0.0f, 1.0f };
-
-    glm::vec4 H1Inverso = glm::vec4{ 0.6f, -0.2f,  +0.0f, 1.0f };
-    glm::vec4 F1Inverso = glm::vec4{ 0.6f, 0.2f, +0.0f, 1.0f };
-    glm::vec4 G1Inverso = glm::vec4{ 0.4f, 0.2f,  +0.0f, 1.0f };
-    glm::vec4 D1Inverso = glm::vec4{ 0.4f, -0.2f,  +0.0f, 1.0f };
-
-    glm::vec4 RInverso = glm::vec4{ 0.6f, 0.4f, +0.0f, 1.0f };
-    glm::vec4 TInverso = glm::vec4{ 0.4f, 0.8f,  +0.0f, 1.0f };
-    glm::vec4 UInverso = glm::vec4{ 0.4f, 0.4f,  +0.0f, 1.0f };
-
-    glm::vec4 A1Inverso = glm::vec4{ 0.4f, 0.6f,  +0.0f, 1.0f };
-    glm::vec4 B1Inverso = glm::vec4{ 0.0f, 0.6f,  +0.0f, 1.0f };
-    glm::vec4 E1Inverso = glm::vec4{ 0.0f, -0.2f,  +0.0f, 1.0f };
-
-    std::vector<Vertex> Inverso1 = {
-        Vertex{D1Inverso, CorCorpo},
-        Vertex{A1Inverso, CorCorpo},
-        Vertex{B1Inverso, CorCorpo}
-    };
-
-    std::vector<Vertex> Inverso2 = {
-        Vertex{D1Inverso, CorCorpo},
-        Vertex{B1Inverso, CorCorpo},
-        Vertex{E1Inverso, CorCorpo}
-    };
-
-    std::vector<Vertex> Inverso3 = {
-        Vertex{RInverso, CorCorpo},
-        Vertex{SInverso, CorCorpo},
-        Vertex{TInverso, CorCorpo}
-    };
-
-    std::vector<Vertex> Inverso4 = {
-        Vertex{RInverso, CorCorpo},
-        Vertex{TInverso, CorCorpo},
-        Vertex{UInverso, CorCorpo}
-    };
-
-    std::vector<Vertex> Inverso5 = {
-        Vertex{H1Inverso, CorCorpo},
-        Vertex{F1Inverso, CorCorpo},
-        Vertex{G1Inverso, CorCorpo}
-    };
-
-    std::vector<Vertex> Inverso6 = {
-        Vertex{H1Inverso, CorCorpo},
-        Vertex{G1Inverso, CorCorpo},
-        Vertex{D1Inverso, CorCorpo}
-    };
-
-    std::vector<Vertex> Inverso7 = {
-        Vertex{BInverso, CorCorpo},
-        Vertex{DInverso, CorCorpo},
-        Vertex{CInverso, CorCorpo}
-    };
-
-    std::vector<Vertex> Inverso8 = {
-        Vertex{BInverso, CorCorpo},
-        Vertex{CInverso, CorCorpo},
-        Vertex{AInverso, CorCorpo}
-    };
-
-    std::vector<Vertex> Inverso9 = {
-        Vertex{VInverso, CorCorpo},
-        Vertex{ZInverso, CorCorpo},
-        Vertex{WInverso, CorCorpo}
-    };
-
-    std::vector<Vertex> Inverso10 = {
-        Vertex{VInverso, CorCorpo},
-        Vertex{WInverso, CorCorpo},
-        Vertex{SInverso, CorCorpo}
-    };
-
-    std::vector<Vertex> Inverso11 = {
-        Vertex{EInverso, CorCorpo},
-        Vertex{FInverso, CorCorpo},
-        Vertex{DInverso, CorCorpo}
-    };
-
-    std::vector<Vertex> Inverso12 = {
-        Vertex{DInverso, CorCorpo},
-        Vertex{FInverso, CorCorpo},
-        Vertex{GInverso, CorCorpo}
-    };
-
-    std::vector<Vertex> Inverso13 = {
-        Vertex{OInverso, CorCorpo},
-        Vertex{QInverso, CorCorpo},
-        Vertex{KInverso, CorCorpo}
-    };
-
-    std::vector<Vertex> Inverso14 = {
-        Vertex{OInverso, CorCorpo},
-        Vertex{PInverso, CorCorpo},
-        Vertex{QInverso, CorCorpo}
-    };
-
-    std::vector<Vertex> Inverso15 = {
-        Vertex{IInverso, CorCorpo},
-        Vertex{JInverso, CorCorpo},
-        Vertex{HInverso, CorCorpo}
-    };
-
-    std::vector<Vertex> Inverso16 = {
-        Vertex{HInverso, CorCorpo},
-        Vertex{JInverso, CorCorpo},
-        Vertex{KInverso, CorCorpo}
-    };
-
-    std::vector<Vertex> Inverso17 = {
-        Vertex{LInverso, CorCorpo},
-        Vertex{JInverso, CorCorpo},
-        Vertex{NInverso, CorCorpo}
-    };
-
-    std::vector<Vertex> Inverso18 = {
-        Vertex{NInverso, CorCorpo},
-        Vertex{JInverso, CorCorpo},
-        Vertex{IInverso, CorCorpo}
-    };
-
-    std::vector<Vertex> Corpo1 = {
-        Vertex{D1, CorCorpo},
-        Vertex{B1, CorCorpo},
-        Vertex{A1, CorCorpo}
-    };
-
-    std::vector<Vertex> Corpo2 = {
-        Vertex{D1, CorCorpo},
-        Vertex{E1, CorCorpo},
-        Vertex{B1, CorCorpo}
-    };
-
-    std::vector<Vertex> Corpo3 = {
-        Vertex{R, CorCorpo},
-        Vertex{T, CorCorpo},
-        Vertex{S, CorCorpo}
-    };
-
-    std::vector<Vertex> Corpo4 = {
-        Vertex{R, CorCorpo},
-        Vertex{U, CorCorpo},
-        Vertex{T, CorCorpo}
-    };
-
-    std::vector<Vertex> Corpo5 = {
-        Vertex{H1, CorCorpo},
-        Vertex{G1, CorCorpo},
-        Vertex{F1, CorCorpo}
-    };
-
-    std::vector<Vertex> Corpo6 = {
-        Vertex{H1, CorCorpo},
-        Vertex{D1, CorCorpo},
-        Vertex{G1, CorCorpo}
-    };
-
-    std::vector<Vertex> Corpo7 = {
-        Vertex{B, CorCorpo},
-        Vertex{C, CorCorpo},
-        Vertex{D, CorCorpo}
-    };
-
-    std::vector<Vertex> Corpo8 = {
-        Vertex{B, CorCorpo},
-        Vertex{A, CorCorpo},
-        Vertex{C, CorCorpo}
-    };
-
-    std::vector<Vertex> Corpo9 = {
-        Vertex{V, CorCorpo},
-        Vertex{W, CorCorpo},
-        Vertex{Z, CorCorpo}
-    };
-
-    std::vector<Vertex> Corpo10 = {
-        Vertex{V, CorCorpo},
-        Vertex{S, CorCorpo},
-        Vertex{W, CorCorpo}
-    };
-
-    std::vector<Vertex> Corpo11 = {
-        Vertex{E, CorCorpo},
-        Vertex{D, CorCorpo},
-        Vertex{F, CorCorpo}
-    };
-
-    std::vector<Vertex> Corpo12 = {
-        Vertex{D, CorCorpo},
-        Vertex{G, CorCorpo},
-        Vertex{F, CorCorpo}
-    };
-
-    std::vector<Vertex> Corpo13 = {
-        Vertex{O, CorCorpo},
-        Vertex{K, CorCorpo},
-        Vertex{Q, CorCorpo}
-    };
-
-    std::vector<Vertex> Corpo14 = {
-        Vertex{O, CorCorpo},
-        Vertex{Q, CorCorpo},
-        Vertex{P, CorCorpo}
-    };
-
-    std::vector<Vertex> Corpo15 = {
-        Vertex{I, CorCorpo},
-        Vertex{H, CorCorpo},
-        Vertex{J, CorCorpo}
-    };
-
-    std::vector<Vertex> Corpo16 = {
-        Vertex{H, CorCorpo},
-        Vertex{K, CorCorpo},
-        Vertex{J, CorCorpo}
-    };
-
-    std::vector<Vertex> Corpo17 = {
-        Vertex{L, CorCorpo},
-        Vertex{N, CorCorpo},
-        Vertex{J, CorCorpo}
-    };
-
-    std::vector<Vertex> Corpo18 = {
-        Vertex{N, CorCorpo},
-        Vertex{I, CorCorpo},
-        Vertex{J, CorCorpo}
-    };
-
-    std::vector<Vertex> BoudingBox1 = {
-        Vertex{BoundingBoxA, CorCorpo},
-        Vertex{BoundingBoxB, CorCorpo},
-        Vertex{BoundingBoxC, CorCorpo}
-    };
-
-    std::vector<Vertex> BoudingBox2 = {
-        Vertex{BoundingBoxA, CorCorpo},
-        Vertex{BoundingBoxC, CorCorpo},
-        Vertex{BoundingBoxD, CorCorpo}
-    };
-
-
-    std::vector<std::vector<Vertex>> alienVertices = {
-        Inverso1,Inverso2,Inverso3,Inverso4,Inverso5,Inverso6,Inverso7,Inverso8,Inverso9,Inverso10,Inverso11,Inverso12,Inverso13,Inverso14,Inverso15,Inverso16,Inverso17,Inverso18,
-        Corpo1,Corpo2,Corpo3,Corpo4,Corpo5,Corpo6,Corpo7,Corpo8,Corpo9,Corpo10,Corpo11,Corpo12,Corpo13,Corpo14,Corpo15,Corpo16,Corpo17,Corpo18,
-
-        // Bouding Box
-        BoudingBox1,
-        // Bouding Box
-        BoudingBox2
-    };
-    return alienVertices;
-}
-
-std::vector<std::vector<Vertex>> getAlienModelEstado3(bool hasPowerUp1, bool hasPowerUp2) {
-
-    // Bouding Box
-    glm::vec4 BoundingBoxA{ -0.11f,  -0.05f,  0.0f, 1.0f };
-    glm::vec4 BoundingBoxB{ -0.11f,    0.06f,  0.0f, 1.0f };
-    glm::vec4 BoundingBoxC{ 0.11f,    0.06f,  0.0f, 1.0f };
-    glm::vec4 BoundingBoxD{ 0.11f,  -0.05f,  0.0f, 1.0f };
-
-    //Cores
-    glm::vec4 CorCorpo{ 0.10f, 0.60f, 0.05f, 1.0f };
-    if (hasPowerUp1) {
-        CorCorpo = glm::vec4{ 1.0f, 0.0f, 1.0f, 1.0f };
-        
-    }
-    if (hasPowerUp2) {
-        CorCorpo = glm::vec4{ 0.35f, 0.35f, 0.8f, 1.0f };
-        
-    }
-
-    //Modela o Alien
-    glm::vec4 L = glm::vec4{ -1.0f, 0.6f,  +0.0f, 1.0f };
-    glm::vec4 I = glm::vec4{ -1.2f, 0.0f, +0.0f, 1.0f };
-    glm::vec4 M = glm::vec4{ -1.0f, 0.0f,  +0.0f, 1.0f };
-    glm::vec4 N = glm::vec4{ -1.2f, 0.6f,  +0.0f, 1.0f };
-
-    glm::vec4 J = glm::vec4{ -1.2f, 0.2f, +0.0f, 1.0f };
-    glm::vec4 H = glm::vec4{ -0.8f, 0.0f,  +0.0f, 1.0f };
-    glm::vec4 K = glm::vec4{ -0.8f, 0.2f,  +0.0f, 1.0f };
-
-    glm::vec4 O = glm::vec4{ -1.0f, 0.2f, +0.0f, 1.0f };
-    glm::vec4 Q = glm::vec4{ -0.8f, 0.4f,  +0.0f, 1.0f };
-    glm::vec4 P = glm::vec4{ -1.0f, 0.4f,  +0.0f, 1.0f };
-
-    glm::vec4 E = glm::vec4{ -0.8f, -0.4f,  +0.0f, 1.0f };
-    glm::vec4 F = glm::vec4{ -0.8f, 0.6f, +0.0f, 1.0f };
-    glm::vec4 D = glm::vec4{ -0.6f, -0.4f,  +0.0f, 1.0f };
-    glm::vec4 G = glm::vec4{ -0.6f, 0.6f,  +0.0f, 1.0f };
-
-    glm::vec4 V = glm::vec4{ -0.8f, 0.8f,  +0.0f, 1.0f };
-    glm::vec4 Z = glm::vec4{ -0.8f, 1.0f, +0.0f, 1.0f };
-    glm::vec4 W = glm::vec4{ -0.6f, 1.0f,  +0.0f, 1.0f };
-    glm::vec4 S = glm::vec4{ -0.6f, 0.8f,  +0.0f, 1.0f };
-
-    glm::vec4 B = glm::vec4{ -0.6f, -0.6f,  +0.0f, 1.0f };
-    glm::vec4 C = glm::vec4{ -0.2f, -0.4f,  +0.0f, 1.0f };
-    glm::vec4 A = glm::vec4{ -0.2f, -0.6f,  +0.0f, 1.0f };
-
-    glm::vec4 H1 = glm::vec4{ -0.6f, -0.2f,  +0.0f, 1.0f };
-    glm::vec4 F1 = glm::vec4{ -0.6f, 0.2f, +0.0f, 1.0f };
-    glm::vec4 G1 = glm::vec4{ -0.4f, 0.2f,  +0.0f, 1.0f };
-    glm::vec4 D1 = glm::vec4{ -0.4f, -0.2f,  +0.0f, 1.0f };
-
-    glm::vec4 R = glm::vec4{ -0.6f, 0.4f, +0.0f, 1.0f };
-    glm::vec4 T = glm::vec4{ -0.4f, 0.8f,  +0.0f, 1.0f };
-    glm::vec4 U = glm::vec4{ -0.4f, 0.4f,  +0.0f, 1.0f };
-
-    glm::vec4 A1 = glm::vec4{ -0.4f, 0.6f,  +0.0f, 1.0f };
-    glm::vec4 B1 = glm::vec4{ 0.0f, 0.6f,  +0.0f, 1.0f };
-    glm::vec4 E1 = glm::vec4{ 0.0f, -0.2f,  +0.0f, 1.0f };
-
-    glm::vec4 LInverso = glm::vec4{ 1.0f, 0.6f,  +0.0f, 1.0f };
-    glm::vec4 IInverso = glm::vec4{ 1.2f, 0.0f, +0.0f, 1.0f };
-    glm::vec4 MInverso = glm::vec4{ 1.0f, 0.0f,  +0.0f, 1.0f };
-    glm::vec4 NInverso = glm::vec4{ 1.2f, 0.6f,  +0.0f, 1.0f };
-
-    glm::vec4 JInverso = glm::vec4{ 1.2f, 0.2f, +0.0f, 1.0f };
-    glm::vec4 HInverso = glm::vec4{ 0.8f, 0.0f,  +0.0f, 1.0f };
-    glm::vec4 KInverso = glm::vec4{ 0.8f, 0.2f,  +0.0f, 1.0f };
-
-    glm::vec4 OInverso = glm::vec4{ 1.0f, 0.2f, +0.0f, 1.0f };
-    glm::vec4 QInverso = glm::vec4{ 0.8f, 0.4f,  +0.0f, 1.0f };
-    glm::vec4 PInverso = glm::vec4{ 1.0f, 0.4f,  +0.0f, 1.0f };
-
-    glm::vec4 EInverso = glm::vec4{ 0.8f, -0.4f,  +0.0f, 1.0f };
-    glm::vec4 FInverso = glm::vec4{ 0.8f, 0.6f, +0.0f, 1.0f };
-    glm::vec4 DInverso = glm::vec4{ 0.6f, -0.4f,  +0.0f, 1.0f };
-    glm::vec4 GInverso = glm::vec4{ 0.6f, 0.6f,  +0.0f, 1.0f };
-
-    glm::vec4 VInverso = glm::vec4{ 0.8f, 0.8f,  +0.0f, 1.0f };
-    glm::vec4 ZInverso = glm::vec4{ 0.8f, 1.0f, +0.0f, 1.0f };
-    glm::vec4 WInverso = glm::vec4{ 0.6f, 1.0f,  +0.0f, 1.0f };
-    glm::vec4 SInverso = glm::vec4{ 0.6f, 0.8f,  +0.0f, 1.0f };
-
-    glm::vec4 BInverso = glm::vec4{ 0.6f, -0.6f,  +0.0f, 1.0f };
-    glm::vec4 CInverso = glm::vec4{ 0.2f, -0.4f,  +0.0f, 1.0f };
-    glm::vec4 AInverso = glm::vec4{ 0.2f, -0.6f,  +0.0f, 1.0f };
-
-    glm::vec4 H1Inverso = glm::vec4{ 0.6f, -0.2f,  +0.0f, 1.0f };
-    glm::vec4 F1Inverso = glm::vec4{ 0.6f, 0.2f, +0.0f, 1.0f };
-    glm::vec4 G1Inverso = glm::vec4{ 0.4f, 0.2f,  +0.0f, 1.0f };
-    glm::vec4 D1Inverso = glm::vec4{ 0.4f, -0.2f,  +0.0f, 1.0f };
-
-    glm::vec4 RInverso = glm::vec4{ 0.6f, 0.4f, +0.0f, 1.0f };
-    glm::vec4 TInverso = glm::vec4{ 0.4f, 0.8f,  +0.0f, 1.0f };
-    glm::vec4 UInverso = glm::vec4{ 0.4f, 0.4f,  +0.0f, 1.0f };
-
-    glm::vec4 A1Inverso = glm::vec4{ 0.4f, 0.6f,  +0.0f, 1.0f };
-    glm::vec4 B1Inverso = glm::vec4{ 0.0f, 0.6f,  +0.0f, 1.0f };
-    glm::vec4 E1Inverso = glm::vec4{ 0.0f, -0.2f,  +0.0f, 1.0f };
-
-    std::vector<Vertex> Inverso1 = {
-        Vertex{D1Inverso, CorCorpo},
-        Vertex{A1Inverso, CorCorpo},
-        Vertex{B1Inverso, CorCorpo}
-    };
-
-    std::vector<Vertex> Inverso2 = {
-        Vertex{D1Inverso, CorCorpo},
-        Vertex{B1Inverso, CorCorpo},
-        Vertex{E1Inverso, CorCorpo}
-    };
-
-    std::vector<Vertex> Inverso3 = {
-        Vertex{RInverso, CorCorpo},
-        Vertex{SInverso, CorCorpo},
-        Vertex{TInverso, CorCorpo}
-    };
-
-    std::vector<Vertex> Inverso4 = {
-        Vertex{RInverso, CorCorpo},
-        Vertex{TInverso, CorCorpo},
-        Vertex{UInverso, CorCorpo}
-    };
-
-    std::vector<Vertex> Inverso5 = {
-        Vertex{H1Inverso, CorCorpo},
-        Vertex{F1Inverso, CorCorpo},
-        Vertex{G1Inverso, CorCorpo}
-    };
-
-    std::vector<Vertex> Inverso6 = {
-        Vertex{H1Inverso, CorCorpo},
-        Vertex{G1Inverso, CorCorpo},
-        Vertex{D1Inverso, CorCorpo}
-    };
-
-    std::vector<Vertex> Inverso7 = {
-        Vertex{BInverso, CorCorpo},
-        Vertex{DInverso, CorCorpo},
-        Vertex{CInverso, CorCorpo}
-    };
-
-    std::vector<Vertex> Inverso8 = {
-        Vertex{BInverso, CorCorpo},
-        Vertex{CInverso, CorCorpo},
-        Vertex{AInverso, CorCorpo}
-    };
-
-    std::vector<Vertex> Inverso9 = {
-        Vertex{VInverso, CorCorpo},
-        Vertex{ZInverso, CorCorpo},
-        Vertex{WInverso, CorCorpo}
-    };
-
-    std::vector<Vertex> Inverso10 = {
-        Vertex{VInverso, CorCorpo},
-        Vertex{WInverso, CorCorpo},
-        Vertex{SInverso, CorCorpo}
-    };
-
-    std::vector<Vertex> Inverso11 = {
-        Vertex{EInverso, CorCorpo},
-        Vertex{FInverso, CorCorpo},
-        Vertex{DInverso, CorCorpo}
-    };
-
-    std::vector<Vertex> Inverso12 = {
-        Vertex{DInverso, CorCorpo},
-        Vertex{FInverso, CorCorpo},
-        Vertex{GInverso, CorCorpo}
-    };
-
-    std::vector<Vertex> Inverso13 = {
-        Vertex{OInverso, CorCorpo},
-        Vertex{QInverso, CorCorpo},
-        Vertex{KInverso, CorCorpo}
-    };
-
-    std::vector<Vertex> Inverso14 = {
-        Vertex{OInverso, CorCorpo},
-        Vertex{PInverso, CorCorpo},
-        Vertex{QInverso, CorCorpo}
-    };
-
-    std::vector<Vertex> Inverso15 = {
-        Vertex{IInverso, CorCorpo},
-        Vertex{JInverso, CorCorpo},
-        Vertex{HInverso, CorCorpo}
-    };
-
-    std::vector<Vertex> Inverso16 = {
-        Vertex{HInverso, CorCorpo},
-        Vertex{JInverso, CorCorpo},
-        Vertex{KInverso, CorCorpo}
-    };
-
-    std::vector<Vertex> Inverso17 = {
-        Vertex{OInverso, CorCorpo},
-        Vertex{NInverso, CorCorpo},
-        Vertex{LInverso, CorCorpo}
-    };
-
-    std::vector<Vertex> Inverso18 = {
-        Vertex{NInverso, CorCorpo},
-        Vertex{OInverso, CorCorpo},
-        Vertex{JInverso, CorCorpo}
-    };
-
-    std::vector<Vertex> Corpo1 = {
-        Vertex{D1, CorCorpo},
-        Vertex{B1, CorCorpo},
-        Vertex{A1, CorCorpo}
-    };
-
-    std::vector<Vertex> Corpo2 = {
-        Vertex{D1, CorCorpo},
-        Vertex{E1, CorCorpo},
-        Vertex{B1, CorCorpo}
-    };
-
-    std::vector<Vertex> Corpo3 = {
-        Vertex{R, CorCorpo},
-        Vertex{T, CorCorpo},
-        Vertex{S, CorCorpo}
-    };
-
-    std::vector<Vertex> Corpo4 = {
-        Vertex{R, CorCorpo},
-        Vertex{U, CorCorpo},
-        Vertex{T, CorCorpo}
-    };
-
-    std::vector<Vertex> Corpo5 = {
-        Vertex{H1, CorCorpo},
-        Vertex{G1, CorCorpo},
-        Vertex{F1, CorCorpo}
-    };
-
-    std::vector<Vertex> Corpo6 = {
-        Vertex{H1, CorCorpo},
-        Vertex{D1, CorCorpo},
-        Vertex{G1, CorCorpo}
-    };
-
-    std::vector<Vertex> Corpo7 = {
-        Vertex{B, CorCorpo},
-        Vertex{C, CorCorpo},
-        Vertex{D, CorCorpo}
-    };
-
-    std::vector<Vertex> Corpo8 = {
-        Vertex{B, CorCorpo},
-        Vertex{A, CorCorpo},
-        Vertex{C, CorCorpo}
-    };
-
-    std::vector<Vertex> Corpo9 = {
-        Vertex{V, CorCorpo},
-        Vertex{W, CorCorpo},
-        Vertex{Z, CorCorpo}
-    };
-
-    std::vector<Vertex> Corpo10 = {
-        Vertex{V, CorCorpo},
-        Vertex{S, CorCorpo},
-        Vertex{W, CorCorpo}
-    };
-
-    std::vector<Vertex> Corpo11 = {
-        Vertex{E, CorCorpo},
-        Vertex{D, CorCorpo},
-        Vertex{F, CorCorpo}
-    };
-
-    std::vector<Vertex> Corpo12 = {
-        Vertex{D, CorCorpo},
-        Vertex{G, CorCorpo},
-        Vertex{F, CorCorpo}
-    };
-
-    std::vector<Vertex> Corpo13 = {
-        Vertex{O, CorCorpo},
-        Vertex{K, CorCorpo},
-        Vertex{Q, CorCorpo}
-    };
-
-    std::vector<Vertex> Corpo14 = {
-        Vertex{O, CorCorpo},
-        Vertex{Q, CorCorpo},
-        Vertex{P, CorCorpo}
-    };
-
-    std::vector<Vertex> Corpo15 = {
-        Vertex{I, CorCorpo},
-        Vertex{H, CorCorpo},
-        Vertex{J, CorCorpo}
-    };
-
-    std::vector<Vertex> Corpo16 = {
-        Vertex{H, CorCorpo},
-        Vertex{K, CorCorpo},
-        Vertex{J, CorCorpo}
-    };
-
-    std::vector<Vertex> Corpo17 = {
-        Vertex{O, CorCorpo},
-        Vertex{L, CorCorpo},
-        Vertex{N, CorCorpo}
-    };
-
-    std::vector<Vertex> Corpo18 = {
-        Vertex{N, CorCorpo},
-        Vertex{J, CorCorpo},
-        Vertex{O, CorCorpo}
-    };
-
-    std::vector<Vertex> BoudingBox1 = {
-        Vertex{BoundingBoxA, CorCorpo},
-        Vertex{BoundingBoxB, CorCorpo},
-        Vertex{BoundingBoxC, CorCorpo}
-    };
-
-    std::vector<Vertex> BoudingBox2 = {
-        Vertex{BoundingBoxA, CorCorpo},
-        Vertex{BoundingBoxC, CorCorpo},
-        Vertex{BoundingBoxD, CorCorpo}
-    };
-
-
-    std::vector<std::vector<Vertex>> alienVertices = {
-        Inverso1,Inverso2,Inverso3,Inverso4,Inverso5,Inverso6,Inverso7,Inverso8,Inverso9,Inverso10,Inverso11,Inverso12,Inverso13,Inverso14,Inverso15,Inverso16,Inverso17,Inverso18,
-        Corpo1,Corpo2,Corpo3,Corpo4,Corpo5,Corpo6,Corpo7,Corpo8,Corpo9,Corpo10,Corpo11,Corpo12,Corpo13,Corpo14,Corpo15,Corpo16,Corpo17,Corpo18,
-
-        // Bouding Box
-        BoudingBox1,
-        // Bouding Box
-        BoudingBox2
-    };
-    return alienVertices;
+    return ElementsIndexesAlienPose3;
 }

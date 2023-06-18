@@ -308,8 +308,10 @@ int main() {
 			TodasLifes.push_back(life);
 		}
 
-		GLuint VertexBuffer;// Copiar os vértices do triangulo para a memória da GPU
-		glGenBuffers(1, &VertexBuffer);// Pedir para o OpenGL gerar o identificador do VertexBuffer
+
+		GLuint VertexBuffer, ElementBuffer;// Copiar os vértices do triangulo para a memória da GPU
+		glGenBuffers(1, &VertexBuffer);// Pedir para o OpenGL gerar o identificador do VBO
+		glGenBuffers(1, &ElementBuffer);// Pedir para o OpenGL gerar o identificador do EBO
 		glClearColor(0.07f, 0.03f, 0.10f, 1.0f); // Definir cor de fundo da janela
 
 		double PreviousTime = glfwGetTime();	// Guarda o tempo do frame anterior
@@ -418,6 +420,10 @@ int main() {
 			// Carregue os dados de todos os triângulos no buffer da GPU.
 			// (Buffer ativado, quantos bytes serão copiados, ponteiro para os dados, tipo de uso do buffer)
 			glBufferData(GL_ARRAY_BUFFER, bufferData.size() * sizeof(Vertex), bufferData.data(), GL_STATIC_DRAW);
+
+			// Copiar os dados do Elemnet Buffer para a GPU
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ElementBuffer);
+			glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Indices), Indices.data(), GL_STATIC_DRAW)
 
 			// Limpa o framebuffer. GL_COLOR_BUFFER_BIT limpa o buffer de cor e preenche com a cor definida em "glClearColor"
 			// Para desenharmos objetos 3D na tela teremos que voltar ao glClear para limparmos o buffer de profundidade

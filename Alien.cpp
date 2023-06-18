@@ -7,9 +7,9 @@ Alien::Alien() {}
 
 Alien::Alien(glm::vec4 Centro) {
     this->Centro = Centro;
-    std::vector<std::vector<Vertex>> inimigoModel = getAlienModelEstado1(false, false); // Modelo Base
 
-    this->modeloDoInimigo = inimigoModel; // Acopla modelo base
+    this->Vertices = getAlienVertices(false, false); // Modelo Base // Acopla modelo base
+    this->Indices = getAlienIndices(1); // Modelo Base // Acopla modelo base
 
     this->CanhaoDireitoAtira = true;
     this->disponível = true;
@@ -34,7 +34,7 @@ Alien::Alien(glm::vec4 Centro) {
 
     // Altera os vértices da nave
     glm::vec4 Origem = { 0.0f, 0.0f, 0.0f, 1.0f };
-    TranslationMatrix(this->modeloDoInimigo, Origem, this->Up ,this->Centro);
+    TranslationMatrix(this->Vertices, Origem, this->Up ,this->Centro);
     this->ajustaEscalaDoAlien(glm::vec3{ 0.13f, 0.13f, 0.0f });
 
     
@@ -42,16 +42,16 @@ Alien::Alien(glm::vec4 Centro) {
 
 
 void Alien::ajustaEscalaDoAlien(glm::vec3 FatorDeEscala) {
-    ScaleMatrix(this->modeloDoInimigo, FatorDeEscala, this->Centro); // Escala o triangulo
+    ScaleMatrix(this->Vertices, FatorDeEscala, this->Centro); // Escala o triangulo
     this->escala *= FatorDeEscala;
 }
 
 void Alien::transladaOAlien(glm::vec3 fatorDeTranslacao) {
-    TranslationMatrix(this->modeloDoInimigo, this->Centro, this->Up , fatorDeTranslacao);
+    TranslationMatrix(this->Vertices, this->Centro, this->Up , fatorDeTranslacao);
 }
 
 void Alien::rotacionaOAlien(float graus) {
-    RotationMatrix(this->modeloDoInimigo, graus, this->Centro, this->Up, this->Right); // Rotaciona o triangulo em relação ao centro do OBJ
+    RotationMatrix(this->Vertices, graus, this->Centro, this->Up, this->Right); // Rotaciona o triangulo em relação ao centro do OBJ
 }
 
 void Alien::pisca(float tempoDePiscada, float DeltaTime) {
@@ -172,12 +172,12 @@ Missil Alien::Atira(float velocidade){
 
     if (this->CanhaoDireitoAtira) {
 
-        Missil missil(NaveOuAlien, this->modeloDoInimigo[7][2].Position, -1.0f * this->Up, velocidade);
+        Missil missil(NaveOuAlien, this->Centro, -1.0f * this->Up, velocidade);
         this->CanhaoDireitoAtira = false;
         return missil;
     }
     else {
-        Missil missil(NaveOuAlien, this->modeloDoInimigo[14][1].Position, -1.0f * this->Up, velocidade);
+        Missil missil(NaveOuAlien, this->Centro, -1.0f * this->Up, velocidade);
         this->CanhaoDireitoAtira = true;
         return missil;
     }

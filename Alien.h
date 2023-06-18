@@ -41,13 +41,17 @@ public:
 
 	bool CanhaoDireitoAtira;
 
-	std::vector<std::vector<Vertex>> modeloDoInimigo;
+	std::vector<Vertex> Vertices;
+	std::vector<glm::ivec3> Indices;
+
+
 	void ajustaEscalaDoAlien(glm::vec3 FatorDeEscala);
 	void transladaOAlien(glm::vec3 fatorDeTranslacao);
 	void rotacionaOAlien(float graus);
 
 
-	//std::vector<std::vector<Vertex>> getAlienModel();
+	//std::vector<Vertex> getAlienVertices(bool hasPowerUp1, bool hasPowerUp2);
+	//std::vector<glm::ivec3> getAlienIndices(int pose);
     
 	Missil Atira(float velocidade);
 	void CarregaBomba(float CountDown);

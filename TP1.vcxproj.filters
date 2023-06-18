@@ -72,6 +72,9 @@
     <ClCompile Include="Smoke.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
+    <ClCompile Include="NaveModel.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Vectors.h">

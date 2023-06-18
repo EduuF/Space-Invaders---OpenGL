@@ -25,13 +25,13 @@ public:
 
 	Nave(glm::vec4 NaveCentro);
 
-    std::vector<std::vector<Vertex>> modeloDaNave;
+    std::vector<glm::ivec3> modeloDaNave;
 
     void ajustaEscalaDaNave(glm::vec3 FatorDeEscala);
     void transladaANave(glm::vec3 fatorDeTranslacao);
     void rotacionaANave(float graus);
 
-    std::vector<std::vector<Vertex>> getNaveModel();
+    std::vector<glm::ivec3> getNaveModel();
 
     void MoveRight(float Amount);
     void MoveNaveLateralmente(double MouseXPos, float VelocidadeLateralNave);
