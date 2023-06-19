@@ -13,7 +13,11 @@ public:
     glm::vec4 Up;
     glm::vec4 Right;
 
-    std::vector<std::vector<Vertex>> Model;
+    std::vector<Vertex> Vertices;
+    std::vector<glm::ivec3> Indices;
+
+    std::vector<Vertex> getLifeVertices();
+    std::vector<glm::ivec3> getLifeIndices();
 
     Life(glm::vec4 Centro);
 

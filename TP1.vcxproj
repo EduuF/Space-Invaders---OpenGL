@@ -159,6 +159,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Matrices.cpp" />
     <ClCompile Include="Missil.cpp" />
+    <ClCompile Include="MissilModel.cpp" />
     <ClCompile Include="Nave.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="NaveModel.cpp" />

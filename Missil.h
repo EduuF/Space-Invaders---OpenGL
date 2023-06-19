@@ -21,7 +21,12 @@ public:
     Missil();
     ~Missil();
 
-    std::vector<std::vector<Vertex>> modelo;
+    std::vector<Vertex> Vertices;
+    std::vector<glm::ivec3> Indices;
+
+    std::vector<Vertex> getMissilVertices(bool NaveOuAlien);
+    std::vector<glm::ivec3> getMissilIndices(bool NaveOuAlien);
+
 
     void ajustaEscala(glm::vec3 FatorDeEscala);
     void translada(glm::vec3 fatorDeTranslacao);
