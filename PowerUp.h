@@ -19,7 +19,11 @@ public:
 
     bool Descendo;
 
-    std::vector<std::vector<Vertex>> Model;
+    std::vector<Vertex> Vertices;
+    std::vector<glm::ivec3> Indices;
+
+    std::vector<Vertex> getPowerUpVertices();
+    std::vector<glm::ivec3> getPowerUpIndices(int tipo);
 
     float velocidade;
 

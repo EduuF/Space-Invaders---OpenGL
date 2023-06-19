@@ -164,6 +164,7 @@
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="NaveModel.cpp" />
     <ClCompile Include="PowerUp.cpp" />
+    <ClCompile Include="PowerUpModel.cpp" />
     <ClCompile Include="Smoke.cpp" />
     <ClCompile Include="Stars.cpp" />
     <ClCompile Include="VAO.cpp" />
