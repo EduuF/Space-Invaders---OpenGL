@@ -90,7 +90,7 @@
     <ClCompile Include="SmokeModel.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
-    <ClCompile Include="StartsModel.cpp">
+    <ClCompile Include="StarsModel.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
   </ItemGroup>
