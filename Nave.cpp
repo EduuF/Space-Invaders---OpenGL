@@ -6,6 +6,7 @@
 Nave::Nave(glm::vec4 NaveCentro) {
 
     this->NaveCentro = NaveCentro; // Diz qual é o centro de onde o objeto será criado
+    std::cout << "glm::to_string(this->NaveCentro): " << glm::to_string(this->NaveCentro) << std::endl;
     
     this->Vertices = this->getNaveVertices();
     this->Indices = this->getNaveIndices();

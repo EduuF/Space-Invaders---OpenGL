@@ -9,7 +9,6 @@ Missil::Missil(bool NaveOuAlien, glm::vec4 Centro, glm::vec4 direcao, float velo
 
     this->Centro = Centro; // Diz qual é o centro de onde o objeto será criado
     this->NaveOuAlien = NaveOuAlien;
-    std::vector<std::vector<Vertex>> Model = this->getModel(this->NaveOuAlien); // Modelo Base
     
     this->Vertices = this->getMissilVertices(this->NaveOuAlien);
     this->Indices = this->getMissilIndices(this->NaveOuAlien);

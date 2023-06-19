@@ -348,104 +348,152 @@ int main() {
 			// RNG do frame
 			int rng = gameState.GeraNumeroAleatorio();
 
-
-			// Ativar o VertexBuffer como sendo o Buffer para onde vamos copiar os dados do triangulo
-			//glBindBuffer(GL_ARRAY_BUFFER, VertexBuffer);
-
-			// Copiar os dados do Elemnet Buffer para a GPU
-			//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ElementBuffer);
-
-			// Copiar os dados dos triangulos para a memória de vídeo
-			// Carregue os dados de todos os triângulos no buffer da GPU.
-			// (Buffer ativado, quantos bytes serão copiados, ponteiro para os dados, tipo de uso do buffer)
-
 			gameState.AlienComABomba = -1;
 
-			std::vector<std::vector<Vertex>> bufferVertices; // Cria um vetor de Vertices
-			std::vector<std::vector<glm::ivec3>> bufferIndices; // Cria um vetor de Indices
+			std::vector<std::vector<std::vector<Vertex>>> bufferVertices; // Cria um vetor de Vertices
+			std::vector<std::vector<std::vector<glm::ivec3>>> bufferIndices; // Cria um vetor de Indices
+
+			std::vector<std::vector<Vertex>> AuxVertices;
+			std::vector<std::vector<glm::ivec3>> AuxIndices;
 
 			// Nave
-			bufferVertices.push_back(nave1.Vertices);
-			bufferIndices.push_back(nave1.Indices);
+			AuxVertices.push_back(nave1.Vertices);
+			AuxIndices.push_back(nave1.Indices);
+
+			bufferVertices.push_back(AuxVertices);
+			bufferIndices.push_back(AuxIndices);
+
+			AuxVertices.clear();
+			AuxIndices.clear();
 
 			// Aliens
-			for (auto iter = TodosAliens.begin(); iter != TodosAliens.end(); ++iter) {
-				auto& Alien = *iter;
-				int index = static_cast<int>(std::distance(TodosAliens.begin(), iter));
+			for (int i = 0; i < TodosAliens.size(); i++) {
 
-				bufferVertices.push_back(Alien.Vertices);
-				bufferIndices.push_back(Alien.Indices);
+				AuxVertices.push_back(TodosAliens[i].Vertices);
+				AuxIndices.push_back(TodosAliens[i].Indices);
 
-				if (TodosAliens[index].hasBomb) {
-					gameState.AlienComABomba = index;
+				if (TodosAliens[i].hasBomb) {
+					gameState.AlienComABomba = i;
 				}
 			}
 
+			//std::cout << TodosAliens.size() << std::endl;
+
+			bufferVertices.push_back(AuxVertices);
+			bufferIndices.push_back(AuxIndices);
+
+			AuxVertices.clear();
+			AuxIndices.clear();
+
 			//Misseis
 			for (auto& Missil : TodosMisseis) {
-				bufferVertices.push_back(Missil.Vertices);
-				bufferIndices.push_back(Missil.Indices);
+				AuxVertices.push_back(Missil.Vertices);
+				AuxIndices.push_back(Missil.Indices);
 			}
+
+			bufferVertices.push_back(AuxVertices);
+			bufferIndices.push_back(AuxIndices);
+
+			AuxVertices.clear();
+			AuxIndices.clear();
 
 			// PowerUps
 			for (auto& powerUp : TodosPowerUp) {
-				bufferVertices.push_back(powerUp.Vertices);
-				bufferIndices.push_back(powerUp.Indices);
+				AuxVertices.push_back(powerUp.Vertices);
+				AuxIndices.push_back(powerUp.Indices);
 			}
+
+			bufferVertices.push_back(AuxVertices);
+			bufferIndices.push_back(AuxIndices);
+
+			AuxVertices.clear();
+			AuxIndices.clear();
 
 			// Estrelas
 			for (auto& estrela : TodasStars) {
-				bufferVertices.push_back(estrela.Vertices);
-				bufferIndices.push_back(estrela.Indices);
+				AuxVertices.push_back(estrela.Vertices);
+				AuxIndices.push_back(estrela.Indices);
 			}
+
+			bufferVertices.push_back(AuxVertices);
+			bufferIndices.push_back(AuxIndices);
+
+			AuxVertices.clear();
+			AuxIndices.clear();
 
 			// Lifes
 			for (auto& life : TodasLifes) {
-				bufferVertices.push_back(life.Vertices);
-				bufferIndices.push_back(life.Indices);
+				AuxVertices.push_back(life.Vertices);
+				AuxIndices.push_back(life.Indices);
 			}
+
+			bufferVertices.push_back(AuxVertices);
+			bufferIndices.push_back(AuxIndices);
+
+			AuxVertices.clear();
+			AuxIndices.clear();
 
 			// Fumaças
 			for (auto& smoke : TodasSmokes) {
-				bufferVertices.push_back(smoke.Vertices);
-				bufferIndices.push_back(smoke.Indices);
+				AuxVertices.push_back(smoke.Vertices);
+				AuxIndices.push_back(smoke.Indices);
 			}
+
+			bufferVertices.push_back(AuxVertices);
+			bufferIndices.push_back(AuxIndices);
+
+			AuxVertices.clear();
+			AuxIndices.clear();
 
 			// Se a bomba estiver em game, desenha ela.
 			if (gameState.AlienComABomba != -1) {
-				bufferVertices.push_back(TodosAliens[gameState.AlienComABomba].bomba.Vertices);
-				bufferIndices.push_back(TodosAliens[gameState.AlienComABomba].bomba.Indices);
+				AuxVertices.push_back(TodosAliens[gameState.AlienComABomba].bomba.Vertices);
+				AuxIndices.push_back(TodosAliens[gameState.AlienComABomba].bomba.Indices);
 			}
 
+			bufferVertices.push_back(AuxVertices);
+			bufferIndices.push_back(AuxIndices);
+
+			AuxVertices.clear();
+			AuxIndices.clear();
+
 			// Generates Vertex Array Object and binds it
-			std::vector<VAO> VAOS;
-			std::vector<VBO> VBOS;
-			std::vector<EBO> EBOS;
+			std::vector< std::vector<VAO>> VAOS;
+			std::vector< std::vector<VBO>> VBOS;
+			std::vector< std::vector<EBO>> EBOS;
 
 			for (int i = 0; i < bufferVertices.size(); i ++) {
 
-				VAO VAOObject;
-				VAOS.push_back(VAOObject);
-				VAOS[i].Bind();
+				// Adiciona um vetor vazio na posição i de VAOS, VBOS e EBOS
+				VAOS.push_back(std::vector<VAO>());
+				VBOS.push_back(std::vector<VBO>());
+				EBOS.push_back(std::vector<EBO>());
 
-				// Generates Vertex Buffer Object and links it to vertices
-				VBO VBOObject(bufferVertices[i], sizeof(bufferVertices[i]));
-				VBOS.push_back(VBOObject);
-				// Generates Element Buffer Object and links it to indices
-				EBO EBOObject(bufferIndices[i], sizeof(bufferIndices[i]));
-				EBOS.push_back(EBOObject);
+				for (int j = 0; j < bufferVertices[i].size(); j++) {
 
-				// Links VBO attributes such as coordinates and colors to VAO
-				VAOS[i].LinkAttrib(VBOS[i], 0, 4, GL_FLOAT, sizeof(Vertex), nullptr);
-				VAOS[i].LinkAttrib(VBOS[i], 1, 4, GL_FLOAT, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, Color)));
-				VAOS[i].LinkAttrib(VBOS[i], 2, 4, GL_FLOAT, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, UV)));
+					VAO VAOObject;
+					VAOS[i].push_back(VAOObject);
+					VAOS[i][j].Bind();
 
-				// Unbind all to prevent accidentally modifying them
-				VAOS[i].Unbind();
-				VBOS[i].Unbind();
-				EBOS[i].Unbind();
+					// Generates Vertex Buffer Object and links it to vertices
+					VBO VBOObject(bufferVertices[i][j], bufferVertices[i][j].size() * sizeof(Vertex));
+					VBOS[i].push_back(VBOObject);
+					// Generates Element Buffer Object and links it to indices
+					EBO EBOObject(bufferIndices[i][j], bufferIndices[i][j].size() * sizeof(glm::ivec3));
+					EBOS[i].push_back(EBOObject);
+
+					// Links VBO attributes such as coordinates and colors to VAO
+					VAOS[i][j].LinkAttrib(VBOS[i][j], 0, 4, GL_FLOAT, false, sizeof(Vertex), nullptr);
+					VAOS[i][j].LinkAttrib(VBOS[i][j], 1, 4, GL_FLOAT, true, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, Color)));
+					VAOS[i][j].LinkAttrib(VBOS[i][j], 2, 2, GL_FLOAT, true, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, UV)));
+
+					// Unbind all to prevent accidentally modifying them
+					VAOS[i][j].Unbind();
+					VBOS[i][j].Unbind();
+					EBOS[i][j].Unbind();
+
+				}
 			}
-			
 
 			// Limpa o framebuffer. GL_COLOR_BUFFER_BIT limpa o buffer de cor e preenche com a cor definida em "glClearColor"
 			// Para desenharmos objetos 3D na tela teremos que voltar ao glClear para limparmos o buffer de profundidade
@@ -463,14 +511,8 @@ int main() {
 			GLint ModelViewProjectionLoc = glGetUniformLocation(ProgramId, "ModelViewProjection");
 			glUniformMatrix4fv(ModelViewProjectionLoc, 1, GL_FALSE, glm::value_ptr(ModelViewProjection));
 
-			glEnableVertexAttribArray(0);
-			glEnableVertexAttribArray(1);
-			glEnableVertexAttribArray(2);
-
 			// Desenha a nave
-			EBOS[0].Bind();
-			VBOS[0].Bind();
-			VAOS[0].Bind();
+			VAOS[0][0].Bind();
 
 			if (nave1.intangivel && nave1.piscando) { // Se ela estiver intangível
 				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -478,154 +520,58 @@ int main() {
 			else { // Se não estiver intangível, desenha normalmente
 				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 			}
-			glDrawElements(GL_TRIANGLES, bufferIndices[0].size() * 3, GL_UNSIGNED_INT, nullptr);
 
-			EBOS[0].Unbind();
-			VBOS[0].Unbind();
-			VAOS[0].Unbind();
+			glDrawElements(GL_TRIANGLES, bufferIndices[0][0].size() * 3, GL_UNSIGNED_INT, nullptr);
 
-			EBOS[0].Delete();
-			VBOS[0].Delete();
-			VAOS[0].Delete();
+			VAOS[0][0].Unbind();
 
+			//EBOS[0][0].Delete();
+			//VBOS[0][0].Delete();
+			//VAOS[0][0].Delete();
+
+			// Desenha Misseis, Estrelas, Fumaças, PoweUps e Lifes
+			for (int i = 2; i < bufferVertices.size(); i++) {
+				for (int j = 0; j < bufferVertices[i].size(); j++) {
+					VAOS[i][j].Bind();
+
+					glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+					glDrawElements(GL_TRIANGLES, bufferIndices[0][0].size() * 3, GL_UNSIGNED_INT, nullptr);
+
+					VAOS[i][j].Unbind();
+
+					///EBOS[i][j].Delete();
+					///VBOS[i][j].Delete();
+					//VAOS[i][j].Delete();
+				}
+			}
 
 			// Desenha os inimigos
-			EBOS[1].Bind();
-			VBOS[1].Bind();
-			VAOS[1].Bind();
-			for (int i = 0; i < TodosAliens.size(); i++) {
-				// Se o Alien Tiver sido atingido e estar no estado "Apagado" ao piscar, desenha como linhas
-				if (TodosAliens[i].intangivel && TodosAliens[i].piscando) { // Se o inimigo estiver intangível (foi acertado)
-					glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-				}
-				else {// Se o Alien não estiver intangível ou não estiver em estado apagado, desenha ele normalmente
-					glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-				}
-				glDrawElements(GL_TRIANGLES, bufferIndices[1].size() * 3, GL_UNSIGNED_INT, nullptr);
-			}
+			for (int j = 0; j < TodosAliens.size(); j++) {
 
-			EBOS[1].Unbind();
-			VBOS[1].Unbind();
-			VAOS[1].Unbind();
+				VAOS[1][j].Bind();
 
-			EBOS[1].Delete();
-			VBOS[1].Delete();
-			VAOS[1].Delete();
-
-			// Desenha os tiros
-			EBOS[2].Bind();
-			VBOS[2].Bind();
-			VAOS[2].Bind();
-
-			for (int i = 0; i < TodosMisseis.size(); i++) {
-				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-				glDrawElements(GL_TRIANGLES, bufferIndices[2].size() * 3, GL_UNSIGNED_INT, nullptr);
-
-			}
-
-			EBOS[2].Unbind();
-			VBOS[2].Unbind();
-			VAOS[2].Unbind();
-
-			EBOS[2].Delete();
-			VBOS[2].Delete();
-			VAOS[2].Delete();
-
-			// Desenha os PowerUp
-			EBOS[3].Bind();
-			VBOS[3].Bind();
-			VAOS[3].Bind();
-
-			for (int i = 0; i < TodosPowerUp.size(); i++) {
-				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-				glDrawElements(GL_TRIANGLES, bufferIndices[3].size() * 3, GL_UNSIGNED_INT, nullptr);
+				for (int i = 0; i < TodosAliens.size(); i++) {
+					// Se o Alien Tiver sido atingido e estar no estado "Apagado" ao piscar, desenha como linhas
+					if (TodosAliens[j].intangivel && TodosAliens[j].piscando) { // Se o inimigo estiver intangível (foi acertado)
+						glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+					}
+					else {// Se o Alien não estiver intangível ou não estiver em estado apagado, desenha ele normalmente
+						glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+					}
+					glDrawElements(GL_TRIANGLES, bufferIndices[0][0].size() * 3, GL_UNSIGNED_INT, nullptr);
 				}
 
-			EBOS[3].Unbind();
-			VBOS[3].Unbind();
-			VAOS[3].Unbind();
+				VAOS[1][j].Unbind();
 
-			EBOS[3].Delete();
-			VBOS[3].Delete();
-			VAOS[3].Delete();
-
-			// Desenha as Estrelas
-			EBOS[4].Bind();
-			VBOS[4].Bind();
-			VAOS[4].Bind();
-
-			for (int i = 0; i < TodasStars.size(); i++) {
-				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-				glDrawElements(GL_TRIANGLES, bufferIndices[4].size() * 3, GL_UNSIGNED_INT, nullptr);
+				//EBOS[1][j].Delete();
+				//VBOS[1][j].Delete();
+				//VAOS[1][j].Delete();
 			}
-
-			EBOS[4].Unbind();
-			VBOS[4].Unbind();
-			VAOS[4].Unbind();
-
-			EBOS[4].Delete();
-			VBOS[4].Delete();
-			VAOS[4].Delete();
-
-			// Desenha as Lifes
-			EBOS[5].Bind();
-			VBOS[5].Bind();
-			VAOS[5].Bind();
-
-			for (int i = 0; i < TodasLifes.size(); i++) {
-				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-				glDrawElements(GL_TRIANGLES, bufferIndices[5].size() * 3, GL_UNSIGNED_INT, nullptr);
-			}
-
-			EBOS[5].Unbind();
-			VBOS[5].Unbind();
-			VAOS[5].Unbind();
-
-			EBOS[5].Delete();
-			VBOS[5].Delete();
-			VAOS[5].Delete();
-
-			// Desenha as Smokes
-			EBOS[6].Bind();
-			VBOS[6].Bind();
-			VAOS[6].Bind();
-
-			for (int i = 0; i < TodasSmokes.size(); i++) {
-				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-				glDrawElements(GL_TRIANGLES, bufferIndices[6].size() * 3, GL_UNSIGNED_INT, nullptr);
-			}
-
-			EBOS[6].Unbind();
-			VBOS[6].Unbind();
-			VAOS[6].Unbind();
-
-			EBOS[7].Delete();
-			VBOS[7].Delete();
-			VAOS[7].Delete();
-
-			// Desenha a bomba (se houver)
-			if (gameState.AlienComABomba != -1) {
-				EBOS[7].Bind();
-				VBOS[7].Bind();
-				VAOS[7].Bind();
-
-				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-				glDrawElements(GL_TRIANGLES, bufferIndices[7].size() * 3, GL_UNSIGNED_INT, nullptr);
-
-				EBOS[7].Unbind();
-				VBOS[7].Unbind();
-				VAOS[7].Unbind();
-
-				EBOS[7].Delete();
-				VBOS[7].Delete();
-				VAOS[7].Delete();
-			}
-
-
+			
 			// Reverte o estado que nós criamos
-			glDisableVertexAttribArray(0);
-			glDisableVertexAttribArray(1);
-			glDisableVertexAttribArray(2);
+			//glDisableVertexAttribArray(0);
+			//glDisableVertexAttribArray(1);
+			//glDisableVertexAttribArray(2);
 
 			// Desabilitar o programa ativo
 			glUseProgram(0);

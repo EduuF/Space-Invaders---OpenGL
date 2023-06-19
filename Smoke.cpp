@@ -90,7 +90,6 @@ void Smoke::moveFoward(float DeltaTime) {
     // Aumenta o tamanho com o tempo
     if (this->escala.x <= 1.5f) {
         this->ajustaEscala(this->escala += DeltaTime / 100);
-        std::cout << "this->escala: " << glm::to_string(this->escala) << std::endl;
     }    
 
     // Rotaciona um pouco com o tempo

@@ -8,7 +8,7 @@
 
 // Leva o triangulo para o centro do objeto, escala e volta para a posicao original
 // Isso evita que ao fazer a escala o objeto se aproxime ou afaste da origem do plano original
-void ScaleMatrix(std::vector<Vertex> Vertices, glm::vec3 FatorDeEscala, glm::vec4 &Centro) {
+void ScaleMatrix(std::vector<Vertex>& Vertices, glm::vec3 FatorDeEscala, glm::vec4 &Centro) {
 	glm::vec3 OrigemDoObjeto{ Centro.x, Centro.y, Centro.z };
 	glm::mat4 I = glm::identity<glm::mat4>();
 	glm::mat4 TranslationToObjectOrigin = glm::translate(I, -1.0f * OrigemDoObjeto); // Translada Centro para o Origem do ambiente
@@ -19,11 +19,12 @@ void ScaleMatrix(std::vector<Vertex> Vertices, glm::vec3 FatorDeEscala, glm::vec
 
 	for (auto& Vertice : Vertices) {
 		Vertice.Position = Transformation * Vertice.Position;
+		//std::cout << "glm::to_string(Vertice.Position): " << glm::to_string(Vertice.Position) << std::endl;
 	}
 
 }
 
-void RotationMatrix(std::vector<Vertex> Vertices, float graus, glm::vec4& Centro, glm::vec4& Up, glm::vec4 Right) {
+void RotationMatrix(std::vector<Vertex>& Vertices, float graus, glm::vec4& Centro, glm::vec4& Up, glm::vec4 Right) {
 
 	glm::vec3 eixoDeRotacao{ 0.0f, 0.0f, 1.0f };
 	glm::mat4 I = glm::identity<glm::mat4>();
@@ -44,7 +45,7 @@ void RotationMatrix(std::vector<Vertex> Vertices, float graus, glm::vec4& Centro
 	}
 }
 
-void TranslationMatrix(std::vector<Vertex> Vertices, glm::vec4& CentroObjeto, glm::vec4& Up,  glm::vec3 T) {
+void TranslationMatrix(std::vector<Vertex>& Vertices, glm::vec4& CentroObjeto, glm::vec4& Up,  glm::vec3 T) {
 	glm::mat4 I = glm::identity<glm::mat4>();
 	glm::mat4 Translation = glm::translate(I, T); // Translation translada qualquer ponto em 10 no x, 10 no y e 10 no z
 
@@ -58,7 +59,7 @@ void TranslationMatrix(std::vector<Vertex> Vertices, glm::vec4& CentroObjeto, gl
 	}
 }
 
-void RotacionaEmRelacaoAOrigem(std::vector<Vertex> Vertices, float graus, glm::vec4& Centro, glm::vec4& Up, glm::vec4 Right) {
+void RotacionaEmRelacaoAOrigem(std::vector<Vertex>& Vertices, float graus, glm::vec4& Centro, glm::vec4& Up, glm::vec4 Right) {
 	glm::vec3 eixoDeRotacao{ 0.0f, 0.0f, 1.0f };
 	glm::mat4 I = glm::identity<glm::mat4>();
 	float Angle = glm::radians(graus);

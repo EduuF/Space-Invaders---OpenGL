@@ -1,4 +1,5 @@
 #include"EBO.h"
+#include <iostream>
 
 // Constructor that generates a Elements Buffer Object and links it to indices
 EBO::EBO(std::vector<glm::ivec3> indices, GLsizeiptr size)

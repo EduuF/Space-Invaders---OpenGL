@@ -8,13 +8,13 @@ std::vector<Vertex> Nave::getNaveVertices() {
     glm::vec4 Cinza{ 0.95f, 0.40f, 0.40f, 1.0f };
 
     std::vector<Vertex> Vertices{
-        Vertex{ glm::vec4{ 0.0f,  1.00f,  0.0f, 1.0f }, AzulClaro }, // A 0
-        Vertex{ glm::vec4{ -0.22f, 0.9f,  0.0f, 1.0f }, AzulClaro }, // B 1
-        Vertex{ glm::vec4{ 0.0f,  0.9f,  0.0f, 1.0f }, AzulClaro }, // C 2
-        Vertex{ glm::vec4{ -0.35f, 0.7f,  0.0f, 1.0f }, Palha }, // D 3
-        Vertex{ glm::vec4{ 0.0f,  0.7f,   0.0f, 1.0f }, Palha }, // E 4
-        Vertex{ glm::vec4{ -0.35f,  -0.8f,   0.0f, 1.0f }, Palha }, // F 5
-        Vertex{ glm::vec4{ 0.0f, -0.8f,  0.0f, 1.0f }, Palha }, // G 6
+        Vertex{ glm::vec4{ 0.0f,  1.00f,  0.0f, 1.0f }, AzulClaro,  glm::vec2{1.0f, 1.0f}}, // A 0
+        Vertex{ glm::vec4{ -0.22f, 0.9f,  0.0f, 1.0f }, AzulClaro,  glm::vec2{1.0f, 1.0f} }, // B 1
+        Vertex{ glm::vec4{ 0.0f,  0.9f,  0.0f, 1.0f }, AzulClaro,  glm::vec2{1.0f, 1.0f} }, // C 2
+        Vertex{ glm::vec4{ -0.35f, 0.7f,  0.0f, 1.0f }, Palha,  glm::vec2{1.0f, 1.0f} }, // D 3
+        Vertex{ glm::vec4{ 0.0f,  0.7f,   0.0f, 1.0f }, Palha,  glm::vec2{1.0f, 1.0f} }, // E 4
+        Vertex{ glm::vec4{ -0.35f,  -0.8f,   0.0f, 1.0f }, Palha,  glm::vec2{1.0f, 1.0f} }, // F 5
+        Vertex{ glm::vec4{ 0.0f, -0.8f,  0.0f, 1.0f }, Palha,  glm::vec2{1.0f, 1.0f} }, // G 6
         Vertex{ glm::vec4{ -0.08f, -1.0f,  0.0f, 1.0f }, Laranja }, // H 7
         Vertex{ glm::vec4{ -0.12f, -0.7f,  0.0f, 1.0f }, Laranja }, // I 8
         Vertex{ glm::vec4{ -0.4f,-0.7f,  0.0f, 1.0f }, Laranja }, // J 9
@@ -70,7 +70,7 @@ std::vector<glm::ivec3> Nave::getNaveIndices() {
         glm::ivec3{2, 1, 4}, //Cabine1
         glm::ivec3{1, 3, 4}, //Cabine2
         glm::ivec3{4, 3, 6}, //Corpo1
-        glm::ivec3{6, 3, 4}, //Corpo2
+        glm::ivec3{6, 3, 5}, //Corpo2
         glm::ivec3{7, 8, 9}, //Motor1
         glm::ivec3{7, 9, 10}, //Motor2
         glm::ivec3{11, 12, 13}, //Asa1
@@ -85,7 +85,7 @@ std::vector<glm::ivec3> Nave::getNaveIndices() {
         glm::ivec3{27, 29, 26}, //AntiCabine1
         glm::ivec3{26, 29, 28}, //AntiCabine2
         glm::ivec3{29, 31, 28}, //AntiCorpo1
-        glm::ivec3{31, 29, 28}, //AntiCorpo2
+        glm::ivec3{31, 29, 27}, //AntiCorpo2
         glm::ivec3{32, 34, 33}, //AntiMotor1
         glm::ivec3{32, 35, 34}, //AntiMotor2
         glm::ivec3{36, 38, 37}, //AntiAsa1
