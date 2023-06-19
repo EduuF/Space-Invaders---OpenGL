@@ -8,14 +8,16 @@ Smoke::Smoke() {};
 Smoke::~Smoke() {};
 
 Smoke::Smoke(glm::vec4 Centro, glm::vec4 direcao) {
-    this->Model = this->getModel();
     this->Up = glm::vec4{ 0.0f, 1.0f, 0.0f, 0.0f };
     this->Right = glm::vec4{ 1.0f, 0.0f, 0.0f, 0.0f };
     this->Centro = glm::vec4{ Centro.x, Centro.y - 0.12f, 0.0f, 1.0f };
 
+    this->Vertices = this->getSmokeVertices();
+    this->Indices = this->getSmokeIndices();
+
     // Altera os vértices da nave
     glm::vec4 Origem = { 0.0f, 0.0f, 0.0f, 1.0f };
-    TranslationMatrix(this->Model, Origem, this->Up, this->Centro);
+    TranslationMatrix(this->Vertices, Origem, this->Up, this->Centro);
 
     // Graus da direcao em relação à Origem
 
@@ -48,15 +50,15 @@ Smoke::Smoke(glm::vec4 Centro, glm::vec4 direcao) {
 
 
 void Smoke::translada(glm::vec3 fatorDeTranslacao) {
-    TranslationMatrix(this->Model, this->Centro, this->Up, fatorDeTranslacao);
+    TranslationMatrix(this->Vertices, this->Centro, this->Up, fatorDeTranslacao);
 }
 
 void Smoke::rotaciona(float graus) {
-    RotationMatrix(this->Model, graus, this->Centro, this->Up, this->Right); // Rotaciona o triangulo em relação ao centro do OBJ
+    RotationMatrix(this->Vertices, graus, this->Centro, this->Up, this->Right); // Rotaciona o triangulo em relação ao centro do OBJ
 }
 
 void Smoke::ajustaEscala(glm::vec3 FatorDeEscala) {
-    ScaleMatrix(this->Model, FatorDeEscala, this->Centro); // Escala o triangulo
+    ScaleMatrix(this->Vertices, FatorDeEscala, this->Centro); // Escala o triangulo
     this->escala *= FatorDeEscala;
 }
 
@@ -75,16 +77,14 @@ void Smoke::moveFoward(float DeltaTime) {
     }
 
     glm::vec3 fatorDeTranslacao{ this->Centro.x, 0.0f, 0.0f };
-    RotacionaEmRelacaoAOrigem(this->Model, -graus, this->Centro, this->Up, this->Right);
+    RotacionaEmRelacaoAOrigem(this->Vertices, -graus, this->Centro, this->Up, this->Right);
     this->translada(glm::vec3{ 0.0f, DeltaTime * this->tempoDeVida / this->velocidade , 0.0f });
-    RotacionaEmRelacaoAOrigem(this->Model, graus, this->Centro, this->Up, this->Right);
+    RotacionaEmRelacaoAOrigem(this->Vertices, graus, this->Centro, this->Up, this->Right);
 
     // Faz a particula desaparecer aos poucos
     glm::vec4 Cor{ 1.0f - this->tempoDeVida / 5.0f  , 1.0f - this->tempoDeVida / 5.0f, 1.0f - this->tempoDeVida / 5.0f , this->tempoDeVida };
-    for (auto& triangle : this->Model) {
-        for (auto& vertice : triangle) {
-            vertice.Color = Cor;
-        }
+    for (auto& vertice : this->Vertices) {
+        vertice.Color = Cor;
     }
 
     // Aumenta o tamanho com o tempo
@@ -99,37 +99,4 @@ void Smoke::moveFoward(float DeltaTime) {
     } else {
         this->rotaciona((-45.0f * DeltaTime));
     }
-}
-
-
-std::vector<std::vector<Vertex>> Smoke::getModel() {
-
-    // Modela a nave
-    glm::vec4 A{ -0.002f, -0.002f,  0.0f, 1.0f };
-    glm::vec4 B{ -0.002f,  0.002f,  0.0f, 1.0f };
-    glm::vec4 C{  0.002f,  0.002f,  0.0f, 1.0f };
-    glm::vec4 D{  0.002f, -0.002f,  0.0f, 1.0f };
-
-    // Cores
-    glm::vec4 Cor{ 0.8f , 0.8f , 0.8f , 1.0f };
-
-    std::vector<Vertex> Triangulo1 = {
-        Vertex{A, Cor},
-        Vertex{B, Cor},
-        Vertex{C, Cor} };
-
-    std::vector<Vertex> Triangulo2 = {
-        Vertex{A, Cor},
-        Vertex{C, Cor},
-        Vertex{D, Cor} };
-
-    std::vector<std::vector<Vertex>> SmokeVertices = {
-
-        // Aletas
-        Triangulo1,
-        Triangulo2
-
-    };
-
-    return SmokeVertices;
 }

@@ -20,7 +20,11 @@ public:
 
     float tempoDeVida = 0.7f; // SmoothStop // Faz particula desaparecer aos poucos
 
-    std::vector<std::vector<Vertex>> Model;
+    std::vector<Vertex> Vertices;
+    std::vector<glm::ivec3> Indices;
+
+    std::vector<Vertex> getSmokeVertices();
+    std::vector<glm::ivec3> getSmokeIndices();
 
     float velocidade;
 

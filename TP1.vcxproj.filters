@@ -87,6 +87,9 @@
     <ClCompile Include="PowerUpModel.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
+    <ClCompile Include="SmokeModel.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Vectors.h">

@@ -166,6 +166,7 @@
     <ClCompile Include="PowerUp.cpp" />
     <ClCompile Include="PowerUpModel.cpp" />
     <ClCompile Include="Smoke.cpp" />
+    <ClCompile Include="SmokeModel.cpp" />
     <ClCompile Include="Stars.cpp" />
     <ClCompile Include="VAO.cpp" />
     <ClCompile Include="VBO.cpp" />
