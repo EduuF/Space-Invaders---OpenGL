@@ -1,5 +1,6 @@
 #include "Stars.h"
 #include <iostream>
+
 Stars::Stars(float eixoX, float Brilho, float Profundidade) {
     this->Up = glm::vec4{ 0.0f, 1.0f, 0.0f, 0.0f };
     this->Right = glm::vec4{ 1.0f, 0.0f, 0.0f, 0.0f };
