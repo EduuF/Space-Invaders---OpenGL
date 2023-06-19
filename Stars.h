@@ -17,7 +17,11 @@ public:
     glm::vec4 Right;
     glm::vec3 escala;
 
-    std::vector<std::vector<Vertex>> Model;
+    std::vector<Vertex> Vertices;
+    std::vector<glm::ivec3> Indices;
+
+    std::vector<Vertex> getStarsVertices(int Brilho);
+    std::vector<glm::ivec3> getStarsIndices();
 
     float velocidade;
 

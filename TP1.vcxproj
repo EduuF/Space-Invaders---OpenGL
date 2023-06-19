@@ -168,6 +168,7 @@
     <ClCompile Include="Smoke.cpp" />
     <ClCompile Include="SmokeModel.cpp" />
     <ClCompile Include="Stars.cpp" />
+    <ClCompile Include="StartsModel.cpp" />
     <ClCompile Include="VAO.cpp" />
     <ClCompile Include="VBO.cpp" />
     <ClCompile Include="Vectors.cpp" />
