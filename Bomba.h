@@ -14,17 +14,18 @@ public:
     glm::vec4 Right;
     glm::vec3 escala;
 
-
     bool Descendo;
     bool Dropada;
     bool Aumentando;
 
     float CountDown;
-    
+    float velocidade;    
 
-    std::vector<std::vector<Vertex>> Model;
+    std::vector<Vertex> Vertices;
+    std::vector<glm::ivec3> Indices;
 
-    float velocidade;
+    std::vector<Vertex> getBombaVertices();
+    std::vector<glm::ivec3> getBombaIndices();
 
     Bomba(glm::vec4 Centro, float CountDown);
     Bomba();
@@ -34,8 +35,6 @@ public:
     void rotaciona(float graus);
     void ajustaEscala(glm::vec3 FatorDeEscala);
     void ajustaEixoZ();
-
-    std::vector<std::vector<Vertex>> getModel();
 
     void pisca(float DeltaTime, float intensidadeDePiscada, float velocidadeDePiscada);
 

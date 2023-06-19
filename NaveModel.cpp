@@ -63,7 +63,7 @@ std::vector<Vertex> Nave::getNaveVertices() {
     return Vertices;
 }
 
-std::vector<glm::ivec3> getNaveIndices() {
+std::vector<glm::ivec3> Nave::getNaveIndices() {
 
     std::vector<glm::ivec3> ElementsIndexesNave = {
         glm::ivec3{0, 1, 2}, //Bico

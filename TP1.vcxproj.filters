@@ -75,6 +75,12 @@
     <ClCompile Include="NaveModel.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
+    <ClCompile Include="BombaModel.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LifeModel.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Vectors.h">
@@ -114,9 +120,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PowerUp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AlienModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Stars.h">

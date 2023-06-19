@@ -1,5 +1,6 @@
 #include "Life.h"
 #include <iostream>
+
 Life::Life(glm::vec4 Centro) {
     this->Centro = Centro;
     this->Up = glm::vec4{ 0.0f, 1.0f, 0.0f, 0.0f };
