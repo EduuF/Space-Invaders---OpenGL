@@ -6,9 +6,9 @@
 Nave::Nave(glm::vec4 NaveCentro) {
 
     this->NaveCentro = NaveCentro; // Diz qual é o centro de onde o objeto será criado
-    std::vector<std::vector<Vertex>> NaveModel = this->getNaveModel(); // Modelo Base
-
-    this->modeloDaNave = NaveModel; // Acopla modelo base
+    
+    this->Vertices = this->getNaveVertices();
+    this->Indices = this->getNaveIndices();
 
     // Define o UP da nave
     this->NaveUp = glm::vec4{ 0.0f, 1.0f, 0.0f, 0.0f };
@@ -18,7 +18,7 @@ Nave::Nave(glm::vec4 NaveCentro) {
 
     // Altera os vértices da nave
     glm::vec4 Origem = { 0.0f, 0.0f, 0.0f, 1.0f };
-    TranslationMatrix(this->modeloDaNave, Origem, this->NaveUp , this->NaveCentro);
+    TranslationMatrix(this->Vertices, Origem, this->NaveUp , this->NaveCentro);
 
     
     this->CanhaoDireitoAtira = false; 
@@ -32,16 +32,16 @@ Nave::Nave(glm::vec4 NaveCentro) {
 }
 
 void Nave::ajustaEscalaDaNave(glm::vec3 FatorDeEscala) {
-    ScaleMatrix(this->modeloDaNave, FatorDeEscala, this->NaveCentro); // Escala o triangulo
+    ScaleMatrix(this->Vertices, FatorDeEscala, this->NaveCentro); // Escala o triangulo
     this->escala *= FatorDeEscala;
 }
 
 void Nave::transladaANave(glm::vec3 fatorDeTranslacao) {
-    TranslationMatrix(this->modeloDaNave, this->NaveCentro, this->NaveUp , fatorDeTranslacao);
+    TranslationMatrix(this->Vertices, this->NaveCentro, this->NaveUp , fatorDeTranslacao);
 }
 
 void Nave::rotacionaANave(float graus) {
-    RotationMatrix(this->modeloDaNave, graus, this->NaveCentro, this->NaveUp, this->naveRight); // Rotaciona o OBJ em relação a seu centro
+    RotationMatrix(this->Vertices, graus, this->NaveCentro, this->NaveUp, this->naveRight); // Rotaciona o OBJ em relação a seu centro
 }
 
 void Nave::pisca(float tempoDePiscada, float DeltaTime) {
@@ -101,12 +101,12 @@ Missil Nave::Atira(float velocidade) {
 
     if (this->CanhaoDireitoAtira) {
 
-        Missil missil(NaveOuAlien, this->modeloDaNave[11][1].Position, this->NaveUp, velocidade);
+        Missil missil(NaveOuAlien, this->NaveCentro, this->NaveUp, velocidade);
         this->CanhaoDireitoAtira = false;
         return missil;
     }
     else {
-        Missil missil(NaveOuAlien, this->modeloDaNave[26][2].Position, this->NaveUp, velocidade);
+        Missil missil(NaveOuAlien, this->NaveCentro, this->NaveUp, velocidade);
         this->CanhaoDireitoAtira = true;
         return missil;
     }

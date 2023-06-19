@@ -44,14 +44,13 @@ public:
 	std::vector<Vertex> Vertices;
 	std::vector<glm::ivec3> Indices;
 
+	std::vector<Vertex> getAlienVertices(bool hasPowerUp1, bool hasPowerUp2);
+	std::vector<glm::ivec3> getAlienIndices(int pose);
+
 
 	void ajustaEscalaDoAlien(glm::vec3 FatorDeEscala);
 	void transladaOAlien(glm::vec3 fatorDeTranslacao);
 	void rotacionaOAlien(float graus);
-
-
-	//std::vector<Vertex> getAlienVertices(bool hasPowerUp1, bool hasPowerUp2);
-	//std::vector<glm::ivec3> getAlienIndices(int pose);
     
 	Missil Atira(float velocidade);
 	void CarregaBomba(float CountDown);

@@ -1,7 +1,7 @@
 #include "Alien.h"
 #include "GameState.h"
 
-std::vector<Vertex> getAlienVertices(bool hasPowerUp1, bool hasPowerUp2) {
+std::vector<Vertex> Alien::getAlienVertices(bool hasPowerUp1, bool hasPowerUp2) {
 
     //Cores
     glm::vec4 Cor{ 0.10f, 0.60f, 0.05f, 1.0f };
@@ -15,7 +15,7 @@ std::vector<Vertex> getAlienVertices(bool hasPowerUp1, bool hasPowerUp2) {
     }
     
     //Modela o Alien
-    std::vector<Vertex> VerticesNave{
+    std::vector<Vertex> Vertices{
         Vertex{ glm::vec4{ -0.2f, -0.6f,  +0.0f, 1.0f }, Cor }, // A 0
         Vertex{ glm::vec4{ -0.6f, -0.6f,  +0.0f, 1.0f }, Cor }, // B 1
         Vertex{ glm::vec4{ -0.2f, -0.4f,  +0.0f, 1.0f }, Cor }, // C 2 
@@ -91,11 +91,11 @@ std::vector<Vertex> getAlienVertices(bool hasPowerUp1, bool hasPowerUp2) {
         Vertex{ glm::vec4{ 1.0f, 0.6f,  +0.0f, 1.0f }, Cor }, // AntiL Pose3 68
         Vertex{ glm::vec4{ 1.2f, 0.6f,  +0.0f, 1.0f }, Cor }, // AntiN Pose3 69
     };
-    return VerticesNave;
+    return Vertices;
         
 }
 
-std::vector<glm::ivec3> getAlienIndices(int pose) {
+std::vector<glm::ivec3> Alien::getAlienIndices(int pose) {
 
     std::vector<glm::ivec3> ElementsIndexesAlienPose1 = {
         glm::ivec3{27, 29, 28}, //Corpo1

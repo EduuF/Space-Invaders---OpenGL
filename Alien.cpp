@@ -207,17 +207,17 @@ void Alien::TrocaSkin(float DeltaTime, float velocidadeDoAlien, bool hasPowerUp1
             this->escala = glm::vec3{ 1.0f, 1.0f, 1.0f };
 
             if (this->skin == 0) {
-                this->modeloDoInimigo = getAlienModelEstado1(hasPowerUp1, hasPowerUp2);
+                this->Indices = getAlienIndices(0);
             }
             if (this->skin == 1) {
-                this->modeloDoInimigo = getAlienModelEstado2(hasPowerUp1, hasPowerUp2);
+                this->Indices = getAlienIndices(1);
             }
             if (this->skin == 2) {
-                this->modeloDoInimigo = getAlienModelEstado3(hasPowerUp1, hasPowerUp2);
+                this->Indices = getAlienIndices(2);
             }
-
             this->ajustaEscalaDoAlien(fatorDeEscalaTrocaSkin);
             this->transladaOAlien(centerTrocaSKin);
+
 
             if (this->skin >= 2) {
                 this->sobeAsa = false;
@@ -228,13 +228,13 @@ void Alien::TrocaSkin(float DeltaTime, float velocidadeDoAlien, bool hasPowerUp1
             this->skin--;
 
             if (this->skin == 0) {
-                this->modeloDoInimigo = getAlienModelEstado1(hasPowerUp1, hasPowerUp2);
+                this->Indices = getAlienIndices(0);
             }
             if (this->skin == 1) {
-                this->modeloDoInimigo = getAlienModelEstado2(hasPowerUp1, hasPowerUp2);
+                this->Indices = getAlienIndices(1);
             }
             if (this->skin == 2) {
-                this->modeloDoInimigo = getAlienModelEstado3(hasPowerUp1, hasPowerUp2);
+                this->Indices = getAlienIndices(2);
             }
 
             this->Centro = glm::vec4{ 0.0f, 0.0f, 0.0f, 1.0f };
