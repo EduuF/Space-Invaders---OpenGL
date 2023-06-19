@@ -1,19 +1,12 @@
 #include "Alien.h"
 #include "GameState.h"
+#include <iostream>
 
-std::vector<Vertex> Alien::getAlienVertices(bool hasPowerUp1, bool hasPowerUp2) {
+std::vector<Vertex> Alien::getAlienVertices() {
 
     //Cores
     glm::vec4 Cor{ 0.10f, 0.60f, 0.05f, 1.0f };
-    if (hasPowerUp1) {
-        Cor = glm::vec4{ 1.0f, 0.0f, 1.0f, 1.0f };
-        
-    }
-    if (hasPowerUp2) {
-        Cor = glm::vec4{ 0.35f, 0.35f, 0.8f, 1.0f };
-        
-    }
-    
+
     //Modela o Alien
     std::vector<Vertex> Vertices{
         Vertex{ glm::vec4{ -0.2f, -0.6f,  +0.0f, 1.0f }, Cor }, // A 0
@@ -153,8 +146,8 @@ std::vector<glm::ivec3> Alien::getAlienIndices(int pose) {
         glm::ivec3{14, 16, 15}, //Corpo14
         glm::ivec3{8, 7, 9}, //Corpo15
         glm::ivec3{7, 10, 9}, //Corpo16
-        glm::ivec3{62, 12, 8}, //Corpo17
-        glm::ivec3{62, 12, 63}, //Corpo18
+        glm::ivec3{62, 63, 9}, //Corpo17
+        glm::ivec3{63, 8, 9}, //Corpo18
         glm::ivec3{58, 59, 60}, //AntiCorpo1
         glm::ivec3{58, 60, 61}, //AntiCorpo2
         glm::ivec3{48, 49, 50}, //AntiCorpo3
@@ -171,8 +164,8 @@ std::vector<glm::ivec3> Alien::getAlienIndices(int pose) {
         glm::ivec3{45, 46, 47}, //AntiCorpo14
         glm::ivec3{39, 40, 38}, //AntiCorpo15
         glm::ivec3{38, 40, 41}, //AntiCorpo16
-        glm::ivec3{64, 39, 43}, //AntiCorpo17
-        glm::ivec3{64, 65, 43}, //AntiCorpo18
+        glm::ivec3{64, 40, 65}, //AntiCorpo17
+        glm::ivec3{65, 40, 39}, //AntiCorpo18
     };
 
     std::vector<glm::ivec3> ElementsIndexesAlienPose3 = {
@@ -192,8 +185,8 @@ std::vector<glm::ivec3> Alien::getAlienIndices(int pose) {
         glm::ivec3{14, 16, 15}, //Corpo14
         glm::ivec3{8, 7, 9}, //Corpo15
         glm::ivec3{7, 10, 9}, //Corpo16
-        glm::ivec3{66, 12, 8}, //Corpo17
-        glm::ivec3{66, 12, 67}, //Corpo18
+        glm::ivec3{14, 66, 67}, //Corpo17
+        glm::ivec3{67, 9, 14}, //Corpo18
         glm::ivec3{58, 59, 60}, //AntiCorpo1
         glm::ivec3{58, 60, 61}, //AntiCorpo2
         glm::ivec3{48, 49, 50}, //AntiCorpo3
@@ -210,13 +203,13 @@ std::vector<glm::ivec3> Alien::getAlienIndices(int pose) {
         glm::ivec3{45, 46, 47}, //AntiCorpo14
         glm::ivec3{39, 40, 38}, //AntiCorpo15
         glm::ivec3{38, 40, 41}, //AntiCorpo16
-        glm::ivec3{68, 39, 43}, //AntiCorpo17
-        glm::ivec3{68, 69, 43}, //AntiCorpo18
+        glm::ivec3{45, 69, 68}, //AntiCorpo17
+        glm::ivec3{69, 45, 40}, //AntiCorpo18
     };
 
-    if (pose == 1) {
+    if (pose == 0) {
         return ElementsIndexesAlienPose1;
-    } else if (pose == 2) {
+    } else if (pose == 1) {
         return ElementsIndexesAlienPose2;
     }
     return ElementsIndexesAlienPose3;

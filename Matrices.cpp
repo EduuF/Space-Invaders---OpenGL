@@ -19,7 +19,6 @@ void ScaleMatrix(std::vector<Vertex>& Vertices, glm::vec3 FatorDeEscala, glm::ve
 
 	for (auto& Vertice : Vertices) {
 		Vertice.Position = Transformation * Vertice.Position;
-		//std::cout << "glm::to_string(Vertice.Position): " << glm::to_string(Vertice.Position) << std::endl;
 	}
 
 }

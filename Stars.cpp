@@ -15,8 +15,6 @@ Stars::Stars(float eixoX, float Brilho, float Profundidade) {
     this->ajustaEscala(glm::vec3{ 0.7f, 0.7f, 0.0f });
 
     this->escala = glm::vec3{ 1.0f, 1.0f, 1.0f };
-    //std::cout << " EixoXDaEstrelha: " << eixoX << " BrilhoEstrela: " << Brilho << " Profundidade: " << Profundidade << std::endl;
-    //std::cout << glm::to_string(this->Centro) << std::endl;
 }
 
 void Stars::translada(glm::vec3 fatorDeTranslacao) {

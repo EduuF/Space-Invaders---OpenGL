@@ -44,7 +44,7 @@ public:
 	std::vector<Vertex> Vertices;
 	std::vector<glm::ivec3> Indices;
 
-	std::vector<Vertex> getAlienVertices(bool hasPowerUp1, bool hasPowerUp2);
+	std::vector<Vertex> getAlienVertices();
 	std::vector<glm::ivec3> getAlienIndices(int pose);
 
 

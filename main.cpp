@@ -377,8 +377,6 @@ int main() {
 				}
 			}
 
-			//std::cout << TodosAliens.size() << std::endl;
-
 			bufferVertices.push_back(AuxVertices);
 			bufferIndices.push_back(AuxIndices);
 
@@ -491,7 +489,6 @@ int main() {
 					VAOS[i][j].Unbind();
 					VBOS[i][j].Unbind();
 					EBOS[i][j].Unbind();
-
 				}
 			}
 
@@ -520,14 +517,10 @@ int main() {
 			else { // Se não estiver intangível, desenha normalmente
 				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 			}
-
 			glDrawElements(GL_TRIANGLES, bufferIndices[0][0].size() * 3, GL_UNSIGNED_INT, nullptr);
 
 			VAOS[0][0].Unbind();
-
-			//EBOS[0][0].Delete();
-			//VBOS[0][0].Delete();
-			//VAOS[0][0].Delete();
+			VAOS[0][0].Delete();
 
 			// Desenha Misseis, Estrelas, Fumaças, PoweUps e Lifes
 			for (int i = 2; i < bufferVertices.size(); i++) {
@@ -535,43 +528,31 @@ int main() {
 					VAOS[i][j].Bind();
 
 					glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-					glDrawElements(GL_TRIANGLES, bufferIndices[0][0].size() * 3, GL_UNSIGNED_INT, nullptr);
+					glDrawElements(GL_TRIANGLES, bufferIndices[i][j].size() * 3, GL_UNSIGNED_INT, nullptr);
 
 					VAOS[i][j].Unbind();
+					VAOS[i][j].Delete();
 
-					///EBOS[i][j].Delete();
-					///VBOS[i][j].Delete();
-					//VAOS[i][j].Delete();
 				}
 			}
 
 			// Desenha os inimigos
-			for (int j = 0; j < TodosAliens.size(); j++) {
+			for (int j = 0; j < bufferVertices[1].size(); j++) {
 
 				VAOS[1][j].Bind();
 
-				for (int i = 0; i < TodosAliens.size(); i++) {
-					// Se o Alien Tiver sido atingido e estar no estado "Apagado" ao piscar, desenha como linhas
-					if (TodosAliens[j].intangivel && TodosAliens[j].piscando) { // Se o inimigo estiver intangível (foi acertado)
-						glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-					}
-					else {// Se o Alien não estiver intangível ou não estiver em estado apagado, desenha ele normalmente
-						glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-					}
-					glDrawElements(GL_TRIANGLES, bufferIndices[0][0].size() * 3, GL_UNSIGNED_INT, nullptr);
+				// Se o Alien Tiver sido atingido e estar no estado "Apagado" ao piscar, desenha como linhas
+				if (TodosAliens[j].intangivel && TodosAliens[j].piscando) { // Se o inimigo estiver intangível (foi acertado)
+					glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 				}
+				else {// Se o Alien não estiver intangível ou não estiver em estado apagado, desenha ele normalmente
+					glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+				}
+				glDrawElements(GL_TRIANGLES, bufferIndices[1][j].size() * 3, GL_UNSIGNED_INT, nullptr);
 
 				VAOS[1][j].Unbind();
-
-				//EBOS[1][j].Delete();
-				//VBOS[1][j].Delete();
-				//VAOS[1][j].Delete();
+				VAOS[1][j].Delete();
 			}
-			
-			// Reverte o estado que nós criamos
-			//glDisableVertexAttribArray(0);
-			//glDisableVertexAttribArray(1);
-			//glDisableVertexAttribArray(2);
 
 			// Desabilitar o programa ativo
 			glUseProgram(0);
@@ -685,7 +666,7 @@ int main() {
 					ContadorDeDelayDeTiros = gameState.CadenciaDeTirosNave;
 					Missil missil = nave1.Atira(gameState.VelocidadeDoTiroNave * DeltaTime);
 					TodosMisseis.push_back(missil);
-					for (int i = 0; i < 10; i++) {
+					for (int i = 0; i < 5; i++) {
 						Smoke fumaca(glm::vec4{ missil.Centro.x, missil.Centro.y + 0.1f ,missil.Centro.z , 1.0f}, missil.Up);
 						TodasSmokes.push_back(fumaca);
 					}
@@ -876,7 +857,7 @@ int main() {
 				TodosMisseis[i].moveFoward();
 
 				// Adiciona fumaça no rastro de cada tiro
-				//for (int j = 0; j < 2; j++) {
+				//for (int j = 0; j < 20; j++) {
 				//	Smoke fumaca(glm::vec4{ TodosMisseis[i].Centro.x, TodosMisseis[i].Centro.y + 0.12f ,TodosMisseis[i].Centro.z , 1.0f }, TodosMisseis[i].Up);
 				//	fumaca.tempoDeVida = 0.4f;
 				//	TodasSmokes.push_back(fumaca);
@@ -965,7 +946,7 @@ int main() {
 				if (TodosAliens[AlienAtingido].life <= 0) { // Se a vida do Alien chegar a 0
 
 					// Gera explosão ao alien morrer
-					for (int j = 0; j < 20; j++) {
+					for (int j = 0; j < 10; j++) {
 						Smoke fumaca(glm::vec4{ TodosAliens[AlienAtingido].Centro.x, TodosAliens[AlienAtingido].Centro.y + 0.12f ,TodosAliens[AlienAtingido].Centro.z , 1.0f }, TodosAliens[AlienAtingido].Up);
 						fumaca.tempoDeVida = 2.0f;
 						TodasSmokes.push_back(fumaca);

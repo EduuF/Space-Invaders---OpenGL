@@ -52,7 +52,7 @@ public:
 	float tempoDePowerUp2 = 10.0f;
 	float VelocidadeDoTiroNave = 2.0f;
 	
-	int ChanceDeDroparPowerUp = 250;
+	int ChanceDeDroparPowerUp = 2500;
 	int chanceDeInimigoAtirar = 50;
 	int chanceDeInimigoTentarDroparBomba = 15;
 	int chanceDeFormarEsquadrao = 4000;

@@ -85,7 +85,7 @@ std::vector<glm::ivec3> Nave::getNaveIndices() {
         glm::ivec3{27, 29, 26}, //AntiCabine1
         glm::ivec3{26, 29, 28}, //AntiCabine2
         glm::ivec3{29, 31, 28}, //AntiCorpo1
-        glm::ivec3{31, 29, 27}, //AntiCorpo2
+        glm::ivec3{31, 30, 28}, //AntiCorpo2
         glm::ivec3{32, 34, 33}, //AntiMotor1
         glm::ivec3{32, 35, 34}, //AntiMotor2
         glm::ivec3{36, 38, 37}, //AntiAsa1

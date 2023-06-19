@@ -8,21 +8,21 @@ Alien::Alien() {}
 Alien::Alien(glm::vec4 Centro) {
     this->Centro = Centro;
 
-    this->Vertices = getAlienVertices(false, false); // Modelo Base // Acopla modelo base
-    this->Indices = getAlienIndices(1); // Modelo Base // Acopla modelo base
+    this->Vertices = getAlienVertices(); // Modelo Base // Acopla modelo base
+    this->Indices = getAlienIndices(0); // Modelo Base // Acopla modelo base
 
     this->CanhaoDireitoAtira = true;
     this->disponível = true;
     this->hasBomb = false;
     this->ataca = false;
-    this->life = 1;
+    this->life = 10;
     this->recua = false;
     this->vivo = true;
     this->intangivel = false;
     this->tempoDeIntangibilidade = 2.0f;
     this->TempoPiscando = 0.2f;
     this->piscando = false;
-    this->skin = 1;
+    this->skin = 0;
     this->sobeAsa = true;
     this->TempoParaTrocarSkin = 0.0f;
 
@@ -35,7 +35,7 @@ Alien::Alien(glm::vec4 Centro) {
     // Altera os vértices da nave
     glm::vec4 Origem = { 0.0f, 0.0f, 0.0f, 1.0f };
     TranslationMatrix(this->Vertices, Origem, this->Up ,this->Centro);
-    this->ajustaEscalaDoAlien(glm::vec3{ 0.13f, 0.13f, 0.0f });
+    this->ajustaEscalaDoAlien(glm::vec3{ 0.13f, 0.13f, 1.0f });
 
     
 }
@@ -195,28 +195,41 @@ void Alien::TrocaSkin(float DeltaTime, float velocidadeDoAlien, bool hasPowerUp1
     }
     this->TempoParaTrocarSkin -= DeltaTime * velocidadeDoAlien * 5;
 
+    // PowerUps
+    if (hasPowerUp2) {
+        for (auto& vertice : this->Vertices) {
+            vertice.Color = glm::vec4{ 0.35f, 0.35f, 0.8f, 1.0f };
+        }
+    } else if (hasPowerUp1) {
+        for (auto& vertice : this->Vertices) {
+            vertice.Color = glm::vec4{ 1.0f, 0.0f, 1.0f, 1.0f };
+        }
+    } else {
+        for (auto& vertice : this->Vertices) {
+            vertice.Color = glm::vec4{ 0.10f, 0.60f, 0.05f, 1.0f };
+        }
+    }
+
+    // Bater Asas
+
     if (this->TempoParaTrocarSkin <= 0) {
         this->TempoParaTrocarSkin = 0.3f;
-        glm::vec3 fatorDeEscalaTrocaSkin = this->escala;
 
         if (sobeAsa) {
-            glm::vec3 centerTrocaSKin{ this->Centro.x, this->Centro.y - 0.015f, this->Centro.z };
+            glm::vec3 FatorTranslacaoVoo{ 0.0f, -0.015f, 0.0f };
             this->skin++;
 
-            this->Centro = glm::vec4{ 0.0f, 0.0f, 0.0f, 1.0f };
-            this->escala = glm::vec3{ 1.0f, 1.0f, 1.0f };
 
             if (this->skin == 0) {
-                this->Indices = getAlienIndices(0);
+                this->Indices = this->getAlienIndices(0);
             }
             if (this->skin == 1) {
-                this->Indices = getAlienIndices(1);
+                this->Indices = this->getAlienIndices(1);
             }
             if (this->skin == 2) {
-                this->Indices = getAlienIndices(2);
+                this->Indices = this->getAlienIndices(2);
             }
-            this->ajustaEscalaDoAlien(fatorDeEscalaTrocaSkin);
-            this->transladaOAlien(centerTrocaSKin);
+            this->transladaOAlien(FatorTranslacaoVoo);
 
 
             if (this->skin >= 2) {
@@ -224,23 +237,19 @@ void Alien::TrocaSkin(float DeltaTime, float velocidadeDoAlien, bool hasPowerUp1
             }
         }
         else {
-            glm::vec4 centerTrocaSKin{ this->Centro.x, this->Centro.y + 0.015f, this->Centro.z, this->Centro.w };
+            glm::vec3 FatorTranslacaoVoo{ 0.0f, 0.015f, 0.0f };
             this->skin--;
-
             if (this->skin == 0) {
-                this->Indices = getAlienIndices(0);
+                this->Indices = this->getAlienIndices(0);
             }
             if (this->skin == 1) {
-                this->Indices = getAlienIndices(1);
+                this->Indices = this->getAlienIndices(1);
             }
             if (this->skin == 2) {
-                this->Indices = getAlienIndices(2);
+                this->Indices = this->getAlienIndices(2);
             }
 
-            this->Centro = glm::vec4{ 0.0f, 0.0f, 0.0f, 1.0f };
-            this->escala = glm::vec3{ 1.0f, 1.0f, 1.0f };
-            this->ajustaEscalaDoAlien(fatorDeEscalaTrocaSkin);
-            this->transladaOAlien(centerTrocaSKin);
+            this->transladaOAlien(FatorTranslacaoVoo);
 
             if (this->skin <= 0) {
                 this->sobeAsa = true;
