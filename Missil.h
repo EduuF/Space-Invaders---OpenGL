@@ -34,8 +34,6 @@ public:
 
     void moveFoward();
 
-    std::vector<std::vector<Vertex>> getModel(bool NaveOuAlien);
-
 };
 
 #endif
