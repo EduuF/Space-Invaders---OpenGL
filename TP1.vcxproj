@@ -152,6 +152,7 @@
     <ClCompile Include="Bomba.cpp" />
     <ClCompile Include="BombaModel.cpp" />
     <ClCompile Include="Buffer.cpp" />
+    <ClCompile Include="FlyCamera.cpp" />
     <ClCompile Include="EBO.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="Life.cpp" />
@@ -177,6 +178,7 @@
     <ClInclude Include="Alien.h" />
     <ClInclude Include="Bomba.h" />
     <ClInclude Include="Buffer.h" />
+    <ClInclude Include="FlyCamera.h" />
     <ClInclude Include="EBO.h" />
     <ClInclude Include="Life.h" />
     <ClInclude Include="Matrices.h" />

@@ -12,6 +12,7 @@
 #include "VAO.h"
 #include "VBO.h"
 #include "EBO.h"
+#include "FlyCamera.h"
 
 
 #include <iostream>
@@ -28,9 +29,8 @@
 
 const int Width = 1280;
 const int Height = 1280;
-const float Speed = 1.0f;
 const float Sensitivity = 0.1f;
-
+const float Speed = 1.0f;
 
 std::string ReadFile(const char* FilePath) {
 
@@ -132,38 +132,8 @@ GLuint LoadShaders(const char* VertexShaderFile, const char* FragmnetShaderFile)
 }
 
 
-class FlyCamera {
-public:
-
-	void MoveFoward(float Amount) {
-		Location += glm::normalize(Direction) * Amount * Speed;
-	}
-
-	void MoveRight(float Amount) {
-		glm::vec3 Right = glm::normalize(glm::cross(Direction, Up));
-		Location += Right * Amount * Speed;
-	}
-
-	glm::mat4 GetViewProjection() const {
-		glm::mat4 View = glm::lookAt(Location, Location + Direction, Up);
-		glm::mat4 Projection = glm::perspective(FieldOfView, AspectRatio, Near, Far);
-		return Projection * View;
-	}
-
-	// Definição da Matriz de View
-	glm::vec3 Location{ 0.0f, 0.0f, 5.0f };
-	glm::vec3 Direction{ 0.0f, 0.0f, -1.0f };
-	glm::vec3 Up{ 0.0f, 1.0f, 0.0f };
-
-	// Definição da Matriz Projection
-	float FieldOfView = glm::radians(45.0f);
-	float AspectRatio = Width / Height;
-	float Near = 0.01f;
-	float Far = 1000.0f;
-};
-
 // Declara um objeto camera globalmente
-FlyCamera Camera;
+FlyCamera Camera = FlyCamera(Width, Height, Speed);
 //bool bEnableMouseMovement = false;
 glm::vec2 PreviousCursor(0.0, 0.0);
 
@@ -318,8 +288,9 @@ int main() {
 		float ContadorDeDelayDeTiros = 0.0f;// Contador de delay de tiros
 
 		// Rendeiza apenas a face da frente
-		//glEnable(GL_CULL_FACE);
-		//glCullFace(GL_BACK);
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
+
 
 		// Loop de eventos da aplicação
 		while (!glfwWindowShouldClose(Window)) {
