@@ -4,24 +4,24 @@
 std::vector<Vertex> PowerUp::getPowerUpVertices() {
 
     // Cores
-    glm::vec4 Vermelho{ 1.0f, 0.0f, 0.0f, 1.0f };
-    glm::vec4 Azul{ 0.0f, 0.0f, 1.0f, 1.0f };
-    glm::vec4 Amarelo{ 1.0f, 1.0f, 0.0f, 1.0f };
+    glm::vec4 Vermelho{ 0.5f, 0.0f, 0.0f, 1.0f };
+    glm::vec4 Azul{ 0.0f, 0.0f, 0.5f, 1.0f };
+    glm::vec4 Amarelo{ 0.5f, 0.5f, 0.0f, 1.0f };
 
     //Modela o Alien
     std::vector<Vertex> Vertices{
 
         // Freeze
-        Vertex{ glm::vec4{ -0.08f, -0.08f,  0.0f, 1.0f }, Azul }, // A 0
-        Vertex{ glm::vec4{ 0.0f,   0.12f,  0.0f, 1.0f }, Azul }, // B 1
-        Vertex{ glm::vec4{ 0.08f, -0.08f,  0.0f, 1.0f }, Azul }, // C 2 
-        Vertex{ glm::vec4{ 0.0f, -0.12f,  0.0f, 1.0f }, Azul }, // D 3 
-        Vertex{ glm::vec4{ -0.08f, 0.08f,  0.0f, 1.0f }, Azul }, // E 4 
-        Vertex{ glm::vec4{ 0.08f,  0.08f,   0.0f, 1.0f }, Azul }, // F 5
-        Vertex{ glm::vec4{ -0.12f,  0.0f,   0.0f, 1.0f }, Azul }, // G 6
-        Vertex{ glm::vec4{ 0.0f, 0.08f,  0.0f, 1.0f }, Azul }, // H 7
-        Vertex{ glm::vec4{ 0.0f, -0.08f,  0.0f, 1.0f }, Azul }, // I 8
-        Vertex{ glm::vec4{ 0.12f, 0.0f,  0.0f, 1.0f }, Azul }, // J 9
+        Vertex{ glm::vec4{ -0.08f, -0.08f,  0.0f, 1.0f }, Azul , glm::vec2{1.0f, 1.0f,}, glm::vec4{0.0f, 0.0f, 1.0f, 0.0f}}, // A 0
+        Vertex{ glm::vec4{ 0.0f,   0.12f,  0.0f, 1.0f }, Azul , glm::vec2{1.0f, 1.0f,}, glm::vec4{0.0f, 0.0f, 1.0f, 0.0f}}, // B 1
+        Vertex{ glm::vec4{ 0.08f, -0.08f,  0.0f, 1.0f }, Azul , glm::vec2{1.0f, 1.0f,}, glm::vec4{0.0f, 0.0f, 1.0f, 0.0f}}, // C 2 
+        Vertex{ glm::vec4{ 0.0f, -0.12f,  0.0f, 1.0f }, Azul , glm::vec2{1.0f, 1.0f,}, glm::vec4{0.0f, 0.0f, 1.0f, 0.0f}}, // D 3 
+        Vertex{ glm::vec4{ -0.08f, 0.08f,  0.0f, 1.0f }, Azul , glm::vec2{1.0f, 1.0f,}, glm::vec4{0.0f, 0.0f, 1.0f, 0.0f}}, // E 4 
+        Vertex{ glm::vec4{ 0.08f,  0.08f,   0.0f, 1.0f }, Azul , glm::vec2{1.0f, 1.0f,}, glm::vec4{0.0f, 0.0f, 1.0f, 0.0f}}, // F 5
+        Vertex{ glm::vec4{ -0.12f,  0.0f,   0.0f, 1.0f }, Azul, glm::vec2{1.0f, 1.0f,}, glm::vec4{0.0f, 0.0f, 1.0f, 0.0f} }, // G 6
+        Vertex{ glm::vec4{ 0.0f, 0.08f,  0.0f, 1.0f }, Azul , glm::vec2{1.0f, 1.0f,}, glm::vec4{0.0f, 0.0f, 1.0f, 0.0f}}, // H 7
+        Vertex{ glm::vec4{ 0.0f, -0.08f,  0.0f, 1.0f }, Azul , glm::vec2{1.0f, 1.0f,}, glm::vec4{0.0f, 0.0f, 1.0f, 0.0f}}, // I 8
+        Vertex{ glm::vec4{ 0.12f, 0.0f,  0.0f, 1.0f }, Azul, glm::vec2{1.0f, 1.0f,}, glm::vec4{0.0f, 0.0f, 1.0f, 0.0f} }, // J 9
 
         // Munição
         Vertex{ glm::vec4{ -0.08f, -0.12f,  0.0f, 1.0f }, Amarelo }, // A 10

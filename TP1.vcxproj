@@ -197,6 +197,8 @@
     <ClInclude Include="Vectors.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="light_frag.glsl" />
+    <None Include="light_vert.glsl" />
     <None Include="triangle_frag.glsl" />
     <None Include="triangle_vert.glsl" />
   </ItemGroup>

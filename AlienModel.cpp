@@ -5,84 +5,84 @@
 std::vector<Vertex> Alien::getAlienVertices() {
 
     //Cores
-    glm::vec4 Cor{ 0.10f, 0.60f, 0.05f, 1.0f };
+    glm::vec4 Cor{ 0.05f, 0.40f, 0.0f, 1.0f };
 
     //Modela o Alien
     std::vector<Vertex> Vertices{
-        Vertex{ glm::vec4{ -0.2f, -0.6f,  +0.0f, 1.0f }, Cor }, // A 0
-        Vertex{ glm::vec4{ -0.6f, -0.6f,  +0.0f, 1.0f }, Cor }, // B 1
-        Vertex{ glm::vec4{ -0.2f, -0.4f,  +0.0f, 1.0f }, Cor }, // C 2 
-        Vertex{ glm::vec4{ -0.6f, -0.4f,  +0.0f, 1.0f }, Cor }, // D 3 
-        Vertex{ glm::vec4{ -0.8f, -0.4f,  +0.0f, 1.0f }, Cor }, // E 4 
-        Vertex{ glm::vec4{ -0.8f, 0.6f, +0.0f, 1.0f }, Cor }, // F 5
-        Vertex{ glm::vec4{ -0.6f, 0.6f,  +0.0f, 1.0f }, Cor }, // G 6
-        Vertex{ glm::vec4{ -0.8f, 0.0f,  +0.0f, 1.0f }, Cor }, // H 7
-        Vertex{ glm::vec4{ -1.2f, 0.0f, +0.0f, 1.0f }, Cor }, // I 8
-        Vertex{ glm::vec4{ -1.2f, 0.2f, +0.0f, 1.0f }, Cor }, // J 9
-        Vertex{ glm::vec4{ -0.8f, 0.2f,  +0.0f, 1.0f }, Cor }, // K 10
-        Vertex{ glm::vec4{ -1.2f, -0.4f,  +0.0f, 1.0f }, Cor }, // L 11
-        Vertex{ glm::vec4{ -1.0f, 0.0f,  +0.0f, 1.0f }, Cor }, // M 12
-        Vertex{ glm::vec4{ -1.00f, -0.4f,  +0.0f, 1.0f }, Cor }, // N 13
-        Vertex{ glm::vec4{ -1.0f, 0.2f, +0.0f, 1.0f }, Cor }, // O 14
-        Vertex{ glm::vec4{ -1.0f, 0.4f,  +0.0f, 1.0f }, Cor }, // P 15
-        Vertex{ glm::vec4{ -0.8f, 0.4f,  +0.0f, 1.0f }, Cor }, // Q 16 
-        Vertex{ glm::vec4{ -0.6f, 0.4f, +0.0f, 1.0f }, Cor }, // R 17
-        Vertex{ glm::vec4{ -0.6f, 0.8f,  +0.0f, 1.0f }, Cor }, // S 18
-        Vertex{ glm::vec4{ -0.4f, 0.8f,  +0.0f, 1.0f }, Cor }, // T 19
-        Vertex{ glm::vec4{ -0.4f, 0.4f,  +0.0f, 1.0f }, Cor }, // U 20
-        Vertex{ glm::vec4{ -0.8f, 0.8f,  +0.0f, 1.0f }, Cor }, // V 21
-        Vertex{ glm::vec4{ -0.6f, 1.0f,  +0.0f, 1.0f }, Cor }, // W 22
-        Vertex{ glm::vec4{ -0.8f, 1.0f, +0.0f, 1.0f }, Cor }, // Z 23
-        Vertex{ glm::vec4{ -0.6f, -0.2f,  +0.0f, 1.0f }, Cor }, // H1 24
-        Vertex{ glm::vec4{ -0.6f, 0.2f, +0.0f, 1.0f }, Cor }, // F1 25
-        Vertex{ glm::vec4{ -0.4f, 0.2f,  +0.0f, 1.0f }, Cor }, // G1 26
-        Vertex{ glm::vec4{ -0.4f, -0.2f,  +0.0f, 1.0f }, Cor }, // D1 27
-        Vertex{ glm::vec4{ -0.4f, 0.6f,  +0.0f, 1.0f }, Cor }, // A1 28
-        Vertex{ glm::vec4{ 0.0f, 0.6f,  +0.0f, 1.0f }, Cor }, // B1 29
-        Vertex{ glm::vec4{ 0.0f, -0.2f,  +0.0f, 1.0f }, Cor }, // E1 30
-        Vertex{ glm::vec4{ 0.2f, -0.6f,  +0.0f, 1.0f }, Cor }, // AntiA 31
-        Vertex{ glm::vec4{ 0.6f, -0.6f,  +0.0f, 1.0f }, Cor }, // AntiB 32
-        Vertex{ glm::vec4{ 0.2f, -0.4f,  +0.0f, 1.0f }, Cor }, // AntiC 33 
-        Vertex{ glm::vec4{ 0.6f, -0.4f,  +0.0f, 1.0f }, Cor }, // AntiD 34
-        Vertex{ glm::vec4{ 0.8f, -0.4f,  +0.0f, 1.0f }, Cor }, // AntiE 35
-        Vertex{ glm::vec4{ 0.8f, 0.6f, +0.0f, 1.0f }, Cor }, // AntiF 36
-        Vertex{ glm::vec4{ 0.6f, 0.6f,  +0.0f, 1.0f }, Cor }, // AntiG 37
-        Vertex{ glm::vec4{ 0.8f, 0.0f,  +0.0f, 1.0f }, Cor }, // AntiH 38
-        Vertex{ glm::vec4{ 1.2f, 0.0f, +0.0f, 1.0f }, Cor }, // AntiI 39
-        Vertex{ glm::vec4{ 1.2f, 0.2f, +0.0f, 1.0f }, Cor }, // AntiJ 40
-        Vertex{ glm::vec4{ 0.8f, 0.2f,  +0.0f, 1.0f }, Cor }, // AntiK 41
-        Vertex{ glm::vec4{ 1.2f, -0.4f,  +0.0f, 1.0f }, Cor }, // AntiL 42
-        Vertex{ glm::vec4{ 1.0f, 0.0f,  +0.0f, 1.0f }, Cor }, // AntiM 43
-        Vertex{ glm::vec4{ 1.00f, -0.4f,  +0.0f, 1.0f }, Cor }, // AntiN 44
-        Vertex{ glm::vec4{ 1.0f, 0.2f, +0.0f, 1.0f }, Cor }, // AntiO 45
-        Vertex{ glm::vec4{ 1.0f, 0.4f,  +0.0f, 1.0f }, Cor }, // AntiP 46
-        Vertex{ glm::vec4{ 0.8f, 0.4f,  +0.0f, 1.0f }, Cor }, // AntiQ 47
-        Vertex{ glm::vec4{ 0.6f, 0.4f, +0.0f, 1.0f }, Cor }, // AntiR 48
-        Vertex{ glm::vec4{ 0.6f, 0.8f,  +0.0f, 1.0f }, Cor }, // AntiS 49
-        Vertex{ glm::vec4{ 0.4f, 0.8f,  +0.0f, 1.0f }, Cor }, // AntiT 50
-        Vertex{ glm::vec4{ 0.4f, 0.4f,  +0.0f, 1.0f }, Cor }, // AntiU 51
-        Vertex{ glm::vec4{ 0.8f, 0.8f,  +0.0f, 1.0f }, Cor }, // AntiV 52
-        Vertex{ glm::vec4{ 0.6f, 1.0f,  +0.0f, 1.0f }, Cor }, // AntiW 53
-        Vertex{ glm::vec4{ 0.8f, 1.0f, +0.0f, 1.0f }, Cor }, // AntiZ 54
-        Vertex{ glm::vec4{ 0.6f, -0.2f,  +0.0f, 1.0f }, Cor }, // AntiH1 55 
-        Vertex{ glm::vec4{ 0.6f, 0.2f, +0.0f, 1.0f }, Cor }, // AntiF1 56
-        Vertex{ glm::vec4{ 0.4f, 0.2f,  +0.0f, 1.0f }, Cor }, // AntiG1 57
-        Vertex{ glm::vec4{ 0.4f, -0.2f,  +0.0f, 1.0f }, Cor }, // AntiD1 58
-        Vertex{ glm::vec4{ 0.4f, 0.6f,  +0.0f, 1.0f }, Cor }, // AntiA1 59
-        Vertex{ glm::vec4{ 0.0f, 0.6f,  +0.0f, 1.0f }, Cor }, // AntiB1 60
-        Vertex{ glm::vec4{ 0.0f, -0.2f,  +0.0f, 1.0f }, Cor }, // AntiE1 61
+        Vertex{ glm::vec4{ -0.2f, -0.6f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // A 0
+        Vertex{ glm::vec4{ -0.6f, -0.6f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // B 1
+        Vertex{ glm::vec4{ -0.2f, -0.4f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // C 2 
+        Vertex{ glm::vec4{ -0.6f, -0.4f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // D 3 
+        Vertex{ glm::vec4{ -0.8f, -0.4f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // E 4 
+        Vertex{ glm::vec4{ -0.8f, 0.6f, +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // F 5
+        Vertex{ glm::vec4{ -0.6f, 0.6f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // G 6
+        Vertex{ glm::vec4{ -0.8f, 0.0f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // H 7
+        Vertex{ glm::vec4{ -1.2f, 0.0f, +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // I 8
+        Vertex{ glm::vec4{ -1.2f, 0.2f, +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // J 9
+        Vertex{ glm::vec4{ -0.8f, 0.2f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // K 10
+        Vertex{ glm::vec4{ -1.2f, -0.4f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // L 11
+        Vertex{ glm::vec4{ -1.0f, 0.0f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // M 12
+        Vertex{ glm::vec4{ -1.00f, -0.4f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // N 13
+        Vertex{ glm::vec4{ -1.0f, 0.2f, +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // O 14
+        Vertex{ glm::vec4{ -1.0f, 0.4f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // P 15
+        Vertex{ glm::vec4{ -0.8f, 0.4f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // Q 16 
+        Vertex{ glm::vec4{ -0.6f, 0.4f, +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // R 17
+        Vertex{ glm::vec4{ -0.6f, 0.8f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // S 18
+        Vertex{ glm::vec4{ -0.4f, 0.8f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // T 19
+        Vertex{ glm::vec4{ -0.4f, 0.4f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // U 20
+        Vertex{ glm::vec4{ -0.8f, 0.8f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // V 21
+        Vertex{ glm::vec4{ -0.6f, 1.0f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // W 22
+        Vertex{ glm::vec4{ -0.8f, 1.0f, +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // Z 23
+        Vertex{ glm::vec4{ -0.6f, -0.2f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // H1 24
+        Vertex{ glm::vec4{ -0.6f, 0.2f, +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // F1 25
+        Vertex{ glm::vec4{ -0.4f, 0.2f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // G1 26
+        Vertex{ glm::vec4{ -0.4f, -0.2f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // D1 27
+        Vertex{ glm::vec4{ -0.4f, 0.6f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // A1 28
+        Vertex{ glm::vec4{ 0.0f, 0.6f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // B1 29
+        Vertex{ glm::vec4{ 0.0f, -0.2f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // E1 30
+        Vertex{ glm::vec4{ 0.2f, -0.6f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // AntiA 31
+        Vertex{ glm::vec4{ 0.6f, -0.6f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // AntiB 32
+        Vertex{ glm::vec4{ 0.2f, -0.4f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // AntiC 33 
+        Vertex{ glm::vec4{ 0.6f, -0.4f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // AntiD 34
+        Vertex{ glm::vec4{ 0.8f, -0.4f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // AntiE 35
+        Vertex{ glm::vec4{ 0.8f, 0.6f, +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // AntiF 36
+        Vertex{ glm::vec4{ 0.6f, 0.6f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // AntiG 37
+        Vertex{ glm::vec4{ 0.8f, 0.0f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // AntiH 38
+        Vertex{ glm::vec4{ 1.2f, 0.0f, +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // AntiI 39
+        Vertex{ glm::vec4{ 1.2f, 0.2f, +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // AntiJ 40
+        Vertex{ glm::vec4{ 0.8f, 0.2f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // AntiK 41
+        Vertex{ glm::vec4{ 1.2f, -0.4f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // AntiL 42
+        Vertex{ glm::vec4{ 1.0f, 0.0f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // AntiM 43
+        Vertex{ glm::vec4{ 1.00f, -0.4f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // AntiN 44
+        Vertex{ glm::vec4{ 1.0f, 0.2f, +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // AntiO 45
+        Vertex{ glm::vec4{ 1.0f, 0.4f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // AntiP 46
+        Vertex{ glm::vec4{ 0.8f, 0.4f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // AntiQ 47
+        Vertex{ glm::vec4{ 0.6f, 0.4f, +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // AntiR 48
+        Vertex{ glm::vec4{ 0.6f, 0.8f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // AntiS 49
+        Vertex{ glm::vec4{ 0.4f, 0.8f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // AntiT 50
+        Vertex{ glm::vec4{ 0.4f, 0.4f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // AntiU 51
+        Vertex{ glm::vec4{ 0.8f, 0.8f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // AntiV 52
+        Vertex{ glm::vec4{ 0.6f, 1.0f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // AntiW 53
+        Vertex{ glm::vec4{ 0.8f, 1.0f, +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // AntiZ 54
+        Vertex{ glm::vec4{ 0.6f, -0.2f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // AntiH1 55 
+        Vertex{ glm::vec4{ 0.6f, 0.2f, +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // AntiF1 56
+        Vertex{ glm::vec4{ 0.4f, 0.2f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // AntiG1 57
+        Vertex{ glm::vec4{ 0.4f, -0.2f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // AntiD1 58
+        Vertex{ glm::vec4{ 0.4f, 0.6f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // AntiA1 59
+        Vertex{ glm::vec4{ 0.0f, 0.6f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // AntiB1 60
+        Vertex{ glm::vec4{ 0.0f, -0.2f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // AntiE1 61
 
         // Pose 2
-        Vertex{ glm::vec4{ -1.6f, 0.2f,  +0.0f, 1.0f }, Cor }, // L Pose2 62
-        Vertex{ glm::vec4{ -1.6f, 0.0f,  +0.0f, 1.0f }, Cor }, // N Pose2 63
-        Vertex{ glm::vec4{ 1.6f, 0.2f,  +0.0f, 1.0f }, Cor }, // AntiL Pose2 64
-        Vertex{ glm::vec4{ 1.6f, 0.0f,  +0.0f, 1.0f }, Cor }, // AntiN Pose2 65
+        Vertex{ glm::vec4{ -1.6f, 0.2f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // L Pose2 62
+        Vertex{ glm::vec4{ -1.6f, 0.0f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // N Pose2 63
+        Vertex{ glm::vec4{ 1.6f, 0.2f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // AntiL Pose2 64
+        Vertex{ glm::vec4{ 1.6f, 0.0f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // AntiN Pose2 65
 
         // Pose 3
-        Vertex{ glm::vec4{ -1.0f, 0.6f,  +0.0f, 1.0f }, Cor }, // L Pose3 66
-        Vertex{ glm::vec4{ -1.2f, 0.6f,  +0.0f, 1.0f }, Cor }, // N Pose3 67
-        Vertex{ glm::vec4{ 1.0f, 0.6f,  +0.0f, 1.0f }, Cor }, // AntiL Pose3 68
-        Vertex{ glm::vec4{ 1.2f, 0.6f,  +0.0f, 1.0f }, Cor }, // AntiN Pose3 69
+        Vertex{ glm::vec4{ -1.0f, 0.6f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // L Pose3 66
+        Vertex{ glm::vec4{ -1.2f, 0.6f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // N Pose3 67
+        Vertex{ glm::vec4{ 1.0f, 0.6f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // AntiL Pose3 68
+        Vertex{ glm::vec4{ 1.2f, 0.6f,  +0.0f, 1.0f }, Cor, glm::vec2{1.0f, 1.0f,}, glm::vec4{1.0f, 1.0f, 1.0f, 0.0f} }, // AntiN Pose3 69
     };
     return Vertices;
         

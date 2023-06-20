@@ -8,14 +8,14 @@ std::vector<Vertex> Life::getLifeVertices() {
     glm::vec4 VermelhoMaisClaro{ 1.0f, 0.40f, 0.40f, 1.0f };
 
     std::vector<Vertex> Vertices{
-        Vertex{ glm::vec4{ 0.0f,  0.1f,  0.0f, 1.0f }, VermelhoEscuro},// A 0
-        Vertex{ glm::vec4{ 0.0f, -0.35f,  0.0f, 1.0f }, VermelhoEscuro }, // B 1
-        Vertex{ glm::vec4{ -0.35f, 0.0f,  0.0f, 1.0f }, VermelhoEscuro }, // C 2
-        Vertex{ glm::vec4{ -0.1f, 0.2f,  0.0f, 1.0f }, VermelhoEscuro }, // D 3
-        Vertex{ glm::vec4{ -0.25f, 0.2f,  0.0f, 1.0f }, VermelhoEscuro }, // E 4
-        Vertex{ glm::vec4{ 0.35f, 0.0f,  0.0f, 1.0f }, VermelhoClaro }, // AntiC 5
-        Vertex{ glm::vec4{ 0.1f, 0.2f,  0.0f, 1.0f }, VermelhoClaro }, // AntiD 6
-        Vertex{ glm::vec4{ 0.25f, 0.2f,  0.0f, 1.0f }, VermelhoMaisClaro }, // AntiE 7
+        Vertex{ glm::vec4{ 0.0f,  0.1f,  0.0f, 1.0f }, VermelhoEscuro, glm::vec2{1.0f, 1.0f,}, glm::vec4{0.0f, 0.0f, 1.0f, 0.0f}},// A 0
+        Vertex{ glm::vec4{ 0.0f, -0.35f,  0.0f, 1.0f }, VermelhoEscuro, glm::vec2{1.0f, 1.0f,}, glm::vec4{0.0f, 0.0f, 1.0f, 0.0f} }, // B 1
+        Vertex{ glm::vec4{ -0.35f, 0.0f,  0.0f, 1.0f }, VermelhoEscuro, glm::vec2{1.0f, 1.0f,}, glm::vec4{0.0f, 0.0f, 1.0f, 0.0f} }, // C 2
+        Vertex{ glm::vec4{ -0.1f, 0.2f,  0.0f, 1.0f }, VermelhoEscuro , glm::vec2{1.0f, 1.0f,}, glm::vec4{0.0f, 0.0f, 1.0f, 0.0f}}, // D 3
+        Vertex{ glm::vec4{ -0.25f, 0.2f,  0.0f, 1.0f }, VermelhoEscuro, glm::vec2{1.0f, 1.0f,}, glm::vec4{0.0f, 0.0f, 1.0f, 0.0f} }, // E 4
+        Vertex{ glm::vec4{ 0.35f, 0.0f,  0.0f, 1.0f }, VermelhoClaro , glm::vec2{1.0f, 1.0f,}, glm::vec4{0.0f, 0.0f, 1.0f, 0.0f}}, // AntiC 5
+        Vertex{ glm::vec4{ 0.1f, 0.2f,  0.0f, 1.0f }, VermelhoClaro, glm::vec2{1.0f, 1.0f,}, glm::vec4{0.0f, 0.0f, 1.0f, 0.0f} }, // AntiD 6
+        Vertex{ glm::vec4{ 0.25f, 0.2f,  0.0f, 1.0f }, VermelhoMaisClaro, glm::vec2{1.0f, 1.0f,}, glm::vec4{0.0f, 0.0f, 1.0f, 0.0f} }, // AntiE 7
     };
 
     return Vertices;

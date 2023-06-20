@@ -13,6 +13,7 @@
 #include "VBO.h"
 #include "EBO.h"
 #include "FlyCamera.h"
+#include "Cube.h"
 
 
 #include <iostream>
@@ -239,12 +240,13 @@ int main() {
 		// Carrega os Shaders
 		GLuint ProgramId = LoadShaders("triangle_vert.glsl", "triangle_frag.glsl");
 
+		// Carrega LightShader
+		GLuint LightShaderId = LoadShaders("light_vert.glsl", "light_frag.glsl");
+
 		// Cria uma nave
-		Nave nave1 = Nave(glm::vec4{ 0.0f, 0.0f, 0.0f, 1.0f }); // A quarta dimensão deve ser 1.0f pois é um ponto
+		Nave nave1 = Nave(glm::vec4{ 0.0f, -1.7f, 0.0f, 1.0f }); // A quarta dimensão deve ser 1.0f pois é um ponto
 		glm::vec3 fatorDeEscalaNave{ 1.5f, 3.0f, 0.0f };
 		nave1.ajustaEscalaDaNave(fatorDeEscalaNave);
-		glm::vec3 fatorDeTranslacaoNave{ -0.5f, -1.6f, 0.0f };
-		nave1.transladaANave(fatorDeTranslacaoNave);
 
 		// Cria inimigos
 		const GLuint NumeroTotalDeInimigos = gameState.NumeroDeLinhasDeInimigos * gameState.NumeroDeColunasDeInimigos;
@@ -274,6 +276,11 @@ int main() {
 		std::vector<Life> TodasLifes;
 		std::vector<Smoke> TodasSmokes;
 
+		// Cria um LightCube
+		glm::vec4 LightCubeColor{ 1.0f, 1.0f, 1.0f, 1.0f };
+		glm::vec4 LightCubePosition{ -1.5f, -1.0f, 2.0f, 1.0f };
+		Cube LightCube = Cube(LightCubePosition, LightCubeColor);
+
 		// Cria as lifes
 		// Verifica o Life para desenhar os corações
 		for (int i = 0; i < nave1.life; i++) {
@@ -291,9 +298,15 @@ int main() {
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
 
+		glEnable(GL_DEPTH_TEST);
+
 
 		// Loop de eventos da aplicação
 		while (!glfwWindowShouldClose(Window)) {
+
+			// Limpa o framebuffer. GL_COLOR_BUFFER_BIT limpa o buffer de cor e preenche com a cor definida em "glClearColor"
+			// Para desenharmos objetos 3D na tela teremos que voltar ao glClear para limparmos o buffer de profundidade
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 			if (gameState.vitoria) {
 				break;
@@ -353,6 +366,7 @@ int main() {
 
 			AuxVertices.clear();
 			AuxIndices.clear();
+
 
 			//Misseis
 			for (auto& Missil : TodosMisseis) {
@@ -426,6 +440,16 @@ int main() {
 			AuxVertices.clear();
 			AuxIndices.clear();
 
+			// Light Cube
+			AuxVertices.push_back(LightCube.Vertices);
+			AuxIndices.push_back(LightCube.Indices);
+
+			bufferVertices.push_back(AuxVertices);
+			bufferIndices.push_back(AuxIndices);
+
+			AuxVertices.clear();
+			AuxIndices.clear();
+
 			// Generates Vertex Array Object and binds it
 			std::vector< std::vector<VAO>> VAOS;
 			std::vector< std::vector<VBO>> VBOS;
@@ -455,6 +479,7 @@ int main() {
 					VAOS[i][j].LinkAttrib(VBOS[i][j], 0, 4, GL_FLOAT, false, sizeof(Vertex), nullptr);
 					VAOS[i][j].LinkAttrib(VBOS[i][j], 1, 4, GL_FLOAT, true, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, Color)));
 					VAOS[i][j].LinkAttrib(VBOS[i][j], 2, 2, GL_FLOAT, true, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, UV)));
+					VAOS[i][j].LinkAttrib(VBOS[i][j], 3, 2, GL_FLOAT, true, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, Normal)));
 
 					// Unbind all to prevent accidentally modifying them
 					VAOS[i][j].Unbind();
@@ -463,21 +488,26 @@ int main() {
 				}
 			}
 
-			// Limpa o framebuffer. GL_COLOR_BUFFER_BIT limpa o buffer de cor e preenche com a cor definida em "glClearColor"
-			// Para desenharmos objetos 3D na tela teremos que voltar ao glClear para limparmos o buffer de profundidade
-			glClear(GL_COLOR_BUFFER_BIT);
-
-			// Ativar o programa de Shader
-			glUseProgram(ProgramId);
-
 			// Model Matrix
 			glm::mat4 ModelMatrix = glm::identity<glm::mat4>();
 			glm::mat4 ViewProjectionMatrix = Camera.GetViewProjection();
 			glm::mat4 ModelViewProjection = ViewProjectionMatrix * ModelMatrix;
 
-			// Aloca cálculo da ModelViewProjection de cada vértice para a GPU
-			GLint ModelViewProjectionLoc = glGetUniformLocation(ProgramId, "ModelViewProjection");
-			glUniformMatrix4fv(ModelViewProjectionLoc, 1, GL_FALSE, glm::value_ptr(ModelViewProjection));
+			glm::vec4 lightColor = LightCube.Cor;
+			glm::vec4 lightPos = LightCube.Centro;
+			//std::cout << glm::to_string(lightPos.y) << std::endl;
+
+			// Ativa o Shader de luz
+			glUseProgram(LightShaderId);
+			glUniformMatrix4fv(glGetUniformLocation(LightShaderId, "ModelViewProjection"), 1, GL_FALSE, glm::value_ptr(ModelViewProjection));
+			glUniform4f(glGetUniformLocation(LightShaderId, "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
+
+			// Ativar o programa de Shader
+			glUseProgram(ProgramId);
+			glUniformMatrix4fv(glGetUniformLocation(ProgramId, "ModelViewProjection"), 1, GL_FALSE, glm::value_ptr(ModelViewProjection));
+			glUniform4f(glGetUniformLocation(ProgramId, "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
+			glUniform4f(glGetUniformLocation(ProgramId, "lightPos"), lightPos.x, lightPos.y, lightPos.z, lightPos.w);
+			glUniform4f(glGetUniformLocation(ProgramId, "camPos"), Camera.Location.x, Camera.Location.y, Camera.Location.z, Camera.Location.w);
 
 			// Desenha a nave
 			VAOS[0][0].Bind();
@@ -493,8 +523,8 @@ int main() {
 			VAOS[0][0].Unbind();
 			VAOS[0][0].Delete();
 
-			// Desenha Misseis, Estrelas, Fumaças, PoweUps e Lifes
-			for (int i = 2; i < bufferVertices.size(); i++) {
+			// Desenha Misseis, Estrelas, Fumaças, PoweUps, LightCubes e Lifes
+			for (int i = 2; i < bufferVertices.size() - 1; i++) {
 				for (int j = 0; j < bufferVertices[i].size(); j++) {
 					VAOS[i][j].Bind();
 
@@ -526,6 +556,24 @@ int main() {
 			}
 
 			// Desabilitar o programa ativo
+			//glUseProgram(0);
+
+			// Usa Shader de ilumin~ção
+			glUseProgram(LightShaderId);
+
+			// Desenha o Light Cube
+			int PosicaoDosLightCubes = bufferVertices.size() - 1;
+			for (int j = 0; j < bufferVertices[PosicaoDosLightCubes].size(); j++) {
+
+				VAOS[PosicaoDosLightCubes][j].Bind();
+
+				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+				glDrawElements(GL_TRIANGLES, bufferIndices[PosicaoDosLightCubes][j].size() * 3, GL_UNSIGNED_INT, nullptr);
+
+				VAOS[PosicaoDosLightCubes][j].Unbind();
+				VAOS[PosicaoDosLightCubes][j].Delete();
+			}
+			
 			glUseProgram(0);
 
 			// Processa todos os eventos na fila de eventos do GLFW
@@ -620,6 +668,13 @@ int main() {
 
 			if (glfwGetKey(Window, GLFW_KEY_R) == GLFW_PRESS) {
 				gameState.gameOver = true;
+			}
+
+			// Anda com o Light Cube
+			LightCube.moveFoward(DeltaTime, gameState.velocidadeDeDescidaDoPowerUp);
+			if (LightCube.Centro.y <= -5.0f) {
+				glm::vec3 FatorDeTranslacaoLightCube{ -LightCube.Centro.x + (rng / 2500) - 2.0f, -LightCube.Centro.y + 5.0f, 0.0f };
+				LightCube.translada(FatorDeTranslacaoLightCube);
 			}
 
 			// Aplica Power Ups

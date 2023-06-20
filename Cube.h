@@ -13,8 +13,9 @@ public:
     glm::vec4 Up;
     glm::vec4 Right;
     glm::vec3 escala;
+    glm::vec4 Cor;
 
-    Cube(glm::vec4 Centro);
+    Cube(glm::vec4 Centro, glm::vec4 Cor);
     Cube();
 
     std::vector<Vertex> Vertices;
@@ -26,6 +27,7 @@ public:
 
     void ajustaEscala(glm::vec3 FatorDeEscala);
     void translada(glm::vec3 fatorDeTranslacao);
+    void moveFoward(float DeltaTime, float velocidadeDeDescidaDoPowerUp);
 };
 
 #endif

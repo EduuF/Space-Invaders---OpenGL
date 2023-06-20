@@ -7,16 +7,16 @@ std::vector<Vertex> Bomba::getBombaVertices() {
     glm::vec4 CorCorpo2{ 0.75f, 0.25f, 0.60f, 1.0f };
 
     std::vector<Vertex> Vertices{
-        Vertex{ glm::vec4{ -0.04f, 0.00f,  0.0f, 1.0f }, CorAleta},// A 0
-        Vertex{ glm::vec4{ -0.04f,   0.04f,  0.0f, 1.0f }, CorAleta }, // B 1
-        Vertex{ glm::vec4{ 0.02f, 0.0f,  0.0f, 1.0f }, CorAleta }, // C 2
-        Vertex{ glm::vec4{ -0.02f, 0.0f,  0.0f, 1.0f }, CorAleta }, // D 3
-        Vertex{ glm::vec4{ 0.04f, 0.04f,  0.0f, 1.0f }, CorAleta }, // E 4
-        Vertex{ glm::vec4{ 0.04f,  0.0f,   0.0f, 1.0f }, CorAleta }, // F 5
-        Vertex{ glm::vec4{ 0.0f,  -0.1f,   0.0f, 1.0f }, CorCorpo }, // G 6
-        Vertex{ glm::vec4{ -0.04f, -0.06f,  0.0f, 1.0f }, CorCorpo }, // H 7
-        Vertex{ glm::vec4{ 0.0f, 0.0f,  0.0f, 1.0f }, CorCorpo }, // I 8
-        Vertex{ glm::vec4{ 0.04f, -0.06f,  0.0f, 1.0f }, CorCorpo2 }, // J 9
+        Vertex{ glm::vec4{ -0.04f, 0.00f,  0.0f, 1.0f }, CorAleta, glm::vec2{1.0f, 1.0f}, glm::vec4{0.0f, 0.0f, -1.0f, 0.0f} }, // A 0
+        Vertex{ glm::vec4{ -0.04f,   0.04f,  0.0f, 1.0f }, CorAleta, glm::vec2{1.0f, 1.0f}, glm::vec4{0.0f, 0.0f, 1.0f, 0.0f} }, // B 1
+        Vertex{ glm::vec4{ 0.02f, 0.0f,  0.0f, 1.0f }, CorAleta, glm::vec2{1.0f, 1.0f}, glm::vec4{0.0f, 0.0f, 1.0f, 0.0f} }, // C 2
+        Vertex{ glm::vec4{ -0.02f, 0.0f,  0.0f, 1.0f }, CorAleta, glm::vec2{1.0f, 1.0f}, glm::vec4{0.0f, 0.0f, 1.0f, 0.0f} }, // D 3
+        Vertex{ glm::vec4{ 0.04f, 0.04f,  0.0f, 1.0f }, CorAleta, glm::vec2{1.0f, 1.0f}, glm::vec4{0.0f, 0.0f, 1.0f, 0.0f} }, // E 4
+        Vertex{ glm::vec4{ 0.04f,  0.0f,   0.0f, 1.0f }, CorAleta, glm::vec2{1.0f, 1.0f}, glm::vec4{0.0f, 0.0f, 1.0f, 0.0f} }, // F 5
+        Vertex{ glm::vec4{ 0.0f,  -0.1f,   0.0f, 1.0f }, CorCorpo, glm::vec2{1.0f, 1.0f}, glm::vec4{0.0f, 0.0f, 1.0f, 0.0f} }, // G 6
+        Vertex{ glm::vec4{ -0.04f, -0.06f,  0.0f, 1.0f }, CorCorpo, glm::vec2{1.0f, 1.0f}, glm::vec4{0.0f, 0.0f, 1.0f, 0.0f} }, // H 7
+        Vertex{ glm::vec4{ 0.0f, 0.0f,  0.0f, 1.0f }, CorCorpo, glm::vec2{1.0f, 1.0f}, glm::vec4{0.0f, 0.0f, 1.0f, 0.0f} }, // I 8
+        Vertex{ glm::vec4{ 0.04f, -0.06f,  0.0f, 1.0f }, CorCorpo2, glm::vec2{1.0f, 1.0f}, glm::vec4{0.0f, 0.0f, 1.0f, 0.0f} }, // J 9
     };
 
     return Vertices;

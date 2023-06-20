@@ -6,9 +6,9 @@ FlyCamera::FlyCamera(int Width, int Height, float Speed) {
 	this->Speed = Speed;
 
 	// Definição da Matriz de View
-	this->Location = glm::vec3 { 0.0f, 0.0f, 5.0f };
-	this->Direction = glm::vec3 { 0.0f, 0.0f, -1.0f };
-	this->Up = glm::vec3 { 0.0f, 1.0f, 0.0f };
+	this->Location = glm::vec4 { 0.0f, 0.0f, 5.0f, 1.0f };
+	this->Direction = glm::vec4{ 0.0f, 0.0f, -1.0f, 0.0f };
+	this->Up = glm::vec4 { 0.0f, 1.0f, 0.0f, 0.0f };
 
 	// Definição da Matriz Projection
 	this->FieldOfView = glm::radians(45.0f);
@@ -22,12 +22,12 @@ void FlyCamera::MoveFoward(float Amount) {
 }
 
 void FlyCamera::MoveRight(float Amount) {
-	glm::vec3 Right = glm::normalize(glm::cross(Direction, Up));
-	Location += Right * Amount * Speed;
+	glm::vec3 Right = glm::normalize(glm::cross(glm::vec3(Direction), glm::vec3(Up)));
+	Location += glm::vec4(Right * Amount * Speed, 0.0f);
 }
 
 glm::mat4 FlyCamera::GetViewProjection() const {
-	glm::mat4 View = glm::lookAt(Location, Location + Direction, Up);
+	glm::mat4 View = glm::lookAt(glm::vec3(Location), glm::vec3(Location + Direction), glm::vec3(Up));
 	glm::mat4 Projection = glm::perspective(FieldOfView, AspectRatio, Near, Far);
 	return Projection * View;
 }
